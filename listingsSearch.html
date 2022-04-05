@@ -22,7 +22,7 @@
         }
 
         function getRecall(recall) {
-          /*const request = new XMLHttpRequest();
+          const request = new XMLHttpRequest();
           const query = "select * from recalls where Recall_ID = " + recall + ";";
           const newURL = updateQueryStringParameter(db_url, 'id', query);
           request.open('GET', newURL, true);
@@ -30,7 +30,7 @@
               const jsonData = JSON.parse(request.response)
               callGoogleAPI(jsonData[0][3]);
           }
-          request.send();*/
+          request.send();
         }
 
         function createListingTable() {
@@ -69,6 +69,7 @@
         console.log(cookie);
         let recall = cookie.substring(cookie.indexOf(' recall=') + 8, cookie.length);
         console.log(recall);
+        getRecall(recall);
 
         createListingTable(recall);
         }
