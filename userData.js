@@ -92,7 +92,7 @@ function searchForListings(recall) {
     console.log(recall);
     document.cookie = "recall=" + recall;
     console.log(document.cookie);
-    //document.location.href = 'listingsSearch.html';
+    document.location.href = 'listingsSearch.html';
 }
 
 

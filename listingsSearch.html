@@ -9,7 +9,7 @@
     <script src="userData.js"></script>
     <script>
 
-        function callGoogleAPI() {
+        function callGoogleAPI(recall) {
           const request = new XMLHttpRequest();
           const newURL = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAhIeqyY1PV8F7W75WM1AmfrTJ-h6wgHqs&cx=53c47e51af67e0e3a&q=search";
           request.open('GET', newURL, true);
@@ -19,6 +19,18 @@
               console.log(jsonData.items);
           }
           request.send();
+        }
+
+        function getRecall(recall) {
+          /*const request = new XMLHttpRequest();
+          const query = "select * from recalls where Recall_ID = " + recall + ";";
+          const newURL = updateQueryStringParameter(db_url, 'id', query);
+          request.open('GET', newURL, true);
+          request.onload = function() {
+              const jsonData = JSON.parse(request.response)
+              callGoogleAPI(jsonData[0][3]);
+          }
+          request.send();*/
         }
 
         function createListingTable() {
@@ -58,7 +70,7 @@
         let recall = cookie.substring(cookie.indexOf(' recall=') + 4, cookie.indexOf('role') - 2);
         console.log(recall);
 
-        createListingTable();
+        createListingTable(recall);
         }
       
     document.addEventListener("DOMContentLoaded", init);
