@@ -41,7 +41,8 @@
                 }
                 assignedUser.innerHTML = selectText + "<button onclick='assignUser(" + jsonData[i][0] + ")'>Assign User</button>";
                 if (jsonData[i][6] != null) {
-                    document.getElementById(jsonData[i][0] + "userselect").value = jsonData[i][6];
+                    assignUser.children[1].value = jsonData[i][6];
+                    //document.getElementById(jsonData[i][0] + "userselect").value = jsonData[i][6];
                 }
                 
 
@@ -72,7 +73,7 @@
                 selectText = "";
                 selectText = "<label for='users'>Assign a user:</label>;"
 
-                selectText += "<select name='users' id='" + jsonData[i][0] + "userselect'>";
+                selectText += "<select name='users'>";
                 selectText += "<option value='default'></option>";
                 for (let i = 0; i < jsonUserData.length; i++) {
                     //selectText += "<option value='" + jsonUserData[i][0] + "'>" + jsonUserData[i][2] + "</option>";
