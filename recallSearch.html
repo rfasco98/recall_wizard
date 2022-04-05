@@ -19,6 +19,10 @@
     <script>
         let role;
         let jsonData;
+        let selectText;
+        let jsonUserData;
+
+        r.Recall_ID, r.Company_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username
 
         function displayRow(i, resultCount, table) {
             let row = table.insertRow(resultCount);
@@ -37,26 +41,57 @@
                     priority.parentElement.style.backgroundColor = "red";
                     document.getElementById(jsonData[i][0]).checked = true;
                 }
+                assignedUser.innerHTML = selectText + "<button onclick='assignUser(" + jsonData[i][0] + ")'>Assign User</button>";
+                if (jsonData[i][6] != null) {
+                    document.getElementById(jsonData[i][0] + "userselect").value = jsonData[i][6];
+                }
+                
 
-                assignedUser.innerHTML = "<input type='text' value='" + jsonData[i][4] + "' id='" + jsonData[i][0] + "user'><button onclick='assignUser(" + 
-                jsonData[i][0] + ")'>Assign User</button>";
+                /*assignedUser.innerHTML = "<input type='text' value='" + jsonData[i][4] + "' id='" + jsonData[i][0] + "user'><button onclick='assignUser(" + 
+                jsonData[i][0] + ")'>Assign User</button>";*/
             } else {
                 priority.innerHTML = jsonData[i][5];
                 if (jsonData[i][5] == "High") {
                     priority.parentElement.style.backgroundColor = "red";
                 }
-                assignedUser.innerHTML = jsonData[i][4];
+                if (jsonData[i][6] != null) {
+                    assignedUser.innerHTML = jsonData[i][6];
+                }
+                
             }
             id.innerHTML = jsonData[i][0];
             company_id.innerHTML = jsonData[i][1];
             name.innerHTML = jsonData[i][3];
         }
 
+        function getUsers() {
+            const request = new XMLHttpRequest();
+            const query = 'select * from user;';
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                jsonUserData = JSON.parse(request.response);
+                selectText = "";
+                selectText = "<label for='users'>Assign a user:</label>;"
+
+                selectText += "<select name='users' id='" + jsonData[i][0] + "userselect'>";
+                selectText += "<option value='default'></option>";
+                for (let i = 0; i < jsonUserData.length; i++) {
+                    //selectText += "<option value='" + jsonUserData[i][0] + "'>" + jsonUserData[i][2] + "</option>";
+                    selectText += "<option value='" + i + "'>" + jsonUserData[i][2] + "</option>";
+                }
+                selectText += "</select>";
+
+                }
+
+            request.send();
+        }
+
         function assignUser(newUser) {
-            const newDBUser = document.getElementById(newUser + "user");
-            //console.log(newDBUser.value);
+            const newDBUser = document.getElementById(newUser + "userselect");
+            console.log(newDBUser.value);
             const dbRequest = new XMLHttpRequest();
-            const query = "UPDATE recalls SET Recall_User = '" + newDBUser.value + "' WHERE Recall_ID = " + newUser;;
+            const query = "UPDATE recalls SET Recall_User_ID = '" + newDBUser.value + "' WHERE Recall_ID = " + newUser;;
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             dbRequest.open('GET', newURL, true);
             dbRequest.onload = function() {
@@ -165,7 +200,7 @@
         function getDatabaseData() {
             const request = new XMLHttpRequest();
             //const query = 'select * from recalls';
-            const query = 'select * from recalls where Recall_ID < 5000';
+            const query = 'select r.Recall_ID, r.Company_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username from recalls r  Left Join user On user.User_ID=r.Recall_User_ID Where Recall_ID < 5000;';
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
@@ -173,7 +208,7 @@
                 //console.log(jsonData);
                 const request2 = new XMLHttpRequest();
                 //const query = 'select * from recalls';
-                const query = 'select * from recalls where Recall_ID >= 5000';
+                const query = 'select r.Recall_ID, r.Company_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username from recalls r  Left Join user On user.User_ID=r.Recall_User_ID Where Recall_ID >= 5000;';
                 const newURL = updateQueryStringParameter(db_url, 'id', query);
                 request2.open('GET', newURL, true);
                 request2.onload = function() {
@@ -270,6 +305,7 @@
     <button onclick="showPriority()">Show Priority Recalls</button>
     <!-- <button onclick="getAPIData()">Refresh Database</button> -->
     <button onclick="fillData()">Reset Table</button>
+    
 </section>
     <div id="recallTableDiv"> 
         <table id="recalls">
