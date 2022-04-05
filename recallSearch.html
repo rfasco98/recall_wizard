@@ -40,7 +40,7 @@
                     document.getElementById(jsonData[i][0]).checked = true;
                 }
 
-                selectText += "<select name='users' id='" + jsonData[i][0] + "userselect'>";
+                let selectText = "<select name='users' id='" + jsonData[i][0] + "userselect'>";
                 selectText += "<option value='default'></option>";
                 selectText += selectOptions;
                 selectText += "</select>";
