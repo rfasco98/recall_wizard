@@ -75,9 +75,8 @@ function createInvestigatorTable(recalls) {
             hazard.parentElement.style.backgroundColor = "red";
         }
         
-        const recallString = recalls[i][1];
         let searchText = "<button onclick=";
-        searchText += "searchForListings(" + recallString + ")";
+        searchText += "searchForListings(" + recalls[i][4] + ")";
         searchText += ">Search for recall</button>";    
         search.innerHTML = searchText;    
 
@@ -92,7 +91,8 @@ function createInvestigatorTable(recalls) {
 function searchForListings(recall) {
     console.log(recall);
     document.cookie = "recall=" + recall;
-    document.location.href = 'listingsSearch.html';
+    console.log(document.cookie);
+    //document.location.href = 'listingsSearch.html';
 }
 
 
