@@ -75,8 +75,9 @@ function createInvestigatorTable(recalls) {
             hazard.parentElement.style.backgroundColor = "red";
         }
         
+        const recallString = recalls[i][1];
         let searchText = "<button onclick=";
-        searchText += "searchForListings(" + recalls[i][1] + ")";
+        searchText += "searchForListings(" + recallString + ")";
         searchText += ">Search for recall</button>";    
         search.innerHTML = searchText;    
 
