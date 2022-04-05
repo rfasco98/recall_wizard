@@ -47,8 +47,16 @@
                 assignedUser.innerHTML = selectText + "<button onclick='assignUser(" + jsonData[i][0] + ")'>Assign User</button>";
                 if (jsonData[i][6] != null) {
                     //assignUser.children[1].value = jsonData[i][6];
-                    document.getElementById(jsonData[i][0] + "userselect").value = jsonUserData.indexOf(jsonData[i][6]);
-                    console.log(jsonUserData.indexOf(jsonData[i][6]));
+                    for (let j = 0; j < jsonUserData.length; j++) {
+                        if (jsonUserData[j][2] === jsonData[i][6]) {
+                            document.getElementById(jsonData[i][0] + "userselect").value = j;
+                            break;
+                        }
+                    }
+                    /*document.getElementById(jsonData[i][0] + "userselect").value = jsonUserData.indexOf(jsonData[i][6]);
+                    console.log(jsonData[i][6]);
+                    console.log
+                    console.log(jsonUserData.indexOf(jsonData[i][6]));*/
                 }
                 
 				/* Did this work?
