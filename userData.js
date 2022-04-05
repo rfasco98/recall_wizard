@@ -25,7 +25,7 @@ function showUserData(id) {
         if (user[4] == "CPSC Investigator") {
             
             const request1 = new XMLHttpRequest();
-            const query1 = "select Company_ID, Recall_Product_Name, Recall_Hazard, Recall_Priority, Recall_ID from recalls where Recall_User = '" + user[5] + "'";
+            const query1 = "select Company_ID, Recall_Product_Name, Recall_Hazard, Recall_Priority, Recall_ID from recalls where Recall_User_ID = '" + id + "'";
             const newURL = updateQueryStringParameter(db_url, 'id', query1);
             request1.open('GET', newURL, true);
             request1.onload = function() {
