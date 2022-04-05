@@ -22,8 +22,6 @@
         let selectText;
         let jsonUserData;
 
-        r.Recall_ID, r.Company_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username
-
         function displayRow(i, resultCount, table) {
             let row = table.insertRow(resultCount);
             let id = row.insertCell(0);
@@ -89,9 +87,9 @@
 
         function assignUser(newUser) {
             const newDBUser = document.getElementById(newUser + "userselect");
-            console.log(newDBUser.value);
+            console.log(jsonUserData[newDBUser.value]);
             const dbRequest = new XMLHttpRequest();
-            const query = "UPDATE recalls SET Recall_User_ID = '" + newDBUser.value + "' WHERE Recall_ID = " + newUser;;
+            const query = "UPDATE recalls SET Recall_User_ID = '" + jsonUserData[newDBUser.value] + "' WHERE Recall_ID = " + newUser;;
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             dbRequest.open('GET', newURL, true);
             dbRequest.onload = function() {
