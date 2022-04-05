@@ -74,9 +74,18 @@ function createInvestigatorTable(recalls) {
         if (recalls[i][3] == "High") {
             hazard.parentElement.style.backgroundColor = "red";
         }
-        search.innerHTML = "<button onclick=window.location='/listingsSearch.html' id='" + recalls[i][4] + "'>Search for recall</button>";        
+        search.innerHTML = "<button onclick='searchForListings(" + recalls[1] + ")' id='" + recalls[i][4] + "'>Search for recall</button>";        
         
     }
+}
+
+/**
+ * Opens the listings table and searches for a given listing
+ */
+function searchForListings(recall) {
+    window.location='/listingsSearch.html';
+    document.cookie = "recall=" + recall;
+
 }
 
 
