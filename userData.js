@@ -76,7 +76,7 @@ function createInvestigatorTable(recalls) {
         }
         
         let searchText = "<button onclick=";
-        searchText += "searchForListings('" + recalls[i][1] + "')";
+        searchText += "searchForListings(" + recalls[i][1] + ")";
         searchText += ">Search for recall</button>";    
         search.innerHTML = searchText;    
 
