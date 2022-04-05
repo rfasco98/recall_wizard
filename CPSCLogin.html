@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RecallWizard</title>
+<link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
+<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
+<script src="userData.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-223736041-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  gtag('config', 'UA-223736041-1');
+</script>
+<script>
+
+  //const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/RecallWizardDBLambda3';
+
+  function login() {
+      if (document.cookie != null || document.cookie != "") {
+        clearCookie();
+      }
+        
+      let loginResponse;
+      if (document.getElementsByName('User_Username')[0].value == "") {
+          alert('Please enter a username');
+          return;
+      } else if (document.getElementsByName('User_Password')[0].value == "") {
+          alert('Please enter a password');
+          return;
+      } else {
+          const username = document.getElementsByName('User_Username')[0].value;
+          const password = document.getElementsByName('User_Password')[0].value;
+          const request = new XMLHttpRequest();
+          const query = "select User_ID, User_Username, User_Password, User_Level from user where User_Username = '" + username + "' and User_Password = '" + password + "'";
+          const newURL = updateQueryStringParameter(db_url, 'id', query);
+          request.open('GET', newURL, true);
+          request.onload = function() {
+            loginResponse = JSON.parse(request.response);
+            if (loginResponse.length == 0) {
+              alert('Error: Wrong username or password. Please try again.');
+            } else {
+              const user = loginResponse[0];
+
+
+
+
+              document.cookie = "id=" + user[0];
+              document.cookie = "role=" + user[3];
+
+
+
+
+
+              
+              console.log(document.cookie);
+              const userLevel = user[3];
+              if(userLevel == "Seller"){
+                window.location.href = "SellerPage.html";
+              } else if (userLevel == "CPSC Investigator"){
+                window.location.href = "CPSCInvestigatorPage.html";
+              } else if (userLevel == "CPSC Manager"){
+                window.location.href = "CPSCManagerPage.html";
+              } else if (userLevel == "Vendor"){
+                window.location.href = "VendorPage.html";
+              }
+            }
+            
+          }
+          request.send();
+      }
+  }
+
+  function init() {
+    }
+    document.addEventListener("DOMContentLoaded", init);
+</script>
+</head>
+<body>
+<!-- Main Container -->
+	<!--aws password: CPSCTeam! -->
+<div class="container"> 
+  <!-- Navigation -->
+  <header> <a href="">
+    
+    <img src="cpsc.JPG" alt="">
+    <h2 class="logo">Recall Wizard
+      <br>
+      Consumer Product Safety Commission
+    </h2>
+    <h2 class="logo"></h2>
+  </a>
+  <nav>
+    <ul>
+      <li><a href="CPSCHome.html">HOME</a></li>
+      <li><a href="CPSCLogin.html">LOGIN</a></li>
+      <li><a href="recallSearch.html">RECALL SEARCH</a></li>
+    </ul>
+  </nav>
+</header>
+  <!-- Hero Section -->
+  <section class="form" id="hero">
+    <h2 class="hero_header"><span class="light">Enter your login info</span></h2>
+  </section>
+  <!-- Login form Section -->
+  <div class="form">
+    <table border= "0">
+    <div class="login">
+      <label for ="User_Username" class="loginbox">Username</label><br>
+      <input type="text" name="User_Username"><br>
+      
+      <label for ="User_Password">Password</label><br>
+      <input type="password" name="User_Password"><br>
+        
+      <button onclick="login()" name="submit">Login</button>
+      <button onclick="startRegister()" name="register">Register New Account</button>
+    </div>
+      </table><br>
+  </div>
+  <!-- Copyrights Section -->
+  <div class="copyright">&copy;2022- <strong>RecallWizard</strong></div>
+</div>
+<!-- Main Container Ends -->
+</body>
+</html>

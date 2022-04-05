@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
+    <script>src="https://www.saferproducts.gov/RestWebServices/Recall"</script>
+    <script src="/userData.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-223736041-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  gtag('config', 'UA-223736041-1');
+</script>
+    <script>
+        let role;
+        let jsonData;
+
+        function displayRow(i, resultCount, table) {
+            let row = table.insertRow(resultCount);
+            let id = row.insertCell(0);
+            let company_id = row.insertCell(1);
+            let name = row.insertCell(2);
+            let hazard = row.insertCell(3);
+            let priority = row.insertCell(4);
+            let assignedUser = row.insertCell(5);
+            //manufacturing_number.innerHTML = jsonData[i][4];
+            hazard.innerHTML = jsonData[i][2];
+            //priority.innerHTML = 'Low';
+            if (role == "CPSC Manager") {
+                priority.innerHTML = "<input onclick='changePriority(" + jsonData[i][0] + ", " + i + ")' type='checkbox' id='" + jsonData[i][0] + "'>";
+                if (jsonData[i][5] == "High") {
+                    priority.parentElement.style.backgroundColor = "red";
+                    document.getElementById(jsonData[i][0]).checked = true;
+                }
+
+                assignedUser.innerHTML = "<input type='text' value='" + jsonData[i][4] + "' id='" + jsonData[i][0] + "user'><button onclick='assignUser(" + 
+                jsonData[i][0] + ")'>Assign User</button>";
+            } else {
+                priority.innerHTML = jsonData[i][5];
+                if (jsonData[i][5] == "High") {
+                    priority.parentElement.style.backgroundColor = "red";
+                }
+                assignedUser.innerHTML = jsonData[i][4];
+            }
+            id.innerHTML = jsonData[i][0];
+            company_id.innerHTML = jsonData[i][1];
+            name.innerHTML = jsonData[i][3];
+        }
+
+        function assignUser(newUser) {
+            const newDBUser = document.getElementById(newUser + "user");
+            //console.log(newDBUser.value);
+            const dbRequest = new XMLHttpRequest();
+            const query = "UPDATE recalls SET Recall_User = '" + newDBUser.value + "' WHERE Recall_ID = " + newUser;;
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            dbRequest.open('GET', newURL, true);
+            dbRequest.onload = function() {
+                insertData = JSON.parse(dbRequest.response);
+                //console.log(insertData);
+            }
+            dbRequest.send();
+        }
+
+        function searchName(){
+            const searchValue = document.getElementById('nameSearch').value;
+            //console.log(searchValue);
+            if (document.getElementById('nameSearch').value == "") {
+                //console.log('blank');
+                fillData();
+            }
+            else {
+                document.getElementById('recallsBody').innerHTML = "";
+                let table = document.getElementById('recallsBody');
+                let resultCount = 0;
+                for (let i = 0; i < jsonData.length; i++)
+                {
+                    if (jsonData[i][3]) {
+                        if (jsonData[i][3].toUpperCase().includes(searchValue.toUpperCase())) {
+                            displayRow(i, resultCount, table);
+                            resultCount++;
+                        }
+                    }
+
+
+                }
+            }
+            
+        }
+
+        function searchUser(){
+            const searchValue = document.getElementById('userSearch').value;
+            //console.log(searchValue);
+            if (document.getElementById('userSearch').value == "") {
+                //console.log('blank');
+                fillData();
+            }
+            else {
+                document.getElementById('recallsBody').innerHTML = "";
+                let table = document.getElementById('recallsBody');
+                let resultCount = 0;
+                for (let i = 0; i < jsonData.length; i++)
+                {
+                    if (jsonData[i][4]) {
+                        if (jsonData[i][4].toUpperCase().includes(searchValue.toUpperCase())) {
+                            displayRow(i, resultCount, table);
+                            resultCount++;
+                        }
+                    }
+
+
+                }
+            }
+            
+        }
+
+        function showPriority() {
+            document.getElementById('recallsBody').innerHTML = "";
+            let table = document.getElementById('recallsBody');
+            let resultCount = 0;
+            for (let i = 0; i < jsonData.length; i++)
+            {
+                if (jsonData[i][5]) {
+                    if (jsonData[i][5] == 'High') {
+                        displayRow(i, resultCount, table);
+                        resultCount++;
+                    }
+                }
+
+
+            }
+        }
+
+        function getAPIData() {
+            let apiData;
+            const request = new XMLHttpRequest();
+            request.open('GET', 'https://www.saferproducts.gov/RestWebServices/Recall?format=Json', true);
+            request.onload = function() {
+                apiData = JSON.parse(request.response);
+                //console.log(apiData);
+                for (let i = 0; i < apiData.length; i++) {
+                    const dbRequest = new XMLHttpRequest();
+                    const query = "insert into recalls (Company_ID,Recall_Hazard,Recall_Product_Name,Recall_Priority) values ('0', '"+ apiData[i].Hazards[0].Name + "', '"+ apiData[i].Products[0].Name + "', 'low');";
+                    const newURL = updateQueryStringParameter(db_url, 'id', query);
+                    dbRequest.open('GET', newURL, true);
+                    dbRequest.onload = function() {
+                        insertData = JSON.parse(dbRequest.response);
+                        //console.log(insertData);
+                    }
+
+                    dbRequest.send();
+                }
+                
+
+            }
+
+            request.send();
+        }
+
+
+        function getDatabaseData() {
+            const request = new XMLHttpRequest();
+            //const query = 'select * from recalls';
+            const query = 'select * from recalls where Recall_ID < 5000';
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                jsonData = JSON.parse(request.response);
+                //console.log(jsonData);
+                const request2 = new XMLHttpRequest();
+                //const query = 'select * from recalls';
+                const query = 'select * from recalls where Recall_ID >= 5000';
+                const newURL = updateQueryStringParameter(db_url, 'id', query);
+                request2.open('GET', newURL, true);
+                request2.onload = function() {
+                    const newData =JSON.parse(request2.response);
+                    for (let i = 0; i < newData.length; i++) {
+                        jsonData.push(newData[i]);
+                    }
+                    //console.log(jsonData);
+                    fillData();
+                }
+
+                request2.send();
+            }
+
+            request.send();
+        }
+
+        function fillData() {
+            let table = document.getElementById('recallsBody');
+            table.innerHTML = "";
+            for (let i = 0; i < jsonData.length; i++)
+            {
+                displayRow(i, i, table);
+            }
+        }
+
+        function changePriority(id, index) {
+            //console.log('change priority');
+            const box = document.getElementById(id);
+            const request = new XMLHttpRequest();
+            let query;
+            if (box.checked) {
+                box.parentElement.parentElement.style.backgroundColor = "red";
+                query = "UPDATE recalls SET Recall_Priority = 'High' WHERE Recall_ID = " + id;
+                jsonData[index][5] = "High";
+                //console.log(jsonData[index]);
+            } else {
+                box.parentElement.parentElement.style.backgroundColor = "";
+                query = "UPDATE recalls SET Recall_Priority = 'Low' WHERE Recall_ID = " + id;
+                jsonData[index][5] = "Low";
+                //console.log(jsonData[index]);
+            }
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                //console.log(JSON.parse(request.response));
+            }
+
+            request.send();
+        }
+
+        
+        function init() {
+            const cookie = decodeURIComponent(document.cookie);
+            role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+            let table = document.getElementById('recallTableDiv');
+            getDatabaseData();
+        }
+        document.addEventListener("DOMContentLoaded", init);
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <header> <a href="">
+    
+            <img src="cpsc.JPG" alt="">
+            <h2 class="logo">Recall Wizard
+                <br>
+              Consumer Product Safety Commission
+            </h2>
+            <h2 class="logo"></h2>
+          </a>
+          <nav>
+            <ul>
+              <li><a href="CPSCHome.html">HOME</a></li>
+              <li><a href="CPSCLogin.html">LOGIN</a></li>
+              <li><a href="recallSearch.html">RECALL SEARCH</a></li>
+              <li><a href="violationsPage.html">VIOLATIONS</a></li>
+            </ul>
+          </nav>
+        </header>
+<section>
+    <h1>
+        Recalls
+    </h1>
+    <h2>
+        Search database by product name
+    </h2>
+    <div id="searchDiv">
+        <input onchange="searchName()" type="text" id="nameSearch" placeholder="Search by name">
+        <input onchange="searchUser()" type="text" id="userSearch" placeholder="Search by assigned user">
+    </div>
+    <button onclick="showPriority()">Show Priority Recalls</button>
+    <!-- <button onclick="getAPIData()">Refresh Database</button> -->
+    <button onclick="fillData()">Reset Table</button>
+</section>
+    <div id="recallTableDiv"> 
+        <table id="recalls">
+
+            <thead>
+                <tr>
+                    <th>
+                        Recall ID
+                    </th>
+                    <th>
+                        Company ID
+                    </th>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Hazard
+                    </th>
+                    <th>
+                        Priority
+                    </th>
+                    <th>
+                        Assigned User
+                    </th>
+                </tr>
+            </thead>
+                <tbody id="recallsBody">
+
+                </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+

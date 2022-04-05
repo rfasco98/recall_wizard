@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RecallWizard</title>
+<link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
+<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
+<script src="userData.js"></script>
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-223736041-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  gtag('config', 'UA-223736041-1');
+</script> -->
+<script>
+
+    function init() {
+        //define event handler for the mouse over event of the p element
+        //getData();
+        const cookie = decodeURIComponent(document.cookie);
+        let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
+      console.log(cookie);
+
+        showUserData(id);
+    }
+    document.addEventListener("DOMContentLoaded", init);
+</script>
+</head>
+<body>
+<!-- Main Container -->
+<div class="container"> 
+  <!-- Navigation -->
+  <header> <a href="">
+    
+    <img src="cpsc.JPG" alt="">
+    <h2 class="logo">Recall Wizard
+      <br>
+      Consumer Product Safety Commission
+    </h2>
+    <h2 class="logo"></h2>
+  </a>
+  <nav>
+    <ul>
+      <li><a href="ProfileInvestigator.html">PROFILE</a></li>
+      <li><a href="CPSCHome.html">HOME</a></li>
+      <li><a href="CPSCLogin.html">LOGIN</a></li>
+      <li><a href="recallSearch.html">RECALL SEARCH</a></li>
+      <li><a href="violationsPage.html">VIOLATIONS</a></li>
+    </ul>
+  </nav>
+</header>
+
+  <!-- About Section -->
+  <section class="profile">
+	<h3>INVESTIGATOR DASHBOARD</h3>
+  </section>
+  <section id="investigatorRecallSection">
+    <table id="investigatorRecalls">
+      <thead>
+          <tr>
+              <th>
+                  Company ID
+              </th>
+              <th>
+                  Product Name
+              </th>
+              <th>
+                  Hazard
+              </th>
+              <th>
+                  Search
+              </th>
+          </tr>
+      </thead>
+          <tbody id="investigatorRecallsBody">
+
+          </tbody>
+  </table>
+  </section>
+  <!-- Copyrights Section -->
+  <div class="copyright">&copy;2022- <strong>RecallWizard</strong></div>
+</div>
+<!-- Main Container Ends -->
+</body>
+</html>

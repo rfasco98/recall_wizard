@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
+    <script src="/userData.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-223736041-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  gtag('config', 'UA-223736041-1');
+</script>
+    <script>
+        let role;
+        let jsonData;
+
+        function displayRow(i, resultCount, table) {
+            let row = table.insertRow(resultCount);
+            let name = row.insertCell(0);
+            let user = row.insertCell(1);
+            let violationDescription = row.insertCell(2);
+            let priority = row.insertCell(3);
+            let resolved = row.insertCell(4);
+            name.innerHTML = jsonData[i][0];
+            user.innerHTML = jsonData[i][2];
+            violationDescription.innerHTML = jsonData[i][1];
+            priority.innerHTML = jsonData[i][3];
+            resolved.innerHTML = 'No';
+            if (jsonData[i][3] == "High") {
+                    priority.parentElement.style.backgroundColor = "red";
+                }
+        }
+
+        function searchName(){
+            const searchValue = document.getElementById('violationSearch').value;
+            if (document.getElementById('violationSearch').value == "") {
+                fillData();
+            }
+            else {
+                document.getElementById('violationsBody').innerHTML = "";
+                let table = document.getElementById('violationsBody');
+                let resultCount = 0;
+                for (let i = 0; i < jsonData.length; i++)
+                {
+                    if (jsonData[i][0]) {
+                        if (jsonData[i][0].toUpperCase().includes(searchValue.toUpperCase())) {
+                            displayRow(i, resultCount, table);
+                            resultCount++;
+                        }
+                    }
+
+
+                }
+            }
+            
+        }
+
+        function searchUser(){
+            const searchValue = document.getElementById('violationUserSearch').value;
+            if (document.getElementById('violationUserSearch').value == "") {
+                fillData();
+            }
+            else {
+                document.getElementById('violationsBody').innerHTML = "";
+                let table = document.getElementById('violationsBody');
+                let resultCount = 0;
+                for (let i = 0; i < jsonData.length; i++)
+                {
+                    if (jsonData[i][1]) {
+                        if (jsonData[i][1].toUpperCase().includes(searchValue.toUpperCase())) {
+                            displayRow(i, resultCount, table);
+                            resultCount++;
+                        }
+                    }
+
+
+                }
+            }
+            
+        }
+
+        function showPriority() {
+            document.getElementById('violationsBody').innerHTML = "";
+            let table = document.getElementById('violationsBody');
+            let resultCount = 0;
+            for (let i = 0; i < jsonData.length; i++)
+            {
+                if (jsonData[i][3]) {
+                    if (jsonData[i][3] == 'High') {
+                        displayRow(i, resultCount, table);
+                        resultCount++;
+                    }
+                }
+
+
+            }
+        }
+
+        function getDatabaseData() {
+            const request = new XMLHttpRequest();
+            //const query = 'select * from violations';
+            const query = 'select r.Recall_Product_Name, r.Recall_User, v.Violation_Description, r.Recall_Priority from violation v, listing l, recalls r where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID;';
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                jsonData = JSON.parse(request.response);
+                console.log(jsonData);
+                fillData();
+                }
+
+            request.send();
+        }
+
+        function fillData() {
+            let table = document.getElementById('violationsBody');
+            table.innerHTML = "";
+            for (let i = 0; i < jsonData.length; i++)
+            {
+                displayRow(i, i, table);
+            }
+        }
+        
+        function init() {
+            const cookie = decodeURIComponent(document.cookie);
+            role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+            let table = document.getElementById('violationTableDiv');
+            getDatabaseData();
+        }
+        document.addEventListener("DOMContentLoaded", init);
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <header> <a href="">
+    
+            <img src="cpsc.JPG" alt="">
+            <h2 class="logo">violation Wizard
+                <br>
+              Consumer Product Safety Commission
+            </h2>
+            <h2 class="logo"></h2>
+          </a>
+          <nav>
+            <ul>
+              <li><a href="CPSCHome.html">HOME</a></li>
+              <li><a href="CPSCLogin.html">LOGIN</a></li>
+              <li><a href="recallSearch.html">RECALL SEARCH</a></li>
+              <li><a href="violationsPage.html">VIOLATIONS</a></li>
+            </ul>
+          </nav>
+        </header>
+<section>
+    <h1>
+        Violations
+    </h1>
+    <h2>
+        Search database by product name
+    </h2>
+    <div id="searchDiv">
+        <input onchange="searchName()" type="text" id="violationSearch" placeholder="Search by name">
+        <input onchange="searchUser()" type="text" id="violationUserSearch" placeholder="Search by assigned user">
+    </div>
+    <button onclick="showPriority()">Show Priority violations</button>
+    <!-- <button onclick="getAPIData()">Refresh Database</button> -->
+    <button onclick="fillData()">Reset Table</button>
+</section>
+    <div id="violationTableDiv"> 
+        <table id="violations">
+
+            <thead>
+                <tr>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Violation Description
+                    </th>
+                    <th>
+                        Assigned User
+                    </th>
+                    <th>
+                        Priority
+                    </th>
+                    <th>
+                        Resolved
+                    </th>
+                </tr>
+            </thead>
+                <tbody id="violationsBody">
+
+                </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+

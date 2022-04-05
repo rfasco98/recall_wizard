@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
+    <script src="userData.js"></script>
+    <script>
+
+        function callGoogleAPI() {
+          const request = new XMLHttpRequest();
+          const newURL = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAhIeqyY1PV8F7W75WM1AmfrTJ-h6wgHqs";
+          request.open('GET', newURL, true);
+          request.onload = function() {
+            console.log(request.response);
+              const jsonData = JSON.parse(request.response)
+              console.log(jsonData);
+          }
+          request.send();
+        }
+
+        function createListingTable() {
+          const request1 = new XMLHttpRequest();
+            const query1 = "select * from listing";
+            const newURL = updateQueryStringParameter(db_url, 'id', query1);
+            request1.open('GET', newURL, true);
+            request1.onload = function() {
+                const listings = JSON.parse(request1.response);
+                //console.log(recordCount);   
+                console.log(listings);
+                const table = document.getElementById('listingsTableBody');
+                table.innerHTML = "";
+                for (let i = 0; i < listings.length; i++) {
+                    let row = table.insertRow(i);
+                    let url = row.insertCell(0);
+                    let checkbox = row.insertCell(1);
+                    let comment = row.insertCell(2);
+                    url.innerHTML = listings[i][6];
+                    checkbox.innerHTML = "<input type='checkbox' id='" + listings[i][0] + "'>";
+                    if (listings[i][5] == "true") {
+                        document.getElementById(listings[i][0]).checked = true;
+                    }
+                    comment.innerHTML = "<input type='text'>";       
+              
+            }
+          }
+          request1.send();
+        }
+
+        function init() {
+        //define event handler for the mouse over event of the p element
+        //getData();
+        const cookie = decodeURIComponent(document.cookie);
+        let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
+        console.log(cookie);
+
+        createListingTable();
+        }
+      
+    document.addEventListener("DOMContentLoaded", init);
+    </script>
+</head>
+<body>
+  <div class="container"> 
+    <!-- Navigation -->
+    <header> <a href="">
+      
+      <img src="cpsc.JPG" alt="">
+      <h2 class="logo">Recall Wizard
+        <br>
+        Consumer Product Safety Commission
+      </h2>
+      <h2 class="logo"></h2>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="ProfileInvestigator.html">PROFILE</a></li>
+        <li><a href="CPSCHome.html">HOME</a></li>
+        <li><a href="CPSCLogin.html">LOGIN</a></li>
+        <li><a href="recallSearch.html">RECALL SEARCH</a></li>
+      </ul>
+    </nav>
+  </header>
+    <div>
+        <script async src="https://cse.google.com/cse.js?cx=53c47e51af67e0e3a"></script>
+      <div class="gcse-search"></div>
+    </div>
+    <button onclick="callGoogleAPI()">Search</button>
+    <section id="listingsSection">
+      <table id="listingsTable">
+        <thead>
+            <tr>
+                <th>
+                    URL
+                </th>
+                <th>
+                    Violation
+                </th>
+                <th>
+                  Comment
+                </th>
+            </tr>
+        </thead>
+            <tbody id="listingsTableBody">
+  
+            </tbody>
+    </table>
+    </section>
+    </div>
+</body>
+</html>
