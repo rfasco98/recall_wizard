@@ -1,6 +1,11 @@
 let user;
+//URL for database
 const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/RecallWizardDBLambda3';
 
+/*
+    Called for each user dashboard. Shows user first and last name for each dashboard
+    For CPSC investigators, creates a table that shows each recall assigned to them
+*/
 function showUserData(id) {
     if (id == null) {
         const para = document.createElement("p");
@@ -49,6 +54,10 @@ function showUserData(id) {
     request.send();
 }
 
+/*
+    Creates a table showing each recall assigned to a particular investigator
+    Displays on the investigator dashboard
+*/
 function createInvestigatorTable(recalls) {
     console.log(recalls);
     const table = document.getElementById('investigatorRecallsBody');
@@ -71,7 +80,10 @@ function createInvestigatorTable(recalls) {
 }
 
 
-
+/**
+ * Gets the user id of the currently logged in user
+ * @returns 
+ */
 function getCurrId() {
     const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
@@ -79,6 +91,11 @@ function getCurrId() {
         return id;
 }
 
+/**
+ * Shows user information on their profile page
+ * @param {*} id the id of the logged in user
+ * @returns 
+ */
 function showProfile(id) {
     if (id == null) {
         const para = document.createElement("p");
@@ -111,7 +128,10 @@ function showProfile(id) {
 }
 
 
-
+/**
+ * Removes the current cookie
+ * Called on login
+ */
 function clearCookie() {
     var cookies = decodeURIComponent(document.cookie).split(";");
 
@@ -125,6 +145,10 @@ function clearCookie() {
     //console.log('Cookie cleared: ' + document.cookie);
 }
 
+/**
+ * Changes the display so that users can change their password
+ * @param {*} id the current user
+ */
 function startChangePassword(id) {
     const span = document.getElementsByClassName('passwordDiv')[0];
     span.innerHTML = "";
@@ -138,6 +162,11 @@ function startChangePassword(id) {
     span.innerHTML = text;
 }
 
+/**
+ * Saves the user's new password
+ * @param {*} id the user to be changed
+ * @returns 
+ */
 function saveNewPassword(id) {
     if (document.getElementsByClassName('oldPass')[0].value == "") {
         alert('Please enter your old password');
@@ -181,6 +210,9 @@ function saveNewPassword(id) {
     userRequest.send();
 }
 
+/**
+ * Changes the login page to the registration page
+ */
 function startRegister() {
     const span = document.getElementsByClassName('login')[0];
     const oldText = span.innerHTML;
@@ -224,6 +256,10 @@ function startRegister() {
     span.innerHTML = text;
 }
 
+/**
+ * Called when registration is clicked, registers the user information
+ * @returns 
+ */
 function endRegister() {
     if (document.getElementsByClassName('name')[0].value == "") {
         alert('Please enter your name');
@@ -291,6 +327,13 @@ function endRegister() {
     request.send();
 }
 
+/**
+ * Appends queries to the URL
+ * @param {*} uri the database url
+ * @param {*} key id
+ * @param {*} value the query to be attached
+ * @returns 
+ */
 function updateQueryStringParameter(uri, key, value) {
     var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
     var separator = uri.indexOf('?') !== -1 ? "&" : "?";
