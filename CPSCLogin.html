@@ -76,7 +76,7 @@
 
   function init() {
     const loginButton = document.getElementsByName("submit")[0];
-    loginButton.addEventListener("keyup", function(event) {
+    document.addEventListener("keyup", function(event) {
       console.log('login');
       if (event.keyCode === 13) {
         console.log('keycode');
