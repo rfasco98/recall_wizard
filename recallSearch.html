@@ -19,7 +19,7 @@
     <script>
         let role;
         let jsonData;
-        let selectText;
+        let selectOptions;
         let jsonUserData;
 
         function displayRow(i, resultCount, table) {
@@ -39,10 +39,17 @@
                     priority.parentElement.style.backgroundColor = "red";
                     document.getElementById(jsonData[i][0]).checked = true;
                 }
+
+                let selectText = "<label for='users'>Assign a user:</label>;"
+
+                selectText += "<select name='users' id='" + jsonData[i][0] + "userselect'>";
+                selectText += "<option value='default'></option>";
+                selectText += selectOptions;
+                selectText += "</select>";
                 assignedUser.innerHTML = selectText + "<button onclick='assignUser(" + jsonData[i][0] + ")'>Assign User</button>";
                 if (jsonData[i][6] != null) {
-                    assignUser.children[1].value = jsonData[i][6];
-                    //document.getElementById(jsonData[i][0] + "userselect").value = jsonData[i][6];
+                    //assignUser.children[1].value = jsonData[i][6];
+                    document.getElementById(jsonData[i][0] + "userselect").value = jsonData[i][6];
                 }
                 
 
@@ -70,16 +77,12 @@
             request.open('GET', newURL, true);
             request.onload = function() {
                 jsonUserData = JSON.parse(request.response);
-                selectText = "";
-                selectText = "<label for='users'>Assign a user:</label>;"
-
-                selectText += "<select name='users'>";
-                selectText += "<option value='default'></option>";
+                
                 for (let i = 0; i < jsonUserData.length; i++) {
                     //selectText += "<option value='" + jsonUserData[i][0] + "'>" + jsonUserData[i][2] + "</option>";
-                    selectText += "<option value='" + i + "'>" + jsonUserData[i][2] + "</option>";
+                    selectOptions += "<option value='" + i + "'>" + jsonUserData[i][2] + "</option>";
                 }
-                selectText += "</select>";
+                getDatabaseData();
 
                 }
 
@@ -264,7 +267,7 @@
             const cookie = decodeURIComponent(document.cookie);
             role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
             let table = document.getElementById('recallTableDiv');
-            getDatabaseData();
+            getUsers();
         }
         document.addEventListener("DOMContentLoaded", init);
     </script>
