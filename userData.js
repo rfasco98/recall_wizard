@@ -74,9 +74,11 @@ function createInvestigatorTable(recalls) {
         if (recalls[i][3] == "High") {
             hazard.parentElement.style.backgroundColor = "red";
         }
-        search.innerHTML = "<button onclick=";
-        search.innerHTML += "searchForListings('" + recalls[1] + "')";
-        search.innerHTML += ">Search for recall</button>";        
+        
+        let searchText = "<button onclick=";
+        searchText += "searchForListings('" + recalls[1] + "')";
+        searchText += ">Search for recall</button>";    
+        search.innerHTML = searchText;    
         
     }
 }
