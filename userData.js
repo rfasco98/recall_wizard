@@ -83,8 +83,9 @@ function createInvestigatorTable(recalls) {
  * Opens the listings table and searches for a given listing
  */
 function searchForListings(recall) {
+    console.log(recall);
     document.cookie = "recall=" + recall;
-    window.location='/listingsSearch.html';
+    document.location.href = 'listingsSearch.html';
 }
 
 
