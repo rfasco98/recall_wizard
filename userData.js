@@ -79,6 +79,8 @@ function createInvestigatorTable(recalls) {
         searchText += "searchForListings('" + recalls[i][1] + "')";
         searchText += ">Search for recall</button>";    
         search.innerHTML = searchText;    
+
+        console.log(recalls[i][1]);
         
     }
 }
