@@ -40,8 +40,6 @@
                     document.getElementById(jsonData[i][0]).checked = true;
                 }
 
-                let selectText = "<label for='users'>Assign a user:</label>;"
-
                 selectText += "<select name='users' id='" + jsonData[i][0] + "userselect'>";
                 selectText += "<option value='default'></option>";
                 selectText += selectOptions;
@@ -49,7 +47,7 @@
                 assignedUser.innerHTML = selectText + "<button onclick='assignUser(" + jsonData[i][0] + ")'>Assign User</button>";
                 if (jsonData[i][6] != null) {
                     //assignUser.children[1].value = jsonData[i][6];
-                    document.getElementById(jsonData[i][0] + "userselect").value = jsonData[i][6];
+                    document.getElementById(jsonData[i][0] + "userselect").value = jsonUserData.indexOf(jsonData[i][6]);
                 }
                 
 				/* Did this work?
