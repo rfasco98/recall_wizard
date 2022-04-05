@@ -16,7 +16,7 @@
           request.onload = function() {
             console.log(request.response);
               const jsonData = JSON.parse(request.response)
-              console.log(jsonData);
+              console.log(jsonData.items);
           }
           request.send();
         }
