@@ -11,7 +11,7 @@
 
         function callGoogleAPI() {
           const request = new XMLHttpRequest();
-          const newURL = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAhIeqyY1PV8F7W75WM1AmfrTJ-h6wgHqs";
+          const newURL = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAhIeqyY1PV8F7W75WM1AmfrTJ-h6wgHqs&cx=53c47e51af67e0e3a&q=search";
           request.open('GET', newURL, true);
           request.onload = function() {
             console.log(request.response);
