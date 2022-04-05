@@ -67,7 +67,7 @@
         const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
         console.log(cookie);
-        let recall = cookie.substring(cookie.indexOf(' recall=') + 7, cookie.length);
+        let recall = cookie.substring(cookie.indexOf(' recall=') + 8, cookie.length);
         console.log(recall);
 
         createListingTable(recall);
