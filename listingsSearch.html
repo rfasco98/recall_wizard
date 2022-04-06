@@ -95,10 +95,10 @@
               let checkbox = row.insertCell(2);
               let comment = row.insertCell(3);
               const urlLink = document.createElement('a');
-              urlLink.href = searchResults[i].link;
-              urlLink.innerHTML = searchResults[i].link;
+              urlLink.href = searchResults[i][5];
+              urlLink.innerHTML = searchResults[i][5];
               url.appendChild(urlLink);
-              description.innerHTML = searchResults[i].htmlTitle;
+              description.innerHTML = 'description';
               checkbox.innerHTML = "<input type='checkbox' id='" + searchResults[i][0] + "'>";
               comment.innerHTML = "<input type='text'>";
               
@@ -186,10 +186,10 @@
       </ul>
     </nav>
   </header>
-    <div>
+    <!-- <div>
         <script async src="https://cse.google.com/cse.js?cx=53c47e51af67e0e3a"></script>
       <div class="gcse-search"></div>
-    </div>
+    </div> -->
     <button onclick="callGoogleAPI()">Search</button>
     <section id="listingsSection">
       <table id="listingsTable">
