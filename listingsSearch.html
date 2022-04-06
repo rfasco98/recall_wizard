@@ -37,7 +37,7 @@
         function createListingTable(searchResults) {
           const table = document.getElementById('listingsTableBody');
           table.innerHTML = "";
-          for (let i = 0; i < listings.length; i++) {
+          for (let i = 0; i < searchResults.length; i++) {
               let row = table.insertRow(i);
               let url = row.insertCell(0);
               let description = row.insertCell(1);
@@ -47,10 +47,7 @@
               urlLink.src = searchResults[i].link;
               url.appendChild(urlLink);
               description.innerHTML = searchResults[i].htmlTitle;
-              checkbox.innerHTML = "<input type='checkbox' id='" + listings[i][0] + "'>";
-              if (listings[i][5] == "true") {
-                  document.getElementById(listings[i][0]).checked = true;
-              }
+              checkbox.innerHTML = "<input type='checkbox' id='" + searchResults[i][0] + "'>";
               comment.innerHTML = "<input type='text'>";       
               
             }
