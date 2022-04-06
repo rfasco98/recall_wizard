@@ -48,7 +48,7 @@
           
               const request = new XMLHttpRequest();
               let query = "INSERT INTO listing (Recall_ID, Listing_URL) VALUES";
-              for (let i = 0; i < newListings.length / 2; i++) {
+              for (let i = 0; i < newListings.length; i++) {
                 if (i == newListings.length - 1) {
                   query += "(" + globalRecall + ", '" + newListings[i].link + "');";
                 } else {
@@ -186,11 +186,8 @@
       </ul>
     </nav>
   </header>
-    <!-- <div>
-        <script async src="https://cse.google.com/cse.js?cx=53c47e51af67e0e3a"></script>
-      <div class="gcse-search"></div>
-    </div> -->
-    <button onclick="callGoogleAPI()">Search</button>
+  <h2>Listings</h2>
+  <h6>Table of potential violations</h6>
     <section id="listingsSection">
       <table id="listingsTable">
         <thead>
