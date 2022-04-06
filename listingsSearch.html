@@ -52,7 +52,7 @@
                 if (i == newListings.length - 1) {
                   query += "(" + globalRecall + ", '" + newListings[i].link + "');";
                 } else {
-                  query += "(" + globalRecall + ", '" + newListings[i].link + "'),";
+                  query += "(" + globalRecall + ", '" + newListings[i].link + "') , ";
                 }
               }
               console.log(query);
