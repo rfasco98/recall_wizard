@@ -44,7 +44,7 @@
               let checkbox = row.insertCell(2);
               let comment = row.insertCell(3);
               const urlLink = document.createElement('a');
-              urlLink.src = searchResults[i].link;
+              urlLink.href = searchResults[i].link;
               urlLink.innerHTML = searchResults[i].link;
               url.appendChild(urlLink);
               description.innerHTML = searchResults[i].htmlTitle;
