@@ -47,12 +47,12 @@
         function updateListingDatabase(newListings) {
           
               const request = new XMLHttpRequest();
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL) VALUES";
+              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES";
               for (let i = 0; i < newListings.length; i++) {
                 if (i == newListings.length - 1) {
-                  query += "(" + globalRecall + ", '" + newListings[i].link + "');";
+                  query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "');";
                 } else {
-                  query += "(" + globalRecall + ", '" + newListings[i].link + "') , ";
+                  query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "') , ";
                 }
               }
               console.log(query);
@@ -98,23 +98,32 @@
               urlLink.href = searchResults[i][5];
               urlLink.innerHTML = searchResults[i][5];
               url.appendChild(urlLink);
-              description.innerHTML = 'description';
-              checkbox.innerHTML = "<input type='checkbox' id='" + searchResults[i][0] + "'>";
-              comment.innerHTML = "<input type='text'>";
+              description.innerHTML = searchResults[i][6];
+              checkbox.innerHTML = "<button id='" + searchResults[i][0] + "' onclick='createViolation(" + searchResults[i][0] + ")'>Create Violation</button>";
+              comment.innerHTML = "<input type='text' id = '" + searchResults[i][0] + "comment'>";
               
               
               
 			  
-			  /*const request = new XMLHttpRequest();
-              const query = "INSERT INTO violation (Violation_ID, Violation_Description) VALUES (" +  + ", " + searchResults[1].htmlTitle + ");";
+			  
+         
+            }
+        }
+
+        function createViolation(listingId) {
+          const commentElement = document.getElementById(listingId + "comment");
+          if (commentElement.value == "") {
+            window.alert('Please enter a violation description before creating the violation');
+            return;
+          }
+          const request = new XMLHttpRequest();
+              const query = "INSERT INTO violation (Listing_ID, Violation_Description) VALUES (" + listingId + ", " + commentElement.value + ");";
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
                   const jsonData = JSON.parse(request.response)
               }
-              request.send();*/
-         
-            }
+              request.send();
         }
 
 
@@ -187,7 +196,7 @@
     </nav>
   </header>
   <h2>Listings</h2>
-  <h6>Table of potential violations</h6>
+  <h4>Table of potential violations</h4>
     <section id="listingsSection">
       <table id="listingsTable">
         <thead>
