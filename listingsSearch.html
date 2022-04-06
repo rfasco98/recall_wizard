@@ -50,11 +50,12 @@
               let query = "INSERT INTO listing (Recall_ID, Listing_URL) VALUES";
               for (let i = 0; i < newListings.length; i++) {
                 if (i == newListings.length - 1) {
-                  query += "(" + globalRecall + ", " + newListings[i].link + ");";
+                  query += "(" + globalRecall + ", '" + newListings[i].link + "'');";
                 } else {
-                  query += "(" + globalRecall + ", " + newListings[i].link + "),";
+                  query += "(" + globalRecall + ", '" + newListings[i].link + "''),";
                 }
               }
+              console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
