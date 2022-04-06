@@ -47,7 +47,7 @@
         function updateListingDatabase(newListings) {
           
               const request = new XMLHttpRequest();
-              const query = "INSERT INTO listing (Recall_ID, Listing_URL) VALUES";
+              let query = "INSERT INTO listing (Recall_ID, Listing_URL) VALUES";
               for (let i = 0; i < newListings.length; i++) {
                 if (i == newListings.length - 1) {
                   query += "(" + globalRecall + ", " + newListings[i].link + ");";
