@@ -9,6 +9,7 @@
     <script src="userData.js"></script>
     <script>
 
+        let globalRecall;
         /*
           Calls the google API and searches for the speficied item
           @recall the text to be searched for
@@ -60,12 +61,31 @@
               url.appendChild(urlLink);
               description.innerHTML = searchResults[i].htmlTitle;
               checkbox.innerHTML = "<input type='checkbox' id='" + searchResults[i][0] + "'>";
-              comment.innerHTML = "<input type='text'>";       
+              comment.innerHTML = "<input type='text'>";
+              
+              
+
+
+
+
+              const request = new XMLHttpRequest();
+              const query = "select * from recalls where Recall_ID = " + recall + ";";
+              const newURL = updateQueryStringParameter(db_url, 'id', query);
+              request.open('GET', newURL, true);
+              request.onload = function() {
+                  const jsonData = JSON.parse(request.response)
+              }
+              request.send();
+
+
+
+
+
               
             }
         }
 
-        function createListingTable2() {
+        /*function createListingTable2() {
           const request1 = new XMLHttpRequest();
             const query1 = "select * from listing";
             const newURL = updateQueryStringParameter(db_url, 'id', query1);
@@ -91,7 +111,7 @@
             }
           }
           request1.send();
-        }
+        }*/
 
         function init() {
         //define event handler for the mouse over event of the p element
@@ -101,9 +121,10 @@
         console.log(cookie);
         let recall = cookie.substring(cookie.indexOf(' recall=') + 8, cookie.length);
         console.log(recall);
+        globalRecall = recall;
         getRecall(recall);
 
-        createListingTable(recall);
+        //createListingTable(recall);
         }
       
     document.addEventListener("DOMContentLoaded", init);
