@@ -120,6 +120,7 @@
           }
           const request = new XMLHttpRequest();
               const query = "INSERT INTO violation (Listing_ID, Violation_Description) VALUES (" + listingId + ", " + commentElement.value + ");";
+              console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
