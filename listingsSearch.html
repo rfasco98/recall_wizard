@@ -48,7 +48,7 @@
           
               const request = new XMLHttpRequest();
               let query = "INSERT INTO listing (Recall_ID, Listing_URL) VALUES";
-              for (let i = 0; i < newListings.length; i++) {
+              for (let i = 0; i < newListings.length / 2; i++) {
                 if (i == newListings.length - 1) {
                   query += "(" + globalRecall + ", '" + newListings[i].link + "');";
                 } else {
@@ -67,7 +67,8 @@
                   request2.open('GET', newURL, true);
                   request2.onload = function() {
                       const listingData = JSON.parse(request2.response)
-                      createListingTable(listingData);
+                      console.log(listingData);
+                      //createListingTable(listingData);
                   }
                   request2.send();
 
