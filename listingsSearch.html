@@ -9,6 +9,10 @@
     <script src="userData.js"></script>
     <script>
 
+        /*
+          Calls the google API and searches for the speficied item
+          @recall the text to be searched for
+        */
         function callGoogleAPI(recall) {
           const request = new XMLHttpRequest();
           const newURL = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAhIeqyY1PV8F7W75WM1AmfrTJ-h6wgHqs&cx=53c47e51af67e0e3a&q=" + recall;
@@ -22,6 +26,10 @@
           request.send();
         }
 
+        /*
+          Retrieves the recall to be searched for from the database
+          @recall the id of the recall to be searched for
+        */
         function getRecall(recall) {
           const request = new XMLHttpRequest();
           const query = "select * from recalls where Recall_ID = " + recall + ";";
@@ -34,6 +42,9 @@
           request.send();
         }
 
+        /*
+          Used the results from the google API to create a table
+        */
         function createListingTable(searchResults) {
           const table = document.getElementById('listingsTableBody');
           table.innerHTML = "";
