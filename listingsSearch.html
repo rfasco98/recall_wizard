@@ -17,6 +17,7 @@
             console.log(request.response);
               const jsonData = JSON.parse(request.response)
               console.log(jsonData.items);
+              createListingTable(jsonData.items);
           }
           request.send();
         }
@@ -33,7 +34,29 @@
           request.send();
         }
 
-        function createListingTable() {
+        function createListingTable(searchResults) {
+          const table = document.getElementById('listingsTableBody');
+          table.innerHTML = "";
+          for (let i = 0; i < listings.length; i++) {
+              let row = table.insertRow(i);
+              let url = row.insertCell(0);
+              let description = row.insertCell(1);
+              let checkbox = row.insertCell(2);
+              let comment = row.insertCell(3);
+              const urlLink = document.createElement('a');
+              urlLink.src = searchResults[i].link;
+              url.appendChild(urlLink);
+              description.innerHTML = searchResults[i].htmlTitle;
+              checkbox.innerHTML = "<input type='checkbox' id='" + listings[i][0] + "'>";
+              if (listings[i][5] == "true") {
+                  document.getElementById(listings[i][0]).checked = true;
+              }
+              comment.innerHTML = "<input type='text'>";       
+              
+            }
+        }
+
+        function createListingTable2() {
           const request1 = new XMLHttpRequest();
             const query1 = "select * from listing";
             const newURL = updateQueryStringParameter(db_url, 'id', query1);
@@ -109,6 +132,9 @@
             <tr>
                 <th>
                     URL
+                </th>
+                <th>
+                    Description
                 </th>
                 <th>
                     Violation
