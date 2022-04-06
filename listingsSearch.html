@@ -49,6 +49,8 @@
               const request = new XMLHttpRequest();
               let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES";
               for (let i = 0; i < newListings.length; i++) {
+                newListings[i].htmlTitle = newListings[i].htmlTitle.replace("'", "");
+                newListings[i].htmlTitle = newListings[i].htmlTitle.replace('"', "");
                 if (i == newListings.length - 1) {
                   query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "');";
                 } else {
