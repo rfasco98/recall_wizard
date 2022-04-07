@@ -57,7 +57,7 @@
                   query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "') , ";
                 }
               }*/
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "');";
+              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[0].link + "', '" + newListings[0].htmlTitle + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
