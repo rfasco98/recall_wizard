@@ -1,17 +1,12 @@
-let user;
 //URL for database
 const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/RecallWizardDBLambda3';
 
  //called when you click on the 'dashboard' button in the nav bar
  function dashboardPage(){
-	const request = new XMLHttpRequest();
-    const query = "select User_Level from user where User_ID = '" + id + "'";
-	const newURL = updateQueryStringParameter(db_url, 'id', query);
-    request.open('GET', newURL, true);
-    request.onload = function() {
-	var userLevel = "";
-    userLevel = JSON.parse(request.response)[0];
-	console.log(userLevel);
+	const cookie = decodeURIComponent(document.cookie);
+         const userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+	 		
+		
 		if (userLevel == "CPSC Investigator"){
 			window.location.href = "CPSCInvestigatorPage.html";
 		} else if (userLevel == "Seller"){
