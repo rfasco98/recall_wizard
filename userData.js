@@ -5,7 +5,7 @@ const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/R
  function dashboardPage(){
      console.log('here');
 	const cookie = decodeURIComponent(document.cookie);
-         const userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+         const userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.indexOf('; recall'));
          console.log(userLevel);
 		if (userLevel == "CPSC Investigator"){
 			window.location.href = "CPSCInvestigatorPage.html";
