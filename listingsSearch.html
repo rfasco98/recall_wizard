@@ -158,7 +158,8 @@
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
-                  const jsonData = JSON.parse(request.response)
+                  const jsonData = JSON.parse(request.response);
+                  window.alert("Violation created");
               }
               request.send();
         }
