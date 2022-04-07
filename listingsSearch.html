@@ -96,7 +96,8 @@
               request.open('GET', newURL, true);
               request.onload = function() {
                 console.log("run " + index);
-                insertListings(listingData, index++, max);
+                index += 1;
+                insertListings(listingData, index, max);
               }
               request.send();  
           }
