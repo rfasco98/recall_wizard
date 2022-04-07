@@ -86,7 +86,7 @@
 
         function insertListings(listingData, index, max) {
           if (index >= max) {
-            insertQuery();
+            insertQuery(max);
             return;
           } else {
               const request = new XMLHttpRequest();
@@ -103,9 +103,9 @@
           }
         }
 
-        function insertQuery() {
+        function insertQuery(max) {
           const request2 = new XMLHttpRequest();
-            const query = "SELECT * FROM listing WHERE Recall_ID = " + globalRecall + "ORDER BY Listing_ID DESC LIMIT 10;";
+            const query = "SELECT * FROM listing WHERE Recall_ID = " + globalRecall + " ORDER BY Listing_ID DESC LIMIT " + max + ";";
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request2.open('GET', newURL, true);
             request2.onload = function() {
@@ -158,7 +158,8 @@
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
-                  const jsonData = JSON.parse(request.response)
+                  const jsonData = JSON.parse(request.response);
+                  window.alert("Violation created");
               }
               request.send();
         }
