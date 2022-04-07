@@ -21,6 +21,7 @@ const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/R
 			window.location.href = "VendorPage.html";
 		}
  }
+}
 /*
     Called for each user dashboard. Shows user first and last name for each dashboard
     For CPSC investigators, creates a table that shows each recall assigned to them
