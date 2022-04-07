@@ -90,7 +90,7 @@
             return;
           } else {
               const request = new XMLHttpRequest();
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[0].link + "', '" + newListings[0].htmlTitle + "');";
+              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
