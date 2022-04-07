@@ -3,8 +3,10 @@ const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/R
 
  //called when you click on the 'dashboard' button in the nav bar
  function dashboardPage(){
+     console.log('here');
 	const cookie = decodeURIComponent(document.cookie);
          const userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+         console.log(userLevel);
 		if (userLevel == "CPSC Investigator"){
 			window.location.href = "CPSCInvestigatorPage.html";
 		} else if (userLevel == "Seller"){
