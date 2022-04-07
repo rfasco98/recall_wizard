@@ -46,8 +46,9 @@
 
         function updateListingDatabase(newListings) {
           
-              const request = new XMLHttpRequest();
-              /*let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES";
+            insertListings(newListings, 0, newListings.length);
+              /*const request = new XMLHttpRequest();
+              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES";
               for (let i = 0; i < newListings.length / 3; i++) {
                 newListings[i].htmlTitle = newListings[i].htmlTitle.replace("'", "");
                 newListings[i].htmlTitle = newListings[i].htmlTitle.replace('"', "");
@@ -57,7 +58,7 @@
                   query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "') , ";
                 }
               }*/
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[0].link + "', '" + newListings[0].htmlTitle + "');";
+              /*let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[0].link + "', '" + newListings[0].htmlTitle + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
@@ -80,15 +81,46 @@
 
                   
               }
-              request.send();
-          
-          
+              request.send();  */
+        }
+
+        function insertListings(listingData, index, max) {
+          if (index >= max) {
+            insertQuery();
+            return;
+          } else {
+              const request = new XMLHttpRequest();
+              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[0].link + "', '" + newListings[0].htmlTitle + "');";
+              console.log(query);
+              const newURL = updateQueryStringParameter(db_url, 'id', query);
+              request.open('GET', newURL, true);
+              request.onload = function() {
+                console.log("run " + index);
+                insertListings(listingData, index++, max);
+              }
+              request.send();  
+          }
+        }
+
+        function insertQuery() {
+          const request2 = new XMLHttpRequest();
+            const query = "SELECT * FROM listing ORDER BY Listing_ID DESC LIMIT 10;";
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request2.open('GET', newURL, true);
+            request2.onload = function() {
+                const listingData = JSON.parse(request2.response)
+                console.log(listingData);
+                createListingTable(listingData);
+            }
+            request2.send();
         }
 
         /*
           Used the results from the google API to create a table
         */
         function createListingTable(searchResults) {
+
+
           const table = document.getElementById('listingsTableBody');
           table.innerHTML = "";
           for (let i = 0; i < searchResults.length; i++) {
