@@ -105,7 +105,7 @@
 
         function insertQuery() {
           const request2 = new XMLHttpRequest();
-            const query = "SELECT * FROM listing ORDER BY Listing_ID DESC LIMIT 10;";
+            const query = "SELECT * FROM listing WHERE Recall_ID = " + globalRecall + "ORDER BY Listing_ID DESC LIMIT 10;";
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request2.open('GET', newURL, true);
             request2.onload = function() {
