@@ -9,6 +9,7 @@ const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/R
 	const newURL = updateQueryStringParameter(db_url, 'id', query);
     request.open('GET', newURL, true);
     request.onload = function() {
+	var userLevel = "";
     userLevel = JSON.parse(request.response)[0];
 	console.log(userLevel);
 		if (userLevel == "CPSC Investigator"){
