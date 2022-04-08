@@ -190,7 +190,7 @@
                 for (let i = 0; i < apiData.length; i++) {
                     const importer = apiData[i].Importers[0];
                     const manufacturer = apiData[i].Manufacturers[0];
-                    const recallCompany = "";
+                    let recallCompany = "";
                     if (manufacturer != null && manufacturer.Name != null) {
                         recallCompany = manufacturer.Name;
                     } else if (importer != null && importer.Name != null) {
