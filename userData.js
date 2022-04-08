@@ -88,6 +88,7 @@ function createInvestigatorTable(recalls) {
         hazard.innerHTML = recalls[i][2];
         if (recalls[i][3] == "High") {
             hazard.parentElement.style.backgroundColor = "red";
+			hazard.parentElement.style.color = "white";
         }
         
         let searchText = "<button onclick=";
