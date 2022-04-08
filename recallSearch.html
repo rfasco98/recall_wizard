@@ -185,8 +185,8 @@
             request.open('GET', 'https://www.saferproducts.gov/RestWebServices/Recall?format=Json', true);
             request.onload = function() {
                 apiData = JSON.parse(request.response);
-                //console.log(apiData);
-                for (let i = 0; i < apiData.length; i++) {
+                console.log(apiData);
+                /*for (let i = 0; i < apiData.length; i++) {
                     const dbRequest = new XMLHttpRequest();
                     const query = "insert into recalls (Company_ID,Recall_Hazard,Recall_Product_Name,Recall_Priority) values ('0', '"+ apiData[i].Hazards[0].Name + "', '"+ apiData[i].Products[0].Name + "', 'low');";
                     const newURL = updateQueryStringParameter(db_url, 'id', query);
@@ -200,7 +200,7 @@
                 }
                 
 
-            }
+            }*/
 
             request.send();
         }
@@ -272,7 +272,7 @@
         
         function init() {
             const cookie = decodeURIComponent(document.cookie);
-            role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+            role = cookie.substring(cookie.indexOf('role=') + 5, cookie.indexOf('; recall'));
             let table = document.getElementById('recallTableDiv');
             getUsers();
         }
@@ -315,7 +315,7 @@
     <button onclick="showPriority()">Show Priority Recalls</button>
     <!-- <button onclick="getAPIData()">Refresh Database</button> -->
     <button onclick="fillData()">Reset Table</button>
-    
+    <button onclick="getAPIData()">Get API Data</button>
 </section>
     <div id="recallTableDiv"> 
         <table id="recalls">
