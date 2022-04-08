@@ -192,9 +192,9 @@
                     const manufacturer = apiData[i].Manufacturers[0];
                     const recallCompany = "";
                     if (manufacturer != null && manufacturer.Name != null) {
-                        recallCompany = manufacturer[0].Name;
+                        recallCompany = manufacturer.Name;
                     } else if (importer != null && importer.Name != null) {
-                        recallCompany = importer[0].Name;
+                        recallCompany = importer.Name;
                     } else {
                         recallCompany = "N/A";
                     }
