@@ -126,16 +126,14 @@
           table.innerHTML = "";
           for (let i = 0; i < searchResults.length; i++) {
               let row = table.insertRow(i);
-			  let Recall_ID = table.insertRow(0);
-              let url = row.insertCell(1);
-              let description = row.insertCell(2);
-              let checkbox = row.insertCell(3);
-              let comment = row.insertCell(4);
+              let url = row.insertCell(0);
+              let description = row.insertCell(1);
+              let checkbox = row.insertCell(2);
+              let comment = row.insertCell(3);
               const urlLink = document.createElement('a');
               urlLink.href = searchResults[i][5];
               urlLink.innerHTML = searchResults[i][5];
               url.appendChild(urlLink);
-			  Recall_ID.innerHTML = searchResults[i][1];
               description.innerHTML = searchResults[i][6];
               checkbox.innerHTML = "<button id='" + searchResults[i][0] + "' onclick='createViolation(" + searchResults[i][0] + ")'>Create Violation</button>";
               comment.innerHTML = "<input type='text' id = '" + searchResults[i][0] + "comment'>";
