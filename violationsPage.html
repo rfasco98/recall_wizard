@@ -25,11 +25,13 @@
             let user = row.insertCell(1);
             let violationDescription = row.insertCell(2);
             let priority = row.insertCell(3);
-            let resolved = row.insertCell(4);
+			let url = row.insertCell(4);
+            let resolved = row.insertCell(5);
             name.innerHTML = jsonData[i][0];
             user.innerHTML = jsonData[i][2];
             violationDescription.innerHTML = jsonData[i][1];
             priority.innerHTML = jsonData[i][3];
+			url.innerHTML = jsonData[i][4];
             resolved.innerHTML = 'No';
             if (jsonData[i][3] == "High") {
                     priority.parentElement.style.backgroundColor = "red";
@@ -105,7 +107,7 @@
         function getDatabaseData() {
             const request = new XMLHttpRequest();
             //const query = 'select * from violations';
-            const query = 'select r.Recall_Product_Name, u.User_Username , v.Violation_Description, r.Recall_Priority from violation v, listing l, recalls r, user u where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID and r.Recall_User_ID = u.User_ID;';
+            const query = 'select r.Recall_Product_Name, u.User_Username , v.Violation_Description, r.Recall_Priority, l.Listing_URL from violation v, listing l, recalls r, user u where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID and r.Recall_User_ID = u.User_ID;';
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
@@ -186,6 +188,9 @@
                     <th>
                         Priority
                     </th>
+					<th>
+						URL
+					</th>
                     <th>
                         Resolved
                     </th>
