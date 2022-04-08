@@ -188,7 +188,19 @@
                 console.log(apiData);
                 let companyArray = [];
                 for (let i = 0; i < apiData.length; i++) {
-                    companyArray.push({'index': i, 'Importer': apiData[i].Importers[0], 'Manufacturers': apiData[i].Manufacturers[0]});
+                    const importer = apiData[i].Importers[0];
+                    const manufacturer = apiData[i].Manufacturers[0];
+                    const recallCompany = "";
+                    if (manufacturer != null) {
+                        recallCompany = manufacturer[0].Name;
+                    } else if (importer != null) {
+                        recallCompany = importer[0].Name;
+                    } else {
+                        recallCompany = "N/A";
+                    }
+
+                    //companyArray.push({'index': i, 'Importer': apiData[i].Importers[0], 'Manufacturers': apiData[i].Manufacturers[0]});
+                    companyArray.push(recallCompany);
                 }
                 console.log(companyArray);
                 /*for (let i = 0; i < apiData.length; i++) {
