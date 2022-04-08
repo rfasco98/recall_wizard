@@ -9,6 +9,7 @@
     <link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
     <script src="/userData.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-223736041-1"></script>
+	<style> a { color:white; }</style>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -35,7 +36,6 @@
             user.innerHTML = jsonData[i][2];
             violationDescription.innerHTML = jsonData[i][1];
             priority.innerHTML = jsonData[i][3];
-			//url.innerHTML = jsonData[i][4];
             resolved.innerHTML = 'No';
             if (jsonData[i][3] == "High") {
                     priority.parentElement.style.backgroundColor = "red";
