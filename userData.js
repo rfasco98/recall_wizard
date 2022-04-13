@@ -307,11 +307,11 @@ function getVendors() {
     request.open('GET', newURL, true);
     request.onload = function() {
         vendorData = JSON.parse(request.response);
-
-        vendors += "<select name='vendors' id='vendors' onchange='changedSelect()'>";
+        vendors += "<label>Choose vendor</label>";
+        vendors += "<select name='vendors' id='vendorSelectDrop' onchange='changedSelect()'>";
         for (let i = 0; i < vendorData.length; i++) {
             //selectText += "<option value='" + jsonUserData[i][0] + "'>" + jsonUserData[i][2] + "</option>";
-            vendors += "<option value='" + i + "'>" + jsonUserData[i][2] + "</option>";
+            vendors += "<option value='" + i + "'>" + vendorData[i][2] + "</option>";
         }
         vendors +=" </select>";
         }
@@ -382,7 +382,7 @@ function endRegister() {
     const request = new XMLHttpRequest();
     let query;
     if (role == 'CPSC Manager') {
-        vendor = document.getElementById('vendors').value;
+        vendor = document.getElementById('vendorSelectDrop').value;
         query = "insert into user (User_Email,User_Username,User_Password,User_First_Name,User_Last_Name,User_Phone,User_Level, Vendor_ID) values" + 
     "('" + email + "', '" + username + "', '" + password + "', '" + firstName + "', '" + lastName + "', '" + phone + "', '" + role + "', " + vendor + ");";
     } else {
