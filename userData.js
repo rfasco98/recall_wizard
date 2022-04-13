@@ -307,8 +307,9 @@ function getVendors() {
     request.open('GET', newURL, true);
     request.onload = function() {
         vendorData = JSON.parse(request.response);
+        vendors = "";
         vendors += "<label>Choose vendor</label>";
-        vendors += "<select name='vendors' id='vendorSelectDrop' onchange='changedSelect()'>";
+        vendors += "<select name='vendors' id='vendorSelectDrop'>";
         for (let i = 0; i < vendorData.length; i++) {
             //selectText += "<option value='" + jsonUserData[i][0] + "'>" + jsonUserData[i][2] + "</option>";
             vendors += "<option value='" + i + "'>" + vendorData[i][2] + "</option>";
