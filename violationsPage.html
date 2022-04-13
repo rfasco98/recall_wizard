@@ -28,6 +28,7 @@
             let priority = row.insertCell(3);
 			let url = row.insertCell(4);
             let resolved = row.insertCell(5);
+			let contact = row.insertCell(6);
 			const urlLink = document.createElement('a');
             urlLink.href = jsonData[i][4];
             urlLink.innerHTML = jsonData[i][4];
@@ -41,6 +42,10 @@
                     priority.parentElement.style.backgroundColor = "red";
 					priority.parentElement.style.color = "white";
                 }
+			let contactButton = "<button onclick=";
+        	contactButton += "contactVendor(" + recalls[i][4] + ")";
+        	contactButton += ">Contact</button>";    
+        	search.innerHTML = contactButton;   
         }
 
         function searchName(){
@@ -198,6 +203,9 @@
                     <th>
                         Resolved
                     </th>
+					<th>
+						Contact
+					</th>
                 </tr>
             </thead>
                 <tbody id="violationsBody">
