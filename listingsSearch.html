@@ -156,8 +156,19 @@
             return;
           }
           const vendor = document.getElementById(listingId + 'url').innerHTML;
-          console.log('Vendor: ' + vendor.substring(vendor.indexOf('www.'), vendor.indexOf('.com')));
+          const vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.com'));
+          console.log('Vendor: ' + vendorName);
           const request = new XMLHttpRequest();
+              const query = "SELECT * FROM vendor WHERE UPPER(Vendor_Name) RLIKE UPPER('%" + vendorName + "%');";
+              const newURL = updateQueryStringParameter(db_url, 'id', query);
+              request.open('GET', newURL, true);
+              request.onload = function() {
+                  const jsonData = JSON.parse(request.response);
+                  console.log(jsonData);
+              }
+              request.send();
+          
+          /*const request = new XMLHttpRequest();
               const query = "INSERT INTO violation (Listing_ID, Violation_Description) VALUES (" + listingId + ", '" + commentElement.value + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
@@ -166,7 +177,7 @@
                   const jsonData = JSON.parse(request.response);
                   window.alert("Violation created");
               }
-              request.send();
+              request.send();*/
         }
 
         function init() {
