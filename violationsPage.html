@@ -52,37 +52,37 @@
 		function contactVendor(vendorLink){
 			//alert(vendorLink);
 			console.log(vendorLink);
-			let body = 'Hello, we have found a recalled item from the CPSC listed on your website. Please remove this item ASAP and get back to us.';
+			var body = 'Hello, we have found a recalled item from the CPSC listed on your website. Please remove this item ASAP and get back to us.';
 			
 			if (vendorLink.includes('amazon')){
-				window.open('mailto:service@amazon.com?subject=Violation Found&body=' + body + ');
+				window.open('mailto:service@amazon.com?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('ebay')){
-				window.open('mailto:support@ebay.com?subject=Violation Found&body=body');
+				window.open('mailto:support@ebay.com?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('craigslist')){
-				window.open('mailto:help@craigslist.org?subject=Violation Found&body=body');
+				window.open('mailto:help@craigslist.org?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('mercari')){
-				window.open('mailto:contact@mercari.com?subject=Violation Found&body=body');
-				alert('Mercari');
+				window.open('mailto:contact@mercari.com?subject=Violation Found&body=' + body + '');
+
 			} else if (vendorLink.includes('stockx')){
-				window.open('mailto:support@stockx.com?subject=Violation Found&body=body');
+				window.open('mailto:support@stockx.com?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('poshmark')){
-				window.open('mailto:service@poshmark.com?subject=Violation Found&body=body');
+				window.open('mailto:service@poshmark.com?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('bonzana')){
-				window.open('mailto:help@bonanza.com?subject=Violation Found&body=body');
+				window.open('mailto:help@bonanza.com?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('etsy')){
-				window.open('mailto:support@etsy.com?subject=Violation Found&body=body');
+				window.open('mailto:support@etsy.com?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('depop')){
-				window.open('mailto:support@depop.com?subject=Violation Found&body=body');
+				window.open('mailto:support@depop.com?subject=Violation Found&body=' + body + '');
 				
 			} else if (vendorLink.includes('walmart')){
-				window.open('mailto:help@walmart.com?subject=Violation Found&body=body');
+				window.open('mailto:help@walmart.com?subject=Violation Found&body=' + body + '');
 			} 
 		}
 
