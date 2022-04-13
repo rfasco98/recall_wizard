@@ -134,6 +134,7 @@
               const urlLink = document.createElement('a');
               urlLink.href = searchResults[i][5];
               urlLink.innerHTML = searchResults[i][5];
+              urlLink.id = searchResults[i][0] + 'url';
               url.appendChild(urlLink);
 			  recall_ID.innerHTML = searchResults[i][1];
               description.innerHTML = searchResults[i][6];
@@ -154,6 +155,8 @@
             window.alert('Please enter a violation description before creating the violation');
             return;
           }
+          const vendor = document.getElementById(listingId + 'url');
+          console.log('Vendor: ' + vendor.substring(vendor.indexOf('www.'), vendor.indexOf('.com')));
           const request = new XMLHttpRequest();
               const query = "INSERT INTO violation (Listing_ID, Violation_Description) VALUES (" + listingId + ", '" + commentElement.value + "');";
               console.log(query);
@@ -164,39 +167,6 @@
                   window.alert("Violation created");
               }
               request.send();
-        }
-
-
-
-		/*where Recall_ID = " + recall + ";";*/
-        function createListingTable2() {
-          const request1 = new XMLHttpRequest();
-            const query1 = "select * from listing";
-            const newURL = updateQueryStringParameter(db_url, 'id', query1);
-            request1.open('GET', newURL, true);
-            request1.onload = function() {
-                const listings = JSON.parse(request1.response);
-                //console.log(recordCount);   
-                console.log(listings);
-                const table = document.getElementById('listingsTableBody');
-                table.innerHTML = "";
-                for (let i = 0; i < listings.length; i++) {
-                    let row = table.insertRow(i);
-					let recall_ID = row.insertCell(0);
-                    let url = row.insertCell(1);
-                    let checkbox = row.insertCell(2);
-                    let comment = row.insertCell(3);
-					recall_ID.innerHTML = listings[i][1];
-                    url.innerHTML = listings[i][6];
-                    checkbox.innerHTML = "<input type='checkbox' id='" + listings[i][0] + "'>";
-                    if (listings[i][5] == "true") {
-                        document.getElementById(listings[i][0]).checked = true;
-                    }
-                    comment.innerHTML = "<input type='text'>";       
-              
-            }
-          }
-          request1.send();
         }
 
         function init() {
