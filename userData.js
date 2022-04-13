@@ -59,6 +59,22 @@ function showUserData(id) {
                 createInvestigatorTable(recordCount);
             }
             request1.send();
+        } else if (user[4] == "Vendor") {
+            const request1 = new XMLHttpRequest();
+            const query1 = "select distinct r.Recall_Product_Name, r.Recall_Hazard, v.Violation_Description, l.Listing_URL from violation v, recalls r, listing l, user u, vendor ven where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Vendor_ID = ven.Vendor_ID and ven.Vendor_ID = " + id + ";";
+            const newURL = updateQueryStringParameter(db_url, 'id', query1);
+            request1.open('GET', newURL, true);
+            request1.onload = function() {
+                const recordCount = JSON.parse(request1.response);
+                //console.log(recordCount);
+                userText += " You have " + recordCount.length + " violations on your site.";
+                console.log(recordCount);
+                const node = document.createTextNode(userText);
+                para.appendChild(node);
+                document.getElementsByClassName('profile')[0].appendChild(para);
+                //createInvestigatorTable(recordCount);
+            }
+            request1.send();
         } else {
             const node = document.createTextNode(userText);
             para.appendChild(node);
@@ -293,7 +309,7 @@ function changedSelect() {
     const select = document.getElementById('roles');
     let role = select.options[select.selectedIndex].text;
     const div = document.getElementById('vendorSelectDiv');
-    if (role == 'CPSC Manager') {
+    if (role == 'Vendor') {
         div.innerHTML = vendors;
     } else {
         div.innerHTML = "";
@@ -382,7 +398,7 @@ function endRegister() {
     const lastName = name.substring(name.indexOf(' ') + 1, name.length);    
     const request = new XMLHttpRequest();
     let query;
-    if (role == 'CPSC Manager') {
+    if (role == 'Vendor') {
         vendor = document.getElementById('vendorSelectDrop').value;
         query = "insert into user (User_Email,User_Username,User_Password,User_First_Name,User_Last_Name,User_Phone,User_Level, Vendor_ID) values" + 
     "('" + email + "', '" + username + "', '" + password + "', '" + firstName + "', '" + lastName + "', '" + phone + "', '" + role + "', " + vendor + ");";
@@ -424,7 +440,7 @@ function cancelRegistration() {
     document.getElementById('vendorSelectDiv').innerHTML = '';
     const span = document.getElementsByClassName('login')[0];
     let text = "<label for ='User_Username' class='loginbox'>Username</label><br><input type='text' name='User_Username'><br><label for ='User_Password'>Password</label><br>";
-    text += "<input type='password' name='User_Password'><br><button onclick='login()' name='submit'>Login</button><button";
+    text += "<input type='password' name='User_Password'><br><button onclick='login()' name='submit'>Login</button><button> ";
     text += "onclick='startRegister()' name='register'>Register New Account</button>";
     span.innerHTML = "";
     span.innerHTML = text;
