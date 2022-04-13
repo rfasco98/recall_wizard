@@ -161,7 +161,6 @@
           console.log('Vendor: ' + vendorName);
           const request1 = new XMLHttpRequest();
               const query1 = "SELECT Vendor_ID FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('%" + vendorName + "%');";
-              console.log(query);
               const newURL1 = updateQueryStringParameter(db_url, 'id', query1);
               request1.open('GET', newURL1, true);
               request1.onload = function() {
