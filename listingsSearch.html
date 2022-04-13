@@ -172,12 +172,10 @@
                   } else {
                     vendorID = vendorData[0][0];
                   }
-                  
-              }
-              request1.send();
-          
-          const request = new XMLHttpRequest();
-              const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + ", " + vendorID + "');";
+
+                  const request = new XMLHttpRequest();
+          console.log(vendorID)
+              const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
@@ -186,6 +184,11 @@
                   window.alert("Violation created");
               }
               request.send();
+                  
+              }
+              request1.send();
+          
+          
         }
 
         function createVendor(listindId) {
