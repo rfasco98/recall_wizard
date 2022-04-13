@@ -312,7 +312,7 @@ function getVendors() {
         vendors += "<select name='vendors' id='vendorSelectDrop'>";
         for (let i = 0; i < vendorData.length; i++) {
             //selectText += "<option value='" + jsonUserData[i][0] + "'>" + jsonUserData[i][2] + "</option>";
-            vendors += "<option value='" + i + "'>" + vendorData[i][2] + "</option>";
+            vendors += "<option value='" + vendorData[i][0] + "'>" + vendorData[i][2] + "</option>";
         }
         vendors +=" </select>";
         }
@@ -421,6 +421,7 @@ function updateQueryStringParameter(uri, key, value) {
 
 function cancelRegistration() {
     document.getElementsByClassName('light')[0].innerHTML = 'Enter your login info';
+    document.getElementById('vendorSelectDiv').innerHTML = '';
     const span = document.getElementsByClassName('login')[0];
     let text = "<label for ='User_Username' class='loginbox'>Username</label><br><input type='text' name='User_Username'><br><label for ='User_Password'>Password</label><br>";
     text += "<input type='password' name='User_Password'><br><button onclick='login()' name='submit'>Login</button><button";
