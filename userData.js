@@ -61,7 +61,7 @@ function showUserData(id) {
             request1.send();
         } else if (user[4] == "Vendor") {
             const request1 = new XMLHttpRequest();
-            const query1 = "select distinct r.Recall_Product_Name, r.Recall_Hazard, v.Violation_Description, l.Listing_URL from violation v, recalls r, listing l, user u, vendor ven where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Vendor_ID = ven.Vendor_ID and ven.Vendor_ID = " + id + ";";
+            const query1 = "select distinct r.Recall_Product_Name, r.Recall_Hazard, v.Violation_Description, l.Listing_URL from violation v, recalls r, listing l, user u, vendor ven where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Vendor_ID = ven.Vendor_ID and ven.Vendor_ID = u.Vendor_ID and u.User_ID = " + id + ";";
             const newURL = updateQueryStringParameter(db_url, 'id', query1);
             request1.open('GET', newURL, true);
             request1.onload = function() {
