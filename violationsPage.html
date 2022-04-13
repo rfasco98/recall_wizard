@@ -11,10 +11,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-223736041-1"></script>
 	<style> a { color:white; }</style>
 <script>
-    window.dataLayer = window.dataLayer || [];
+   /* window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-  gtag('config', 'UA-223736041-1');
+  gtag('config', 'UA-223736041-1'); */
 </script>
     <script>
         let role;
@@ -43,13 +43,14 @@
 					priority.parentElement.style.color = "white";
                 }
 			var contactButton = "<button onclick=";
-        	contactButton += "contactVendor(" + jsonData[i][4] + ")";
+        	contactButton += "contactVendor('" + jsonData[i][4] + "')";
         	contactButton += ">Contact</button>";    
         	contact.innerHTML = contactButton;   
         }
 		
 		//Function for the Contact button
 		function contactVendor(vendorLink){
+			alert(vendorLink);
 			console.log(vendorLink);
 			/*
 			if urlString.includes('amazon'){
