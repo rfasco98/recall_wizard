@@ -159,7 +159,8 @@
           const vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.com'));
           console.log('Vendor: ' + vendorName);
           const request = new XMLHttpRequest();
-              const query = "SELECT * FROM vendor WHERE UPPER(Vendor_Name) RLIKE UPPER('%" + vendorName + "%');";
+              const query = "SELECT * FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('%" + vendorName + "%');";
+              console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
