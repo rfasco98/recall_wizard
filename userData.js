@@ -72,7 +72,7 @@ function showUserData(id) {
                 const node = document.createTextNode(userText);
                 para.appendChild(node);
                 document.getElementsByClassName('profile')[0].appendChild(para);
-                //createInvestigatorTable(recordCount);
+                createVendorTable(recordCount);
             }
             request1.send();
         } else {
@@ -114,6 +114,35 @@ function createInvestigatorTable(recalls) {
         search.innerHTML = searchText;    
 
         console.log(recalls[i][1]);
+        
+    }
+}
+
+/*
+    Creates a table showing each violation for a given company
+    Displays on the vendor dashboard
+*/
+function createVendorTable(violations) {
+    console.log(violations);
+    const table = document.getElementById('vendorViolationsBody');
+    table.innerHTML = "";
+    for (let i = 0; i < violations.length; i++) {
+        let row = table.insertRow(i);
+        let name = row.insertCell(0);
+        let hazard = row.insertCell(1);
+        let comment = row.insertCell(2);
+        let url = row.insertCell(3);
+        let resolve = row.insertCell(4);
+        name.innerHTML = violations[i][0];
+        hazard.innerHTML = violations[i][1];
+        comment.innerHTML = violations[i][2];
+        const urlLink = document.createElement('a');
+        urlLink.href = violations[i][3];
+        urlLink.innerHTML = violations[i][3];
+        url.appendChild(urlLink);
+        
+        let searchText = "<button>Resolve</button>";    
+        search.innerHTML = searchText;    
         
     }
 }
@@ -440,7 +469,7 @@ function cancelRegistration() {
     document.getElementById('vendorSelectDiv').innerHTML = '';
     const span = document.getElementsByClassName('login')[0];
     let text = "<label for ='User_Username' class='loginbox'>Username</label><br><input type='text' name='User_Username'><br><label for ='User_Password'>Password</label><br>";
-    text += "<input type='password' name='User_Password'><br><button onclick='login()' name='submit'>Login</button><button> ";
+    text += "<input type='password' name='User_Password'><br><button onclick='login()' name='submit'>Login</button><button";
     text += "onclick='startRegister()' name='register'>Register New Account</button>";
     span.innerHTML = "";
     span.innerHTML = text;
