@@ -155,7 +155,7 @@
             window.alert('Please enter a violation description before creating the violation');
             return;
           }
-          const vendor = document.getElementById(listingId + 'url');
+          const vendor = document.getElementById(listingId + 'url').innerHTML;
           console.log('Vendor: ' + vendor.substring(vendor.indexOf('www.'), vendor.indexOf('.com')));
           const request = new XMLHttpRequest();
               const query = "INSERT INTO violation (Listing_ID, Violation_Description) VALUES (" + listingId + ", '" + commentElement.value + "');";
