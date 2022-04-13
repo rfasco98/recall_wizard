@@ -1,5 +1,6 @@
 //URL for database
 const db_url = 'https://6hbn8ssbg9.execute-api.us-east-1.amazonaws.com/default/RecallWizardDBLambda3';
+let vendors;
 
  //called when you click on the 'dashboard' button in the nav bar
  function dashboardPage(){
@@ -246,6 +247,7 @@ function saveNewPassword(id) {
  * Changes the login page to the registration page
  */
 function startRegister() {
+    getVendors();
     const span = document.getElementsByClassName('login')[0];
     const oldText = span.innerHTML;
     document.getElementsByClassName('light')[0].innerHTML = 'Create new account';
@@ -277,15 +279,44 @@ function startRegister() {
     text += "<input type='radio' id='Vendor' name='role' value='Vendor'><label for='Vendor'>Vendor</label><br></br></form>";*/
 
 
-    text +="<select name='roles' id='roles'>";
+    text +="<select name='roles' id='roles' onchange='changedSelect()'>";
     text +=" <option value='CPSC Investigator'>CPSC Investigator</option>";
     text +=" <option value='CPSC Manager'>CPSC Manager</option>";
-    text += "<option value='Seller'>Seller</option>";
     text +=" <option value='Vendor'>Vendor</option>";
     text +=" </select>";
     text += "<button name = 'submit' onclick='endRegister()'>Register</button>";
     text += "<button name = 'cancel' onclick='cancelRegistration()'>Cancel</button>";
     span.innerHTML = text;
+}
+
+function changedSelect() {
+    const select = document.getElementById('roles');
+    let role = select.options[select.selectedIndex].text;
+    const div = document.getElementById('vendorSelectDiv');
+    if (role == 'CPSC Manager') {
+        div.innerHTML = vendors;
+    } else {
+        div.innerHTML = "";
+    }
+}
+
+function getVendors() {
+    const request = new XMLHttpRequest();
+    const query = "select * from vendor;";
+    const newURL = updateQueryStringParameter(db_url, 'id', query);
+    request.open('GET', newURL, true);
+    request.onload = function() {
+        vendorData = JSON.parse(request.response);
+
+        vendors += "<select name='vendors' id='vendors' onchange='changedSelect()'>";
+        for (let i = 0; i < vendorData.length; i++) {
+            //selectText += "<option value='" + jsonUserData[i][0] + "'>" + jsonUserData[i][2] + "</option>";
+            vendors += "<option value='" + i + "'>" + jsonUserData[i][2] + "</option>";
+        }
+        vendors +=" </select>";
+        }
+
+    request.send();
 }
 
 /**
@@ -344,11 +375,21 @@ function endRegister() {
 
     const select = document.getElementById('roles');
     let role = select.options[select.selectedIndex].text;
+    let vendor;
+    
     const firstName = name.substring(0, name.indexOf(' '));
     const lastName = name.substring(name.indexOf(' ') + 1, name.length);    
     const request = new XMLHttpRequest();
-    const query = "insert into user (User_Email,User_Username,User_Password,User_First_Name,User_Last_Name,User_Phone,User_Level) values" + 
+    let query;
+    if (role == 'CPSC Manager') {
+        vendor = document.getElementById('vendors').value;
+        query = "insert into user (User_Email,User_Username,User_Password,User_First_Name,User_Last_Name,User_Phone,User_Level, Vendor_ID) values" + 
+    "('" + email + "', '" + username + "', '" + password + "', '" + firstName + "', '" + lastName + "', '" + phone + "', '" + role + "', " + vendor + ");";
+    } else {
+        query = "insert into user (User_Email,User_Username,User_Password,User_First_Name,User_Last_Name,User_Phone,User_Level) values" + 
     "('" + email + "', '" + username + "', '" + password + "', '" + firstName + "', '" + lastName + "', '" + phone + "', '" + role + "');";
+    }
+    
     const newURL = updateQueryStringParameter(db_url, 'id', query);
     request.open('GET', newURL, true);
     request.onload = function() {
@@ -376,40 +417,6 @@ function updateQueryStringParameter(uri, key, value) {
         return uri + separator + key + "=" + value;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function cancelRegistration() {
     document.getElementsByClassName('light')[0].innerHTML = 'Enter your login info';

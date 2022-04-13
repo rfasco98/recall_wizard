@@ -58,9 +58,7 @@
               
               console.log(document.cookie);
               const userLevel = user[3];
-              if(userLevel == "Seller"){
-                window.location.href = "SellerPage.html";
-              } else if (userLevel == "CPSC Investigator"){
+              if (userLevel == "CPSC Investigator"){
                 window.location.href = "CPSCInvestigatorPage.html";
               } else if (userLevel == "CPSC Manager"){
                 window.location.href = "CPSCManagerPage.html";
@@ -125,6 +123,7 @@
       <button onclick="login()" name="submit">Login</button>
       <button onclick="startRegister()" name="register">Register New Account</button>
     </div>
+    <div id="vendorSelectDiv"></div>
       </table><br>
   </div>
   <!-- Copyrights Section -->
