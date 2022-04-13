@@ -21,6 +21,7 @@
         let jsonData;
         let selectOptions;
         let jsonUserData;
+        let isLoading;
 
         function displayRow(i, resultCount, table) {
             let row = table.insertRow(resultCount);
@@ -259,6 +260,7 @@
             {
                 displayRow(i, i, table);
             }
+            isLoading = false;
         }
 
         function changePriority(id, index) {
@@ -286,11 +288,17 @@
             request.send();
         }
 
+        function disableButtons() {
+            
+        }
+        
+
         
         function init() {
             const cookie = decodeURIComponent(document.cookie);
             role = cookie.substring(cookie.indexOf('role=') + 5, cookie.indexOf('; recall'));
             let table = document.getElementById('recallTableDiv');
+            isLoading = true;
             getUsers();
         }
         document.addEventListener("DOMContentLoaded", init);

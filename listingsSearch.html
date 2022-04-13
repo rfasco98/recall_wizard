@@ -155,22 +155,30 @@
             window.alert('Please enter a violation description before creating the violation');
             return;
           }
+          let vendorID;
           const vendor = document.getElementById(listingId + 'url').innerHTML;
           const vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.com'));
           console.log('Vendor: ' + vendorName);
-          const request = new XMLHttpRequest();
-              const query = "SELECT * FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('%" + vendorName + "%');";
+          const request1 = new XMLHttpRequest();
+              const query1 = "SELECT Vendor_ID FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('%" + vendorName + "%');";
               console.log(query);
-              const newURL = updateQueryStringParameter(db_url, 'id', query);
-              request.open('GET', newURL, true);
-              request.onload = function() {
-                  const jsonData = JSON.parse(request.response);
-                  console.log(jsonData);
+              const newURL1 = updateQueryStringParameter(db_url, 'id', query1);
+              request1.open('GET', newURL1, true);
+              request1.onload = function() {
+                  const vendorData = JSON.parse(request1.response);
+                  console.log(vendorData);
+                  if (vendorData.length == 0) {
+                    createVendor(listingId);
+                    vendorID = -1;
+                  } else {
+                    vendorID = vendorData[0];
+                  }
+                  
               }
-              request.send();
+              request1.send();
           
-          /*const request = new XMLHttpRequest();
-              const query = "INSERT INTO violation (Listing_ID, Violation_Description) VALUES (" + listingId + ", '" + commentElement.value + "');";
+          const request = new XMLHttpRequest();
+              const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + ", " + vendorID + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
@@ -178,7 +186,21 @@
                   const jsonData = JSON.parse(request.response);
                   window.alert("Violation created");
               }
-              request.send();*/
+              request.send();
+        }
+
+        function createVendor(listindId) {
+          console.log('vendor does not exist');
+            /*const request = new XMLHttpRequest();
+            const query = "INSERT INTO vendor (Listing_ID, Violation_Description) VALUES (" + listingId + ", '" + commentElement.value + "');";
+            console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                const jsonData = JSON.parse(request.response);
+                window.alert("Violation created");
+            }
+            request.send();*/
         }
 
         function init() {
