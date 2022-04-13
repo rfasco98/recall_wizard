@@ -140,9 +140,7 @@ function createVendorTable(violations) {
         urlLink.href = violations[i][3];
         urlLink.innerHTML = violations[i][3];
         url.appendChild(urlLink);
-        
-        let searchText = "<button>Resolve</button>";    
-        search.innerHTML = searchText;    
+        resolve.innerHTML = "<button>Resolve</button>";    
         
     }
 }
