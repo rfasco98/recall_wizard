@@ -43,9 +43,9 @@
 					priority.parentElement.style.color = "white";
                 }
 			let contactButton = "<button onclick=";
-        	contactButton += "contactVendor(" + recalls[i][4] + ")";
+        	contactButton += "contactVendor(" + jsonData[i][4] + ")";
         	contactButton += ">Contact</button>";    
-        	search.innerHTML = contactButton;   
+        	contact.innerHTML = contactButton;   
         }
 
         function searchName(){
