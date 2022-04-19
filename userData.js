@@ -61,7 +61,7 @@ function showUserData(id) {
             request1.send();
         } else if (user[4] == "Vendor") {
             const request1 = new XMLHttpRequest();
-            const query1 = "select distinct r.Recall_Product_Name, r.Recall_Hazard, v.Violation_Description, l.Listing_URL from violation v, recalls r, listing l, user u, vendor ven where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Vendor_ID = ven.Vendor_ID and ven.Vendor_ID = u.Vendor_ID and u.User_ID = " + id + ";";
+            const query1 = "select distinct r.Recall_Product_Name, r.Recall_Hazard, v.Violation_Description, l.Listing_URL, v.Violation_ID from violation v, recalls r, listing l, user u, vendor ven where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Vendor_ID = ven.Vendor_ID and ven.Vendor_ID = u.Vendor_ID and u.User_ID = " + id + ";";
             const newURL = updateQueryStringParameter(db_url, 'id', query1);
             request1.open('GET', newURL, true);
             request1.onload = function() {
@@ -132,7 +132,8 @@ function createVendorTable(violations) {
         let hazard = row.insertCell(1);
         let comment = row.insertCell(2);
         let url = row.insertCell(3);
-        let resolve = row.insertCell(4);
+        let resolveResponse = row.insertCell(4);
+        let resolve = row.insertCell(5);
         name.innerHTML = violations[i][0];
         hazard.innerHTML = violations[i][1];
         comment.innerHTML = violations[i][2];
@@ -140,9 +141,22 @@ function createVendorTable(violations) {
         urlLink.href = violations[i][3];
         urlLink.innerHTML = violations[i][3];
         url.appendChild(urlLink);
-        resolve.innerHTML = "<button>Resolve</button>";    
+        resolveResponse.innerHTML = "<input type='text' id = '" + violations[i][4] + "comment'>";
+        resolve.innerHTML = "<button onclick='vendorResolve(" + violations[i][4] + ")'>Resolve</button>";    
         
     }
+}
+
+function vendorResolve(id) {
+    const responseText = document.getElementById(id + 'comment').value;
+    const request = new XMLHttpRequest();
+    const query = "update resolution set Resolution_Response=" + responseText + ", Resolution_Outcome='Vendor Response' where Violation_ID = " + id + ";";
+    const newURL = updateQueryStringParameter(db_url, 'id', query);
+    request.open('GET', newURL, true);
+    request.onload = function() {
+        console.log(request.response);
+    }
+    request.send();
 }
 
 /**
