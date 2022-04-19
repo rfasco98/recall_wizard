@@ -62,13 +62,14 @@
             const outcome = document.getElementById('outcome').value;
             const reason = document.getElementById('reason').value;
             const request = new XMLHttpRequest();
-            const query = "INSERT INTO resolution (Violation_ID, Resolution_Response, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', " + outcome + ", '" + reason + "');";
+            const query = "INSERT INTO resolution (Violation_ID, Resolution_Response, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', '" + outcome + "'', '" + reason + "');";
             console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
                 console.log(request.response);
                 window.alert("Resolution created");
+                closeForm();
             }
             request.send();
         }
@@ -314,7 +315,7 @@
         </header>
 <section>
     <h1>
-        Violations page
+        Violations
     </h1>
     <div class="form-popup" id="myForm">
         <form action="" class="form-container">
