@@ -149,15 +149,43 @@ function createVendorTable(violations) {
 
 function vendorResolve(id) {
     const responseText = document.getElementById(id + 'comment').value;
-    const request = new XMLHttpRequest();
-    const query = "update resolution set Resolution_Response='" + responseText + "', Resolution_Outcome='Vendor Response' where Violation_ID = " + id + ";";
-    console.log(query);
-    const newURL = updateQueryStringParameter(db_url, 'id', query);
-    request.open('GET', newURL, true);
-    request.onload = function() {
-        console.log(request.response);
+    const findRequest = new XMLHttpRequest();
+    const findQuery = "select Resolution_ID from resolution where Resolution_ID = " + id + ";";
+    console.log(findQuery);
+    const findNewURL = updateQueryStringParameter(db_url, 'id', findQuery);
+    findRequest.open('GET', findNewURL, true);
+    findRequest.onload = function() {
+        console.log(findRequest.response);
+        if (JSON.parse(findRequest.response).length > 0) {
+            const request = new XMLHttpRequest();
+            const query = "update resolution set Resolution_Response='" + responseText + "', Resolution_Outcome='Vendor Response' where Violation_ID = " + id + ";";
+            console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                console.log(request.response);
+            }
+            request.send();
+        } else {
+            const request = new XMLHttpRequest();
+            const query = "insert into resolution (Violation_ID, Resolution_Response, Resolution_Outcome) values(" + id + ", '" + responseText + "', 'Vendor Response';";
+            console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                console.log(request.response);
+            }
+            request.send();
+        }
     }
-    request.send();
+    findRequest.send();
+
+
+
+
+
+    
+    
 }
 
 /**
