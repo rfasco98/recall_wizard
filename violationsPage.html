@@ -254,7 +254,7 @@
 }
 
 /* Full-width input fields */
-.form-container input[type=text], .form-container input[type=textarea] {
+.form-container input[type=text], .form-container input[type=textarea], .form-container select {
   width: 90%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -325,7 +325,13 @@
             <input type="textarea" name="response" id="response"> -->
         
             <label for="outcome"><b>Resolution Outcome</b></label>
-            <input type="text" name="outcome" id="outcome">
+            <input type="text" name="outcome1" id="outcome">
+
+            <select name='outcome' id='outcome'>;
+                <option value='Resolved'>Resolved</option>;
+                <option value='Unresolved'>Unresolved</option>;
+                <option value='Vendor Response'>Vendor Response</option>;
+            </select>;
 
             <label for="reason"><b>Resolution Reason</b></label>
             <input type="text" name="reason" id="reason">
