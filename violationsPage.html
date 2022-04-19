@@ -37,11 +37,16 @@
             user.innerHTML = jsonData[i][2];
             violationDescription.innerHTML = jsonData[i][1];
             priority.innerHTML = jsonData[i][3];
+            if (role == 'CPSC Investigator' ||
+                role == "CPSC Manager") {
+                let resolvedButton = "<button onclick=";
+                resolvedButton += "resolveViolation('" + jsonData[i][5] + "')";
+                resolvedButton += ">Resolve</button>";
+                resolved.innerHTML = resolvedButton;
+            } else {
+                resolved.innerHTML = 'No';
+            }
             
-            let resolvedButton = "<button onclick=";
-        	resolvedButton += "resolveViolation('" + jsonData[i][5] + "')";
-        	resolvedButton += ">Resolve</button>";
-            resolved.innerHTML = resolvedButton;
             if (jsonData[i][3] == "High") {
                     priority.parentElement.style.backgroundColor = "red";
 					priority.parentElement.style.color = "white";
@@ -53,7 +58,16 @@
         }
 
         function resolveViolation(id) {
-            console.log(id);
+            const request = new XMLHttpRequest();
+            const query = "INSERT INTO violation (Violation_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
+            console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                const jsonData = JSON.parse(request.response);
+                window.alert("Resolution created");
+            }
+            request.send();
         }
 		
 		//Function for the Contact button
@@ -191,6 +205,61 @@
         }
         document.addEventListener("DOMContentLoaded", init);
     </script>
+    <style>
+        /* Popup container - can be anything you want */
+        .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        }
+        /* The actual popup */
+        .popup .popuptext {
+        visibility: hidden;
+        width: 162px;
+        background-color: #c000ff;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 7px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: -325%;
+        left: 43%;
+        margin-left: -80px;
+        }
+        /* Popup arrow */
+        .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: -10%;
+        left: 50%;
+        margin-left: 6px;
+        border-width: 5.5px;
+        border-style: solid;
+        border-color: #c000ff transparent transparent transparent;
+        }
+        /* Toggle this class - hide and show the popup */
+        .popup .show {
+        visibility: visible;
+        -webkit-animation-name: bounce;
+        -webkit-animation-duration: 4s;
+        -webkit-animation-iteration-count: 1;
+        -webkit-animation-direction: alternate;
+        }
+        /* Add animation (fade in the popup) */
+        @-webkit-keyframes bounce {
+        from {
+        left: 0px;
+        }
+        to {
+        left: 198px;
+        }
+        }
+        </style>
 
 </head>
 <body>
@@ -218,6 +287,16 @@
     <h1>
         Violations page
     </h1>
+    <div class="popup" onclick="myFunction()">Click here to view the Pop up!
+        <span class="popuptext" id="popUpElement">Pop-up with a bounce animation</span>
+        </div>
+        <script>
+        // When the user clicks on div, open the popup
+        function myFunction() {
+        var popup = document.getElementById("popUpElement");
+        popup.classList.toggle("show");
+        }
+        </script>
     <div id="searchDiv">
         <input onchange="searchName()" type="text" id="violationSearch" placeholder="Search by name">
         <input onchange="searchUser()" type="text" id="violationUserSearch" placeholder="Search by assigned user">
