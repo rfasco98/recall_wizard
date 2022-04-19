@@ -150,7 +150,7 @@ function createVendorTable(violations) {
 function vendorResolve(id) {
     const responseText = document.getElementById(id + 'comment').value;
     const findRequest = new XMLHttpRequest();
-    const findQuery = "select Resolution_ID from resolution where Resolution_ID = " + id + ";";
+    const findQuery = "select Violation_ID from resolution where Violation_ID = " + id + ";";
     console.log(findQuery);
     const findNewURL = updateQueryStringParameter(db_url, 'id', findQuery);
     findRequest.open('GET', findNewURL, true);
@@ -168,7 +168,7 @@ function vendorResolve(id) {
             request.send();
         } else {
             const request = new XMLHttpRequest();
-            const query = "insert into resolution (Violation_ID, Resolution_Response, Resolution_Outcome) values(" + id + ", '" + responseText + "', 'Vendor Response';";
+            const query = "insert into resolution (Violation_ID, Resolution_Response, Resolution_Outcome) values(" + id + ", '" + responseText + "', 'Vendor Response');";
             console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
