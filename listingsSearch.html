@@ -157,7 +157,13 @@
           }
           let vendorID;
           const vendor = document.getElementById(listingId + 'url').innerHTML;
-          const vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.com'));
+          let vendorName;
+          if (vendor.includes('.com')) {
+            vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.com'));
+          } else if (vendor.includes('.net')) {
+            vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.net'));
+          }
+          
           console.log('Vendor: ' + vendorName);
           const request1 = new XMLHttpRequest();
               const query1 = "SELECT Vendor_ID FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('%" + vendorName + "%');";
