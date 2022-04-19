@@ -58,22 +58,23 @@
         }
 
         function resolveViolation(id) {
-            console.log(id);
-            /*const request = new XMLHttpRequest();
-            const query = "INSERT INTO violation (Violation_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
+            const response = document.getElementById('response').value;
+            const outcome = document.getElementById('outcome').value;
+            const reason = document.getElementById('reason').value;
+            const request = new XMLHttpRequest();
+            const query = "INSERT INTO resolution (Violation_ID, Resolution_Response, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', " + outcome + ", '" + reason + "');";
             console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
-                const jsonData = JSON.parse(request.response);
+                console.log(request.response);
                 window.alert("Resolution created");
             }
-            request.send();*/
+            request.send();
         }
 
         function openForm(id) {
             const createButton = document.getElementById('createButton');
-            //createButton.addEventListener("click", resolveViolation(id));
             createButton.setAttribute("onclick","resolveViolation(" + id + ")");
             document.getElementById("myForm").style.display = "block";
         }
