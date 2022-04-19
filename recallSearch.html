@@ -67,7 +67,7 @@
                 
             }
             id.innerHTML = jsonData[i][0];
-            name.innerHTML = jsonData[i][1];
+            name.innerHTML = jsonData[i][2];
         }
 
         function getUsers() {
@@ -116,8 +116,8 @@
                 let resultCount = 0;
                 for (let i = 0; i < jsonData.length; i++)
                 {
-                    if (jsonData[i][1]) {
-                        if (jsonData[i][1].toUpperCase().includes(searchValue.toUpperCase())) {
+                    if (jsonData[i][2]) {
+                        if (jsonData[i][2].toUpperCase().includes(searchValue.toUpperCase())) {
                             displayRow(i, resultCount, table);
                             resultCount++;
                         }
