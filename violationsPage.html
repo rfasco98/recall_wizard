@@ -58,11 +58,11 @@
         }
 
         function resolveViolation(id) {
-            const response = document.getElementById('response').value;
+            //const response = document.getElementById('response').value;
             const outcome = document.getElementById('outcome').value;
             const reason = document.getElementById('reason').value;
             const request = new XMLHttpRequest();
-            const query = "INSERT INTO resolution (Violation_ID, Resolution_Response, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "');";
+            const query = "INSERT INTO resolution (Violation_ID, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + outcome + "', '" + reason + "');";
             console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
@@ -321,8 +321,8 @@
         <form action="" class="form-container">
             <h1>Create Resolution</h1>
         
-            <label for="response"><b>Resolution Response</b></label>
-            <input type="textarea" name="response" id="response">
+            <!-- <label for="response"><b>Resolution Response</b></label>
+            <input type="textarea" name="response" id="response"> -->
         
             <label for="outcome"><b>Resolution Outcome</b></label>
             <input type="text" name="outcome" id="outcome">
