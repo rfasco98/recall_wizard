@@ -73,6 +73,7 @@
 
         function openForm(id) {
             const createButton = document.getElementById('createButton');
+            createButton.addEventListener("click", resolveViolation(id));
             createButton.onclick = "resolveViolation(" + id + ")";
             document.getElementById("myForm").style.display = "block";
         }
