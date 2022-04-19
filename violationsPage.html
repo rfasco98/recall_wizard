@@ -58,7 +58,8 @@
         }
 
         function resolveViolation(id) {
-            const request = new XMLHttpRequest();
+            console.log(id);
+            /*const request = new XMLHttpRequest();
             const query = "INSERT INTO violation (Violation_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
             console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
@@ -67,7 +68,7 @@
                 const jsonData = JSON.parse(request.response);
                 window.alert("Resolution created");
             }
-            request.send();
+            request.send();*/
         }
 
         function openForm(id) {
@@ -314,19 +315,21 @@
         Violations page
     </h1>
     <div class="form-popup" id="myForm">
-        <h1>Login</h1>
-    
-        <label for="response"><b>Resolution Response</b></label>
-        <input type="textarea" name="response" id="response">
-    
-        <label for="outcome"><b>Resolution Outcome</b></label>
-        <input type="text" name="outcome" id="outcome">
+        <form action="" class="form-container">
+            <h1>Create Resolution</h1>
+        
+            <label for="response"><b>Resolution Response</b></label>
+            <input type="textarea" name="response" id="response">
+        
+            <label for="outcome"><b>Resolution Outcome</b></label>
+            <input type="text" name="outcome" id="outcome">
 
-        <label for="reason"><b>Resolution Reason</b></label>
-        <input type="text" name="reason" id="reason">
-    
-        <button type="button" class="btn" id="createButton" >Create Resolution</button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            <label for="reason"><b>Resolution Reason</b></label>
+            <input type="text" name="reason" id="reason">
+        
+            <button type="button" class="btn" id="createButton" >Save</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
     </div>
       
     <div id="searchDiv">
