@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="singlePageTemplate.css" rel="stylesheet" type="text/css">
+    <script>src="https://www.saferproducts.gov/RestWebServices/Recall"</script>
+    <script src="/userData.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-223736041-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  gtag('config', 'UA-223736041-1');
+</script>
+    <script>
+        let role;
+        let jsonData;
+        let selectOptions;
+        let jsonUserData;
+        let isLoading;
+
+        function displayRow(i, resultCount, table) {
+            let row = table.insertRow(resultCount);
+            let name = row.insertCell(0);
+            let message = row.insertCell(1);
+            let response = row.insertCell(2);
+            let outcome = row.insertCell(3);
+			let reason = row.insertCell(4);
+            name.innerHTML = jsonData[i][1];
+            message.innerHTML = jsonData[i][2];
+            response.innerHTML = jsonData[i][3];
+            outcome.innerHTML = jsonData[i][4];
+            reason.innerHTML = jsonData[i][5]; 
+        }
+
+        function searchName(){
+            const searchValue = document.getElementById('violationSearch').value;
+            if (document.getElementById('violationSearch').value == "") {
+                fillData();
+            }
+            else {
+                document.getElementById('violationsBody').innerHTML = "";
+                let table = document.getElementById('violationsBody');
+                let resultCount = 0;
+                for (let i = 0; i < jsonData.length; i++)
+                {
+                    if (jsonData[i][0]) {
+                        if (jsonData[i][0].toUpperCase().includes(searchValue.toUpperCase())) {
+                            displayRow(i, resultCount, table);
+                            resultCount++;
+                        }
+                    }
+
+
+                }
+            }
+            
+        }
+
+        function searchUser(){
+            const searchValue = document.getElementById('violationUserSearch').value;
+            if (document.getElementById('violationUserSearch').value == "") {
+                fillData();
+            }
+            else {
+                document.getElementById('violationsBody').innerHTML = "";
+                let table = document.getElementById('violationsBody');
+                let resultCount = 0;
+                for (let i = 0; i < jsonData.length; i++)
+                {
+                    if (jsonData[i][1]) {
+                        if (jsonData[i][1].toUpperCase().includes(searchValue.toUpperCase())) {
+                            displayRow(i, resultCount, table);
+                            resultCount++;
+                        }
+                    }
+
+
+                }
+            }
+            
+        }
+
+        function getDatabaseData() {
+            const request = new XMLHttpRequest();
+            const query = 'select distinct res.Resolution_ID, r.Recall_Product_Name, res.Resolution_CPSC_Message, res.Resolution_Response, res.Resolution_Outcome, res.Resolution_Reason from violation v, recalls r, listing l, resolution res where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Violation_ID = res.Violation_ID order by res.Resolution_Time asc;';
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                jsonData = JSON.parse(request.response);
+                console.log(jsonData);
+                fillData();
+                }
+
+            request.send();
+        }
+
+        function fillData() {
+            let table = document.getElementById('resolutionsBody');
+            table.innerHTML = "";
+            for (let i = 0; i < jsonData.length; i++)
+            {
+                displayRow(i, i, table);
+            }
+        }
+        
+        function init() {
+            const cookie = decodeURIComponent(document.cookie);
+            role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+            let table = document.getElementById('resolutionTableDiv');
+            getDatabaseData();
+        }
+        document.addEventListener("DOMContentLoaded", init);
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <header> <a href="">
+    
+            <img src="cpsc.JPG" alt="">
+            <h2 class="logo">Recall Wizard
+                <br>
+              Consumer Product Safety Commission
+            </h2>
+            <h2 class="logo"></h2>
+          </a>
+          <nav>
+            <ul>
+              <li><a href="CPSCHome.html">HOME</a></li>
+              <li><a href="CPSCLogin.html">LOGIN</a></li>
+              <li><a href="recallSearch.html">RECALL SEARCH</a></li>
+              <li><a href="violationsPage.html">VIOLATIONS</a></li>
+				<li><a href ="#" onClick="dashboardPage()">DASHBOARD</a></li>
+            </ul>
+          </nav>
+        </header>
+<section>
+    <h1>
+        Resolutions
+    </h1>
+    <h2>
+        Search database by product name
+    </h2>
+    <div id="searchDiv">
+        <input onchange="searchName()" type="text" id="nameSearch" placeholder="Search by name">
+        <input onchange="searchUser()" type="text" id="userSearch" placeholder="Search by assigned user">
+    </div>
+    <button onclick="fillData()">Reset Table</button>
+</section>
+    <div id="resolutionTableDiv"> 
+        <table id="resolution">
+
+            <thead>
+                <tr>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Resolution Message
+                    </th>
+                    <th>
+                        Vendor Response
+                    </th>
+                    <th>
+                        Resolution Outcome
+                    </th>
+                    <th>
+                        Resolution Reason
+                    </th>
+                </tr>
+            </thead>
+                <tbody id="resolutionsBody">
+
+                </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+
