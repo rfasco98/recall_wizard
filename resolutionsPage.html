@@ -34,7 +34,13 @@
             message.innerHTML = jsonData[i][2];
             response.innerHTML = jsonData[i][3];
             outcome.innerHTML = jsonData[i][4];
-            reason.innerHTML = jsonData[i][5]; 
+            reason.innerHTML = jsonData[i][5];
+            if (jsonData[i][4] == 'Unresolved') {
+                reason.parentElement.style.backgroundColor = "red"; 
+            } else if (jsonData[i][4] == 'Vendor Response') {
+                reason.parentElement.style.backgroundColor = "yellow"; 
+            }
+            
         }
 
         function searchName(){
