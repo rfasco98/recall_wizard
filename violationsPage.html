@@ -40,7 +40,7 @@
             if (role == 'CPSC Investigator' ||
                 role == "CPSC Manager") {
                 let resolvedButton = "<button onclick=";
-                resolvedButton += "resolveViolation('" + jsonData[i][5] + "')";
+                resolvedButton += "openForm('" + jsonData[i][5] + "')";
                 resolvedButton += ">Resolve</button>";
                 resolved.innerHTML = resolvedButton;
             } else {
@@ -68,6 +68,16 @@
                 window.alert("Resolution created");
             }
             request.send();
+        }
+
+        function openForm(id) {
+            const createButton = document.getElementById('createButton');
+            createButton.onclick = "resolveViolation(" + id + ")";
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
         }
 		
 		//Function for the Contact button
@@ -303,31 +313,22 @@
     <h1>
         Violations page
     </h1>
-    <button onclick="openForm()">Open Form</button>
     <div class="form-popup" id="myForm">
-        <form action="/action_page.php" class="form-container">
-          <h1>Login</h1>
-      
-          <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Enter Email" name="email" required>
-      
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" required>
-      
-          <button type="submit" class="btn">Login</button>
-          <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-        </form>
-      </div>
-      
-        <script>
-            function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
+        <h1>Login</h1>
+    
+        <label for="response"><b>Resolution Response</b></label>
+        <input type="textarea" name="response" id="response">
+    
+        <label for="outcome"><b>Resolution Outcome</b></label>
+        <input type="text" name="outcome" id="outcome">
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-            </script>
+        <label for="reason"><b>Resolution Reason</b></label>
+        <input type="text" name="reason" id="reason">
+    
+        <button type="button" class="btn" id="createButton" >Create Resolution</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </div>
+      
     <div id="searchDiv">
         <input onchange="searchName()" type="text" id="violationSearch" placeholder="Search by name">
         <input onchange="searchUser()" type="text" id="violationUserSearch" placeholder="Search by assigned user">
