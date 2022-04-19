@@ -151,6 +151,7 @@ function vendorResolve(id) {
     const responseText = document.getElementById(id + 'comment').value;
     const request = new XMLHttpRequest();
     const query = "update resolution set Resolution_Response=" + responseText + ", Resolution_Outcome='Vendor Response' where Violation_ID = " + id + ";";
+    console.log(query);
     const newURL = updateQueryStringParameter(db_url, 'id', query);
     request.open('GET', newURL, true);
     request.onload = function() {
