@@ -67,6 +67,7 @@
                 console.log(resCount);
                 if (resCount.length > 0) {
                     window.alert('Violation already resolved');
+                    closeForm();
                 } else {
                     const response = document.getElementById('response').value;
                     const outcome = document.getElementById('outcome').value;
