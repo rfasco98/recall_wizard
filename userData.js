@@ -164,6 +164,7 @@ function vendorResolve(id) {
             request.open('GET', newURL, true);
             request.onload = function() {
                 console.log(request.response);
+                window.alert('Response received');
             }
             request.send();
         } else {
@@ -174,6 +175,7 @@ function vendorResolve(id) {
             request.open('GET', newURL, true);
             request.onload = function() {
                 console.log(request.response);
+                window.alert('Response received');
             }
             request.send();
         }
@@ -511,7 +513,7 @@ function cancelRegistration() {
     const span = document.getElementsByClassName('login')[0];
     let text = "<label for ='User_Username' class='loginbox'>Username</label><br><input type='text' name='User_Username'><br><label for ='User_Password'>Password</label><br>";
     text += "<input type='password' name='User_Password'><br><button onclick='login()' name='submit'>Login</button><button";
-    text += "onclick='startRegister()' name='register'>Register New Account</button>";
+    text += " onclick='startRegister()' name='register'>Register New Account</button>";
     span.innerHTML = "";
     span.innerHTML = text;
 }
