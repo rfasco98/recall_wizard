@@ -155,7 +155,7 @@
                 for (let i = 0; i < jsonData.length; i++)
                 {
                     if (jsonData[i][4]) {
-                        if (jsonData[i][4].toUpperCase().includes(searchValue.toUpperCase())) {
+                        if (jsonData[i][4] == searchValue) {
                             displayRow(i, resultCount, table);
                             resultCount++;
                         }
