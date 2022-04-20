@@ -143,8 +143,7 @@
 
         function showOutcome() {
             const select = document.getElementById('resStatus');
-            let role = select.options[select.selectedIndex].text;
-            const searchValue = document.getElementById("nameSearch").value;
+            let searchValue = select.options[select.selectedIndex].text;
             console.log(searchValue);
             if (searchValue == "") {
                 fillData();
