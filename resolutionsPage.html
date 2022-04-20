@@ -30,6 +30,7 @@
             let response = row.insertCell(2);
             let outcome = row.insertCell(3);
 			let reason = row.insertCell(4);
+            let edit = row.insertCell(5);
             name.innerHTML = jsonData[i][1];
             message.innerHTML = jsonData[i][2];
             response.innerHTML = jsonData[i][3];
@@ -39,6 +40,13 @@
                 reason.parentElement.style.backgroundColor = "red"; 
             } else if (jsonData[i][4] == 'Vendor Response') {
                 reason.parentElement.style.backgroundColor = "yellow"; 
+            }
+            if (role == 'CPSC Investigator' ||
+                role == "CPSC Manager") {
+                let resolvedButton = "<button onclick=";
+                resolvedButton += "openForm('" + jsonData[i][0] + "')";
+                resolvedButton += ">Edit</button>";
+                edit.innerHTML = resolvedButton;
             }
             
         }
@@ -113,6 +121,47 @@
                 displayRow(i, i, table);
             }
         }
+
+        function editResolution(id) {
+            const response = document.getElementById('response').value;
+            const outcome = document.getElementById('outcome').value;
+            const reason = document.getElementById('reason').value;
+            const request = new XMLHttpRequest();
+            const query = "Update resolution SET (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "') WHERE Resolution_ID = " + id + ";";
+            console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                console.log(request.response);
+                window.alert("Resolution created");
+                closeForm();
+            }
+            request.send();
+        }
+
+        function openForm(id) {
+            const request = new XMLHttpRequest();
+            const query = "select * from resolution where Resolution_ID = " + id + ";";
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                jsonData = JSON.parse(request.response);
+                console.log(jsonData);
+                const createButton = document.getElementById('createButton');
+                createButton.setAttribute("onclick","editResolution(" + id + ")");
+                document.getElementById('response').value = jsonData[0][2];
+                document.getElementById('reason').value = jsonData[0][3];
+                document.getElementById('outcome').value = jsonData[0][4];
+                document.getElementById("myForm").style.display = "block";
+            }
+
+            request.send();
+            
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
         
         function init() {
             const cookie = decodeURIComponent(document.cookie);
@@ -122,6 +171,77 @@
         }
         document.addEventListener("DOMContentLoaded", init);
     </script>
+    <style>
+        {box-sizing: border-box;}
+        
+        /* Button used to open the contact form - fixed at the bottom of the page */
+        .open-button {
+          background-color: #555;
+          color: white;
+          padding: 16px 20px;
+          border: none;
+          cursor: pointer;
+          opacity: 0.8;
+          position: fixed;
+          bottom: 23px;
+          right: 28px;
+          width: 280px;
+        }
+        
+        /* The popup form - hidden by default */
+        .form-popup {
+          display: none;
+          position: fixed;
+          bottom: 30%;
+          right: 30%;
+          border: 3px solid #f1f1f1;
+          z-index: 9;
+        }
+        
+        /* Add styles to the form container */
+        .form-container {
+          max-width: 300px;
+          padding: 10px;
+          background-color: white;
+        }
+        
+        /* Full-width input fields */
+        .form-container input[type=text], .form-container input[type=textarea], .form-container select {
+          width: 90%;
+          padding: 15px;
+          margin: 5px 0 22px 0;
+          border: none;
+          background: #f1f1f1;
+        }
+        
+        /* When the inputs get focus, do something */
+        .form-container input[type=text]:focus, .form-container input[type=textarea]:focus {
+          background-color: #ddd;
+          outline: none;
+        }
+        
+        /* Set a style for the submit/login button */
+        .form-container .btn {
+          background-color: #04AA6D;
+          color: white;
+          padding: 16px 20px;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          margin-bottom:10px;
+          opacity: 0.8;
+        }
+        
+        /* Add a red background color to the cancel button */
+        .form-container .cancel {
+          background-color: red;
+        }
+        
+        /* Add some hover effects to buttons */
+        .form-container .btn:hover, .open-button:hover {
+          opacity: 1;
+        }
+                </style>
 
 </head>
 <body>
@@ -145,10 +265,37 @@
             </ul>
           </nav>
         </header>
+        
 <section>
     <h1>
         Resolutions
     </h1>
+    <div class="form-popup" id="myForm">
+        <form action="" class="form-container">
+            <h1>Create Resolution</h1>
+        
+            <label for="response"><b>CPSC Response</b></label>
+            <input type="text" name="response" id="response">
+
+
+            <!-- <label for="response"><b>Resolution Response</b></label>
+            <input type="textarea" name="response" id="response"> -->
+        
+            
+            <label for="outcome"><b>Resolution Outcome</b></label>
+            <select name='outcome' id='outcome'>;
+                <option value='Resolved'>Resolved</option>;
+                <option value='Unresolved'>Unresolved</option>;
+                <option value='Vendor Response'>Vendor Response</option>;
+            </select>;
+
+            <label for="reason"><b>Resolution Reason</b></label>
+            <input type="text" name="reason" id="reason">
+        
+            <button type="button" class="btn" id="createButton" >Save</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
     <h2>
         Search database by product name
     </h2>
@@ -177,6 +324,9 @@
                     </th>
                     <th>
                         Resolution Reason
+                    </th>
+                    <th>
+                        Edit
                     </th>
                 </tr>
             </thead>
