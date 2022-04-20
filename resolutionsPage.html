@@ -141,6 +141,31 @@
             
         }
 
+        function showOutcome() {
+            const select = document.getElementById('resStatus');
+            let role = select.options[select.selectedIndex].text;
+            const searchValue = document.getElementById("nameSearch").value;
+            if (searchValue == "") {
+                fillData();
+            }
+            else {
+                document.getElementById('resolutionsBody').innerHTML = "";
+                let table = document.getElementById('resolutionsBody');
+                let resultCount = 0;
+                for (let i = 0; i < jsonData.length; i++)
+                {
+                    if (jsonData[i][4]) {
+                        if (jsonData[i][4].toUpperCase().includes(searchValue.toUpperCase())) {
+                            displayRow(i, resultCount, table);
+                            resultCount++;
+                        }
+                    }
+
+
+                }
+            }
+        }
+
         function closeForm() {
             document.getElementById("myForm").style.display = "none";
         }
@@ -283,6 +308,13 @@
     </h2>
     <div id="searchDiv">
         <input onchange="searchName()" type="text" id="nameSearch" placeholder="Search by name">
+        <label for="resStatus">Show resolution outcome</label>
+        <select name='resStatus' id='resStatus' onchange='showOutcome()'>
+            <option value='default'></option>
+            <option value='Resolved'>Resolved</option>
+            <option value='Unresolved'>Unresolved</option>
+            <option value='Vendor Response'>Vendor Response</option>
+        </select>
     </div>
     <button onclick="fillData()">Reset Table</button>
 </section>
