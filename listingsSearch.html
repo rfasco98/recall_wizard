@@ -34,12 +34,13 @@
         */
         function getRecall(recall) {
           const request = new XMLHttpRequest();
-          const query = "select * from recalls where Recall_ID = " + recall + ";";
+          const query = "select Recall_Product_Name from recalls where Recall_ID = " + recall + ";";
           const newURL = updateQueryStringParameter(db_url, 'id', query);
           request.open('GET', newURL, true);
           request.onload = function() {
               const jsonData = JSON.parse(request.response)
-              callGoogleAPI(jsonData[0][3]);
+              console.log(jsonData);
+              callGoogleAPI(jsonData[0][0]);
           }
           request.send();
         }
