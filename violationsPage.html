@@ -59,7 +59,7 @@
 
         function resolveViolation(id) {
             const checkViolation = new XMLHttpRequest();
-            const violationQuery = "Select * from resolutions where Violation_ID = " + id + ";";
+            const violationQuery = "Select * from resolution where Violation_ID = " + id + ";";
             const violationURL = updateQueryStringParameter(db_url, 'id', violationQuery);
             checkViolation.open('GET', violationURL, true);
             checkViolation.onload = function() {
