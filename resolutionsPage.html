@@ -145,6 +145,7 @@
             const select = document.getElementById('resStatus');
             let role = select.options[select.selectedIndex].text;
             const searchValue = document.getElementById("nameSearch").value;
+            console.log(searchValue);
             if (searchValue == "") {
                 fillData();
             }
@@ -308,6 +309,9 @@
     </h2>
     <div id="searchDiv">
         <input onchange="searchName()" type="text" id="nameSearch" placeholder="Search by name">
+        
+    </div>
+    <div>
         <label for="resStatus">Show resolution outcome</label>
         <select name='resStatus' id='resStatus' onchange='showOutcome()'>
             <option value='default'></option>
