@@ -64,6 +64,7 @@
             checkViolation.open('GET', violationURL, true);
             checkViolation.onload = function() {
                 const resCount = JSON.parse(checkViolation.response);
+                console.log(resCount);
                 if (resCount.length > 0) {
                     window.alert('Violation already resolved');
                 } else {
