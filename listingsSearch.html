@@ -47,41 +47,6 @@
         function updateListingDatabase(newListings) {
           
             insertListings(newListings, 0, newListings.length);
-              /*const request = new XMLHttpRequest();
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES";
-              for (let i = 0; i < newListings.length / 3; i++) {
-                newListings[i].htmlTitle = newListings[i].htmlTitle.replace("'", "");
-                newListings[i].htmlTitle = newListings[i].htmlTitle.replace('"', "");
-                if (i == newListings.length - 1) {
-                  query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "');";
-                } else {
-                  query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "') , ";
-                }
-              }*/
-              /*let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[0].link + "', '" + newListings[0].htmlTitle + "');";
-              console.log(query);
-              const newURL = updateQueryStringParameter(db_url, 'id', query);
-              request.open('GET', newURL, true);
-              request.onload = function() {
-                console.log(request.response);
-                  const jsonData = JSON.parse(request.response)
-                  const request2 = new XMLHttpRequest();
-                  const query = "SELECT * FROM listing ORDER BY Listing_ID DESC LIMIT 10;";
-                  const newURL = updateQueryStringParameter(db_url, 'id', query);
-                  request2.open('GET', newURL, true);
-                  request2.onload = function() {
-                      const listingData = JSON.parse(request2.response)
-                      console.log(listingData);
-                      createListingTable(listingData);
-                  }
-                  request2.send();
-
-
-
-
-                  
-              }
-              request.send();  */
         }
 
         function insertListings(listingData, index, max) {
@@ -90,12 +55,12 @@
             return;
           } else {
               const request = new XMLHttpRequest();
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "');";
+              //let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "');";
+              let query = "INSERT INTO listing(Recall_ID, Listing_URL, Listing_Description) SELECT " + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "' WHERE NOT EXISTS (SELECT 1FROM listingWHERE Recall_ID = " + globalRecall + "AND Listing_URL = '" + listingData[index].link + "'AND Listing_Description = '" + listingData[index].htmlTitle + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
-                console.log("run " + index);
                 index += 1;
                 insertListings(listingData, index, max);
               }
@@ -181,7 +146,8 @@
 
                   const request = new XMLHttpRequest();
           console.log(vendorID)
-              const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
+              //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
+              const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + " WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
