@@ -140,20 +140,27 @@
         }
 
         function openForm(id) {
-            const request = new XMLHttpRequest();
+            /*const request = new XMLHttpRequest();
             const query = "select * from resolution where Resolution_ID = " + id + ";";
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
                 jsonData = JSON.parse(request.response);
-                console.log(jsonData);
+                console.log(jsonData);*/
+                let index;
+                for (let i = 0; i < jsonData.length; i++) {
+                    if (jsonData[i][0] == id) {
+                        index = i;
+                        break;
+                    }
+                }
                 const createButton = document.getElementById('createButton');
                 createButton.setAttribute("onclick","editResolution(" + id + ")");
-                document.getElementById('response').value = jsonData[0][2];
-                document.getElementById('reason').value = jsonData[0][3];
-                document.getElementById('outcome').value = jsonData[0][4];
+                document.getElementById('response').value = jsonData[index][2];
+                document.getElementById('reason').value = jsonData[index][3];
+                document.getElementById('outcome').value = jsonData[index][4];
                 document.getElementById("myForm").style.display = "block";
-            }
+            /*}
 
             request.send();
             
