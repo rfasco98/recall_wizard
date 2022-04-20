@@ -144,19 +144,35 @@
                     vendorID = vendorData[0][0];
                   }
 
-                  const request = new XMLHttpRequest();
-          console.log(vendorID)
-              //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
-              const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + " WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
-              console.log(query);
-              const newURL = updateQueryStringParameter(db_url, 'id', query);
-              request.open('GET', newURL, true);
-              request.onload = function() {
-                  const jsonData = JSON.parse(request.response);
-                  console.log(jsonData);
-                  window.alert("Violation created");
-              }
-              request.send();
+                  const checkListingRequest = new XMLHttpRequest();
+                  const checkListingQuery = "Select * from violation where Listing_ID = " + listingId + ";";
+                  const listingURL = updateQueryStringParameter(db_url, 'id', checkListingQuery);
+                  checkListingRequest.open('GET', listingURL, true);
+                  checkListingRequest.onload = function() {
+                      const violationCount = JSON.parse(checkListingRequest.response);
+                      if (violationCount.length > 0) {
+                        window.alert('Violation already exists for this listing');
+                      } else {
+                        const request = new XMLHttpRequest();
+                        console.log(vendorID)
+                        //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
+                        const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + " WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
+                        console.log(query);
+                        const newURL = updateQueryStringParameter(db_url, 'id', query);
+                        request.open('GET', newURL, true);
+                        request.onload = function() {
+                            const jsonData = JSON.parse(request.response);
+                            console.log(jsonData);
+                            window.alert("Violation created");
+                        }
+                        request.send();
+
+                      }
+                  }
+                  checkListingRequest.send();
+
+
+                  
                   
               }
               request1.send();
