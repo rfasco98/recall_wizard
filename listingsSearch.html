@@ -153,6 +153,7 @@
               request.open('GET', newURL, true);
               request.onload = function() {
                   const jsonData = JSON.parse(request.response);
+                  console.log(jsonData);
                   window.alert("Violation created");
               }
               request.send();
