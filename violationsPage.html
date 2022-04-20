@@ -58,20 +58,37 @@
         }
 
         function resolveViolation(id) {
-            const response = document.getElementById('response').value;
-            const outcome = document.getElementById('outcome').value;
-            const reason = document.getElementById('reason').value;
-            const request = new XMLHttpRequest();
-            const query = "INSERT INTO resolution (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "');";
+            const checkViolation = new XMLHttpRequest();
+            const violationQuery = "Select * from resolutions where Violation_ID = " + id + ";";
             console.log(query);
-            const newURL = updateQueryStringParameter(db_url, 'id', query);
-            request.open('GET', newURL, true);
-            request.onload = function() {
-                console.log(request.response);
-                window.alert("Resolution created");
-                closeForm();
+            const violationURL = updateQueryStringParameter(db_url, 'id', violationQuery);
+            checkViolation.open('GET', violationURL, true);
+            checkViolation.onload = function() {
+                const resCount = JSON.parse(checkViolation.response);
+                if (resCount.length > 0) {
+                    window.alert('Violation already resolved');
+                } else {
+                    const response = document.getElementById('response').value;
+                    const outcome = document.getElementById('outcome').value;
+                    const reason = document.getElementById('reason').value;
+                    const request = new XMLHttpRequest();
+                    const query = "INSERT INTO resolution (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "');";
+                    console.log(query);
+                    const newURL = updateQueryStringParameter(db_url, 'id', query);
+                    request.open('GET', newURL, true);
+                    request.onload = function() {
+                        console.log(request.response);
+                        window.alert("Resolution created");
+                        closeForm();
+                    }
+                    request.send();
+                }
             }
-            request.send();
+            checkViolation.send();
+
+
+
+            
         }
 
         function openForm(id) {
