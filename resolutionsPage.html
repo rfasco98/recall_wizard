@@ -127,7 +127,7 @@
             const outcome = document.getElementById('outcome').value;
             const reason = document.getElementById('reason').value;
             const request = new XMLHttpRequest();
-            const query = "Update resolution SET (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "') WHERE Resolution_ID = " + id + ";";
+            const query = "Update resolution SET Violation_ID = " + id + ", Resolution_CPSC_Message = '" + response + "', Resolution_Outcome = '" + outcome + "', Resolution_Reason = '" + reason + "' WHERE Resolution_ID = " + id + ";";
             console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
