@@ -106,7 +106,7 @@
 		function contactVendor(vendorLink){
 			//alert(vendorLink);
 			console.log(vendorLink);
-			var body = 'Hello, we have found a recalled item from the CPSC listed on your website. Please remove this item ASAP and get back to us.';
+			var body = 'Hello! We have found a recalled item from the CPSC listed on your website. Please remove this item ASAP and get back to us.';
 			
 			if (vendorLink.includes('amazon')){
 				window.open('mailto:service@amazon.com?subject=Violation Found&body=' + body + '');
