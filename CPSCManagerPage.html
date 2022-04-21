@@ -35,6 +35,7 @@
         const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
         //console.log('id: ' + id);
+        document.getElementById('google').style.display = "none";
         showUserData(id);
     }
     document.addEventListener("DOMContentLoaded", init);
@@ -74,13 +75,13 @@
   <button onclick="showGoogle()">Site Analytics</button>
   </section>
   <iframe
-        width="60%"
-        height="auto"
+        width="80%"
+        height="60%"
         display="block"
         id="aws"
         src="https://us-east-1.quicksight.aws.amazon.com/sn/embed/share/accounts/212906657155/dashboards/3319c512-a98f-443e-a511-9a43c24aabaf?directory_alias=bit4454cspcquicksight">
     </iframe>
-    <iframe width="60%" height="auto" display="none" id="google" src="https://datastudio.google.com/embed/reporting/750de101-334e-407c-841a-3f225dbd4f44/page/oywpC" frameborder="0" style="border:0" allowfullscreen></iframe>
+    <iframe width="80%" height="60%" display="none" id="google" src="https://datastudio.google.com/embed/reporting/750de101-334e-407c-841a-3f225dbd4f44/page/oywpC" frameborder="0" style="border:0" allowfullscreen></iframe>
   <!-- Stats Gallery Section -->
   <!-- Copyrights Section -->
   <div class="copyright">&copy;2022- <strong>RecallWizard</strong></div>
