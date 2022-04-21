@@ -157,7 +157,7 @@ function createVendorTable(violations, resolutions) {
         resolve.innerHTML = "<button onclick='vendorResolve(" + violations[i][4] + ")'>Resolve</button>";
         let isResolved = false;
         for (let j = 0; j < resolutions.length; j++) {
-            if (resolutions[j][0] == violations[j][4]) {
+            if (resolutions[j][0] == violations[i][4]) {
                 status.innerHTML = resolutions[j][3];
                 cpsc.innerHTML = resolutions[j][1];
                 isResolved = true;
