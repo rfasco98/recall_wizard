@@ -26,17 +26,16 @@
         function displayRow(i, resultCount, table) {
             let row = table.insertRow(resultCount);
             let id = row.insertCell(0);
-            let company_id = row.insertCell(1);
-            let name = row.insertCell(2);
-            let hazard = row.insertCell(3);
-            let priority = row.insertCell(4);
-            let assignedUser = row.insertCell(5);
+            let name = row.insertCell(1);
+            let hazard = row.insertCell(2);
+            let priority = row.insertCell(3);
+            let assignedUser = row.insertCell(4);
             //manufacturing_number.innerHTML = jsonData[i][4];
-            hazard.innerHTML = jsonData[i][2];
+            hazard.innerHTML = jsonData[i][1];
             //priority.innerHTML = 'Low';
             if (role == "CPSC Manager") {
                 priority.innerHTML = "<input onclick='changePriority(" + jsonData[i][0] + ", " + i + ")' type='checkbox' id='" + jsonData[i][0] + "'>";
-                if (jsonData[i][5] == "High") {
+                if (jsonData[i][4] == "High") {
                     priority.parentElement.style.backgroundColor = "red";
                     document.getElementById(jsonData[i][0]).checked = true;
                 }
@@ -46,36 +45,29 @@
                 selectText += selectOptions;
                 selectText += "</select>";
                 assignedUser.innerHTML = selectText + "<button onclick='assignUser(" + jsonData[i][0] + ")'>Assign User</button>";
-                if (jsonData[i][6] != null) {
+                if (jsonData[i][5] != null) {
                     //assignUser.children[1].value = jsonData[i][6];
                     for (let j = 0; j < jsonUserData.length; j++) {
-                        if (jsonUserData[j][2] === jsonData[i][6]) {
+                        if (jsonUserData[j][2] === jsonData[i][5]) {
                             document.getElementById(jsonData[i][0] + "userselect").value = j;
                             break;
                         }
                     }
-                    /*document.getElementById(jsonData[i][0] + "userselect").value = jsonUserData.indexOf(jsonData[i][6]);
-                    console.log(jsonData[i][6]);
-                    console.log
-                    console.log(jsonUserData.indexOf(jsonData[i][6]));*/
                 }
                 
-				/* Did this work?
-                /*assignedUser.innerHTML = "<input type='text' value='" + jsonData[i][4] + "' id='" + jsonData[i][0] + "user'><button onclick='assignUser(" + 
-                jsonData[i][0] + ")'>Assign User</button>";*/
+
             } else {
-                priority.innerHTML = jsonData[i][5];
-                if (jsonData[i][5] == "High") {
+                priority.innerHTML = jsonData[i][4];
+                if (jsonData[i][4] == "High") {
                     priority.parentElement.style.backgroundColor = "red";
                 }
-                if (jsonData[i][6] != null) {
-                    assignedUser.innerHTML = jsonData[i][6];
+                if (jsonData[i][5] != null) {
+                    assignedUser.innerHTML = jsonData[i][5];
                 }
                 
             }
             id.innerHTML = jsonData[i][0];
-            company_id.innerHTML = jsonData[i][1];
-            name.innerHTML = jsonData[i][3];
+            name.innerHTML = jsonData[i][2];
         }
 
         function getUsers() {
@@ -124,8 +116,8 @@
                 let resultCount = 0;
                 for (let i = 0; i < jsonData.length; i++)
                 {
-                    if (jsonData[i][3]) {
-                        if (jsonData[i][3].toUpperCase().includes(searchValue.toUpperCase())) {
+                    if (jsonData[i][2]) {
+                        if (jsonData[i][2].toUpperCase().includes(searchValue.toUpperCase())) {
                             displayRow(i, resultCount, table);
                             resultCount++;
                         }
@@ -150,8 +142,8 @@
                 let resultCount = 0;
                 for (let i = 0; i < jsonData.length; i++)
                 {
-                    if (jsonData[i][4]) {
-                        if (jsonData[i][4].toUpperCase().includes(searchValue.toUpperCase())) {
+                    if (jsonData[i][5]) {
+                        if (jsonData[i][5].toUpperCase().includes(searchValue.toUpperCase())) {
                             displayRow(i, resultCount, table);
                             resultCount++;
                         }
@@ -169,8 +161,8 @@
             let resultCount = 0;
             for (let i = 0; i < jsonData.length; i++)
             {
-                if (jsonData[i][5]) {
-                    if (jsonData[i][5] == 'High') {
+                if (jsonData[i][4]) {
+                    if (jsonData[i][4] == 'High') {
                         displayRow(i, resultCount, table);
                         resultCount++;
                     }
@@ -227,7 +219,7 @@
         function getDatabaseData() {
             const request = new XMLHttpRequest();
             //const query = 'select * from recalls';
-            const query = 'select r.Recall_ID, r.Company_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username from recalls r  Left Join user On user.User_ID=r.Recall_User_ID Where Recall_ID < 5000;';
+            const query = 'select r.Recall_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username from recalls r  Left Join user On user.User_ID=r.Recall_User_ID Where Recall_ID < 5000;';
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
@@ -235,7 +227,7 @@
                 //console.log(jsonData);
                 const request2 = new XMLHttpRequest();
                 //const query = 'select * from recalls';
-                const query = 'select r.Recall_ID, r.Company_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username from recalls r  Left Join user On user.User_ID=r.Recall_User_ID Where Recall_ID >= 5000;';
+                const query = 'select r.Recall_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username from recalls r  Left Join user On user.User_ID=r.Recall_User_ID Where Recall_ID >= 5000;';
                 const newURL = updateQueryStringParameter(db_url, 'id', query);
                 request2.open('GET', newURL, true);
                 request2.onload = function() {
@@ -323,6 +315,7 @@
               <li><a href="recallSearch.html">RECALL SEARCH</a></li>
               <li><a href="violationsPage.html">VIOLATIONS</a></li>
 				<li><a href ="#" onClick="dashboardPage()">DASHBOARD</a></li>
+                <li><a href="resolutionsPage.html">RESOLUTIONS</a></li>
             </ul>
           </nav>
         </header>
@@ -349,9 +342,6 @@
                 <tr>
                     <th>
                         Recall ID
-                    </th>
-                    <th>
-                        Company ID
                     </th>
                     <th>
                         Product Name

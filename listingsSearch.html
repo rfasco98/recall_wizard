@@ -34,12 +34,13 @@
         */
         function getRecall(recall) {
           const request = new XMLHttpRequest();
-          const query = "select * from recalls where Recall_ID = " + recall + ";";
+          const query = "select Recall_Product_Name from recalls where Recall_ID = " + recall + ";";
           const newURL = updateQueryStringParameter(db_url, 'id', query);
           request.open('GET', newURL, true);
           request.onload = function() {
               const jsonData = JSON.parse(request.response)
-              callGoogleAPI(jsonData[0][3]);
+              console.log(jsonData);
+              callGoogleAPI(jsonData[0][0]);
           }
           request.send();
         }
@@ -47,41 +48,6 @@
         function updateListingDatabase(newListings) {
           
             insertListings(newListings, 0, newListings.length);
-              /*const request = new XMLHttpRequest();
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES";
-              for (let i = 0; i < newListings.length / 3; i++) {
-                newListings[i].htmlTitle = newListings[i].htmlTitle.replace("'", "");
-                newListings[i].htmlTitle = newListings[i].htmlTitle.replace('"', "");
-                if (i == newListings.length - 1) {
-                  query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "');";
-                } else {
-                  query += "(" + globalRecall + ", '" + newListings[i].link + "', '" + newListings[i].htmlTitle + "') , ";
-                }
-              }*/
-              /*let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + newListings[0].link + "', '" + newListings[0].htmlTitle + "');";
-              console.log(query);
-              const newURL = updateQueryStringParameter(db_url, 'id', query);
-              request.open('GET', newURL, true);
-              request.onload = function() {
-                console.log(request.response);
-                  const jsonData = JSON.parse(request.response)
-                  const request2 = new XMLHttpRequest();
-                  const query = "SELECT * FROM listing ORDER BY Listing_ID DESC LIMIT 10;";
-                  const newURL = updateQueryStringParameter(db_url, 'id', query);
-                  request2.open('GET', newURL, true);
-                  request2.onload = function() {
-                      const listingData = JSON.parse(request2.response)
-                      console.log(listingData);
-                      createListingTable(listingData);
-                  }
-                  request2.send();
-
-
-
-
-                  
-              }
-              request.send();  */
         }
 
         function insertListings(listingData, index, max) {
@@ -90,12 +56,12 @@
             return;
           } else {
               const request = new XMLHttpRequest();
-              let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "');";
+              //let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "');";
+              let query = "INSERT INTO listing(Recall_ID, Listing_URL, Listing_Description) SELECT " + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "' WHERE NOT EXISTS (SELECT 1 FROM listing WHERE Recall_ID = " + globalRecall + " AND Listing_URL = '" + listingData[index].link + "' AND Listing_Description = '" + listingData[index].htmlTitle + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
-                console.log("run " + index);
                 index += 1;
                 insertListings(listingData, index, max);
               }
@@ -132,12 +98,12 @@
               let checkbox = row.insertCell(3);
               let comment = row.insertCell(4);
               const urlLink = document.createElement('a');
-              urlLink.href = searchResults[i][5];
-              urlLink.innerHTML = searchResults[i][5];
+              urlLink.href = searchResults[i][4];
+              urlLink.innerHTML = searchResults[i][4];
               urlLink.id = searchResults[i][0] + 'url';
               url.appendChild(urlLink);
 			  recall_ID.innerHTML = searchResults[i][1];
-              description.innerHTML = searchResults[i][6];
+              description.innerHTML = searchResults[i][5];
               checkbox.innerHTML = "<button id='" + searchResults[i][0] + "' onclick='createViolation(" + searchResults[i][0] + ")'>Create Violation</button>";
               comment.innerHTML = "<input type='text' id = '" + searchResults[i][0] + "comment'>";
               
@@ -157,7 +123,13 @@
           }
           let vendorID;
           const vendor = document.getElementById(listingId + 'url').innerHTML;
-          const vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.com'));
+          let vendorName;
+          if (vendor.includes('.com')) {
+            vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.com'));
+          } else if (vendor.includes('.net')) {
+            vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.net'));
+          }
+          
           console.log('Vendor: ' + vendorName);
           const request1 = new XMLHttpRequest();
               const query1 = "SELECT Vendor_ID FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('%" + vendorName + "%');";
@@ -173,17 +145,35 @@
                     vendorID = vendorData[0][0];
                   }
 
-                  const request = new XMLHttpRequest();
-          console.log(vendorID)
-              const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
-              console.log(query);
-              const newURL = updateQueryStringParameter(db_url, 'id', query);
-              request.open('GET', newURL, true);
-              request.onload = function() {
-                  const jsonData = JSON.parse(request.response);
-                  window.alert("Violation created");
-              }
-              request.send();
+                  const checkListingRequest = new XMLHttpRequest();
+                  const checkListingQuery = "Select * from violation where Listing_ID = " + listingId + ";";
+                  const listingURL = updateQueryStringParameter(db_url, 'id', checkListingQuery);
+                  checkListingRequest.open('GET', listingURL, true);
+                  checkListingRequest.onload = function() {
+                      const violationCount = JSON.parse(checkListingRequest.response);
+                      if (violationCount.length > 0) {
+                        window.alert('Violation already exists for this listing');
+                      } else {
+                        const request = new XMLHttpRequest();
+                        console.log(vendorID)
+                        //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
+                        const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + " WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
+                        console.log(query);
+                        const newURL = updateQueryStringParameter(db_url, 'id', query);
+                        request.open('GET', newURL, true);
+                        request.onload = function() {
+                            const jsonData = JSON.parse(request.response);
+                            console.log(jsonData);
+                            window.alert("Violation created");
+                        }
+                        request.send();
+
+                      }
+                  }
+                  checkListingRequest.send();
+
+
+                  
                   
               }
               request1.send();
@@ -241,6 +231,7 @@
         <li><a href="recallSearch.html">RECALL SEARCH</a></li>
         <li><a href="violationsPage.html">VIOLATIONS</a></li>
 		  <li><a href ="#" onClick="dashboardPage()">DASHBOARD</a></li>
+      <li><a href="resolutionsPage.html">RESOLUTIONS</a></li>
       </ul>
     </nav>
   </header>

@@ -46,7 +46,7 @@ function showUserData(id) {
         if (user[4] == "CPSC Investigator") {
             
             const request1 = new XMLHttpRequest();
-            const query1 = "select Company_ID, Recall_Product_Name, Recall_Hazard, Recall_Priority, Recall_ID from recalls where Recall_User_ID = '" + id + "'";
+            const query1 = "select Recall_Product_Name, Recall_Hazard, Recall_Priority, Recall_ID from recalls where Recall_User_ID = '" + id + "'";
             const newURL = updateQueryStringParameter(db_url, 'id', query1);
             request1.open('GET', newURL, true);
             request1.onload = function() {
@@ -61,7 +61,7 @@ function showUserData(id) {
             request1.send();
         } else if (user[4] == "Vendor") {
             const request1 = new XMLHttpRequest();
-            const query1 = "select distinct r.Recall_Product_Name, r.Recall_Hazard, v.Violation_Description, l.Listing_URL from violation v, recalls r, listing l, user u, vendor ven where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Vendor_ID = ven.Vendor_ID and ven.Vendor_ID = u.Vendor_ID and u.User_ID = " + id + ";";
+            const query1 = "select r.Recall_Product_Name, r.Recall_Hazard, v.Violation_Description, l.Listing_URL, v.Violation_ID from violation v, recalls r, listing l, user u, vendor ven where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Vendor_ID = ven.Vendor_ID and ven.Vendor_ID = u.Vendor_ID and u.User_ID = " + id + ";";
             const newURL = updateQueryStringParameter(db_url, 'id', query1);
             request1.open('GET', newURL, true);
             request1.onload = function() {
@@ -96,24 +96,22 @@ function createInvestigatorTable(recalls) {
     table.innerHTML = "";
     for (let i = 0; i < recalls.length; i++) {
         let row = table.insertRow(i);
-        let company_id = row.insertCell(0);
-        let name = row.insertCell(1);
-        let hazard = row.insertCell(2);
-        let search = row.insertCell(3);
-        company_id.innerHTML = recalls[i][0];
-        name.innerHTML = recalls[i][1];
-        hazard.innerHTML = recalls[i][2];
-        if (recalls[i][3] == "High") {
+        let name = row.insertCell(0);
+        let hazard = row.insertCell(1);
+        let search = row.insertCell(2);
+        name.innerHTML = recalls[i][0];
+        hazard.innerHTML = recalls[i][1];
+        if (recalls[i][2] == "High") {
             hazard.parentElement.style.backgroundColor = "red";
 			hazard.parentElement.style.color = "white";
         }
         
         let searchText = "<button onclick=";
-        searchText += "searchForListings(" + recalls[i][4] + ")";
+        searchText += "searchForListings(" + recalls[i][3] + ")";
         searchText += ">Search for recall</button>";    
         search.innerHTML = searchText;    
 
-        console.log(recalls[i][1]);
+        console.log(recalls[i][0]);
         
     }
 }
@@ -132,7 +130,8 @@ function createVendorTable(violations) {
         let hazard = row.insertCell(1);
         let comment = row.insertCell(2);
         let url = row.insertCell(3);
-        let resolve = row.insertCell(4);
+        let resolveResponse = row.insertCell(4);
+        let resolve = row.insertCell(5);
         name.innerHTML = violations[i][0];
         hazard.innerHTML = violations[i][1];
         comment.innerHTML = violations[i][2];
@@ -140,9 +139,53 @@ function createVendorTable(violations) {
         urlLink.href = violations[i][3];
         urlLink.innerHTML = violations[i][3];
         url.appendChild(urlLink);
-        resolve.innerHTML = "<button>Resolve</button>";    
+        resolveResponse.innerHTML = "<input type='text' id = '" + violations[i][4] + "comment'>";
+        resolve.innerHTML = "<button onclick='vendorResolve(" + violations[i][4] + ")'>Resolve</button>";    
         
     }
+}
+
+function vendorResolve(id) {
+    const responseText = document.getElementById(id + 'comment').value;
+    const findRequest = new XMLHttpRequest();
+    const findQuery = "select Violation_ID from resolution where Violation_ID = " + id + ";";
+    console.log(findQuery);
+    const findNewURL = updateQueryStringParameter(db_url, 'id', findQuery);
+    findRequest.open('GET', findNewURL, true);
+    findRequest.onload = function() {
+        console.log(findRequest.response);
+        if (JSON.parse(findRequest.response).length > 0) {
+            const request = new XMLHttpRequest();
+            const query = "update resolution set Resolution_Response='" + responseText + "', Resolution_Outcome='Vendor Response' where Violation_ID = " + id + ";";
+            console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                console.log(request.response);
+                window.alert('Response received');
+            }
+            request.send();
+        } else {
+            const request = new XMLHttpRequest();
+            const query = "insert into resolution (Violation_ID, Resolution_Response, Resolution_Outcome) values(" + id + ", '" + responseText + "', 'Vendor Response');";
+            console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                console.log(request.response);
+                window.alert('Response received');
+            }
+            request.send();
+        }
+    }
+    findRequest.send();
+
+
+
+
+
+    
+    
 }
 
 /**
@@ -468,7 +511,7 @@ function cancelRegistration() {
     const span = document.getElementsByClassName('login')[0];
     let text = "<label for ='User_Username' class='loginbox'>Username</label><br><input type='text' name='User_Username'><br><label for ='User_Password'>Password</label><br>";
     text += "<input type='password' name='User_Password'><br><button onclick='login()' name='submit'>Login</button><button";
-    text += "onclick='startRegister()' name='register'>Register New Account</button>";
+    text += " onclick='startRegister()' name='register'>Register New Account</button>";
     span.innerHTML = "";
     span.innerHTML = text;
 }
