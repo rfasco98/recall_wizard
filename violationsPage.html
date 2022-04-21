@@ -19,6 +19,7 @@
     <script>
         let role;
         let jsonData;
+        let resolutions;
 
         function displayRow(i, resultCount, table) {
             let row = table.insertRow(resultCount);
@@ -29,6 +30,7 @@
 			let url = row.insertCell(4);
             let resolved = row.insertCell(5);
 			let contact = row.insertCell(6);
+            let resolve = row.insertCell(7);
 			const urlLink = document.createElement('a');
             urlLink.href = jsonData[i][4];
             urlLink.innerHTML = jsonData[i][4];
@@ -42,15 +44,26 @@
                 let resolvedButton = "<button onclick=";
                 resolvedButton += "openForm('" + jsonData[i][5] + "')";
                 resolvedButton += ">Resolve</button>";
-                resolved.innerHTML = resolvedButton;
+                resolve.innerHTML = resolvedButton;
             } else {
-                resolved.innerHTML = 'No';
+                resolve.innerHTML = '';
             }
             
             if (jsonData[i][3] == "High") {
                     priority.parentElement.style.backgroundColor = "red";
 					priority.parentElement.style.color = "white";
                 }
+                let isResolved = false;
+            for (let j = 0; j < jsonData.length; j++) {
+                if (resolutions[j][0] == jsonData[i][5]) {
+                    resolved.innerHTML = resolutions[j][3];
+                    isResolved = true;
+                    break;
+                }
+            }
+            if (!isResolved) {
+                resolved.innerHTML = "No resolution";
+            }    
 			var contactButton = "<button onclick=";
         	contactButton += "contactVendor('" + jsonData[i][4] + "')";
         	contactButton += ">Contact</button>";    
@@ -214,7 +227,16 @@
             request.onload = function() {
                 jsonData = JSON.parse(request.response);
                 console.log(jsonData);
-                fillData();
+                const request2 = new XMLHttpRequest();
+                const query2 = "select Violation_ID, Resolution_CPSC_Message, Resolution_Response, Resolution_Outcome from resolution;";
+                const newURL2 = updateQueryStringParameter(db_url, 'id', query2);
+                request2.open('GET', newURL2, true);
+                request2.onload = function() {
+                    resolutions = JSON.parse(request2.response);
+                    fillData();
+                }
+                request2.send();
+                
                 }
 
             request.send();
@@ -388,11 +410,14 @@
 						URL
 					</th>
                     <th>
-                        Status
+                        Resolution Status
                     </th>
 					<th>
 						Contact
 					</th>
+                    <th>
+                        Resolve
+                    </th>
                 </tr>
             </thead>
                 <tbody id="violationsBody">
