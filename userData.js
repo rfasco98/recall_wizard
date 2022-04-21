@@ -72,7 +72,19 @@ function showUserData(id) {
                 const node = document.createTextNode(userText);
                 para.appendChild(node);
                 document.getElementsByClassName('profile')[0].appendChild(para);
-                createVendorTable(recordCount);
+
+                const request2 = new XMLHttpRequest();
+                const query2 = "select Violation_ID, Resolution_CPSC_Message, Resolution_Response, Resolution_Outcome from resolution;";
+                const newURL2 = updateQueryStringParameter(db_url, 'id', query2);
+                request2.open('GET', newURL2, true);
+                request2.onload = function() {
+                    const resolutionCount = JSON.parse(request2.response);
+                    createVendorTable(recordCount, resolutionCount);
+                }
+                request2.send();
+
+
+
             }
             request1.send();
         } else {
@@ -120,7 +132,7 @@ function createInvestigatorTable(recalls) {
     Creates a table showing each violation for a given company
     Displays on the vendor dashboard
 */
-function createVendorTable(violations) {
+function createVendorTable(violations, resolutions) {
     console.log(violations);
     const table = document.getElementById('vendorViolationsBody');
     table.innerHTML = "";
@@ -132,6 +144,8 @@ function createVendorTable(violations) {
         let url = row.insertCell(3);
         let resolveResponse = row.insertCell(4);
         let resolve = row.insertCell(5);
+        let status = row.insertCell(6);
+        let cpsc = row.insertCell(7);
         name.innerHTML = violations[i][0];
         hazard.innerHTML = violations[i][1];
         comment.innerHTML = violations[i][2];
@@ -140,7 +154,20 @@ function createVendorTable(violations) {
         urlLink.innerHTML = violations[i][3];
         url.appendChild(urlLink);
         resolveResponse.innerHTML = "<input type='text' id = '" + violations[i][4] + "comment'>";
-        resolve.innerHTML = "<button onclick='vendorResolve(" + violations[i][4] + ")'>Resolve</button>";    
+        resolve.innerHTML = "<button onclick='vendorResolve(" + violations[i][4] + ")'>Resolve</button>";
+        let isResolved = false;
+        for (let j = 0; j < resolutions.length; j++) {
+            if (resolutions[j][0] == violations[j][4]) {
+                status.innerHTML = resolutions[j][3];
+                cpsc.innerHTML = resolutions[j][1];
+                isResolved = true;
+                break;
+            }
+        }
+        if (!isResolved) {
+            status.innerHTML = "Unresolved";
+            cpsc.innerHTML = "No resolution";
+        }    
         
     }
 }
