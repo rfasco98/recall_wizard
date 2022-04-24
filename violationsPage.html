@@ -86,7 +86,7 @@
                     const outcome = document.getElementById('outcome').value;
                     const reason = document.getElementById('reason').value;
                     const request = new XMLHttpRequest();
-                    const query = "INSERT INTO resolution (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "');";
+                    const query = "INSERT INTO resolution (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason, Resolution_Time) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "', NOW());";
                     console.log(query);
                     const newURL = updateQueryStringParameter(db_url, 'id', query);
                     request.open('GET', newURL, true);
