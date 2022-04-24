@@ -157,7 +157,7 @@
                         const request = new XMLHttpRequest();
                         console.log(vendorID)
                         //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
-                        const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + " WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
+                        const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID, Violation_Time) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + ", NOW() WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
                         console.log(query);
                         const newURL = updateQueryStringParameter(db_url, 'id', query);
                         request.open('GET', newURL, true);
