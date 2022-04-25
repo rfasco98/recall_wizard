@@ -40,7 +40,7 @@
           request.onload = function() {
               const jsonData = JSON.parse(request.response)
               console.log(jsonData);
-              document.getElementById('productName').innerHTML = jsonData[0][0];
+              document.getElementById('productName').innerHTML = "Product name: " + jsonData[0][0];
               callGoogleAPI(jsonData[0][0]);
           }
           request.send();
