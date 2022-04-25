@@ -7,7 +7,9 @@ let vendors;
      console.log('here');
 	const cookie = decodeURIComponent(document.cookie);
         const userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
-        if (userLevel.includes('recall')) {
+        if (userLevel.includes(';')) {
+            userLevel = userLevel.substring(0, userLevel.indexOf(';'));
+        } else if (userLevel.includes('_gat')) {
             userLevel = userLevel.substring(0, userLevel.indexOf(';'));
         }
          console.log(userLevel);
