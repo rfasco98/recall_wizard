@@ -268,12 +268,12 @@
             const request = new XMLHttpRequest();
             let query;
             if (box.checked) {
-                box.parentElement.parentElement.style.backgroundColor = "red";
+                box.parentElement.style.backgroundColor = "red";
                 query = "UPDATE recalls SET Recall_Priority = 'High' WHERE Recall_ID = " + id;
                 jsonData[index][5] = "High";
                 //console.log(jsonData[index]);
             } else {
-                box.parentElement.parentElement.style.backgroundColor = "";
+                box.parentElement.style.backgroundColor = "";
                 query = "UPDATE recalls SET Recall_Priority = 'Low' WHERE Recall_ID = " + id;
                 jsonData[index][5] = "Low";
                 //console.log(jsonData[index]);
