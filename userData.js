@@ -6,7 +6,10 @@ let vendors;
  function dashboardPage(){
      console.log('here');
 	const cookie = decodeURIComponent(document.cookie);
-         const userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.indexOf('; recall'));
+        const userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+        if (userLevel.includes('recall')) {
+            userLevel = userLevel.substring(0, userLevel.indexOf(';'));
+        }
          console.log(userLevel);
 		if (userLevel == "CPSC Investigator"){
 			window.location.href = "CPSCInvestigatorPage.html";
