@@ -40,7 +40,7 @@
           request.onload = function() {
               const jsonData = JSON.parse(request.response)
               console.log(jsonData);
-              document.getElementById('productName').innerHTML = "Product name: " + jsonData[0][0];
+              document.getElementById('productName').innerHTML = "<strong>Product name:</strong> " + jsonData[0][0];
               callGoogleAPI(jsonData[0][0]);
           }
           request.send();
@@ -236,7 +236,7 @@
   </header>
   <h2>Listings</h2>
   <h4>Table of potential violations</h4>
-  <h5 id="productName"></h5>
+  <p id="productName"></p>
     <section id="listingsSection">
       <table id="listingsTable">
         <thead>
