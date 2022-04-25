@@ -161,9 +161,15 @@ function createVendorTable(violations, resolutions) {
                 status.innerHTML = resolutions[j][3];
                 cpsc.innerHTML = resolutions[j][1];
                 isResolved = true;
+				if (resolutions[j][3] == 'Unresolved') {
+                status.style.backgroundColor = "red"; 
+				} else if (resolutions[j][3] == 'Vendor Response') {
+                status.style.backgroundColor = "yellow"; 
+				}
                 break;
             }
         }
+		
         if (!isResolved) {
             status.innerHTML = "Unresolved";
             cpsc.innerHTML = "No resolution";

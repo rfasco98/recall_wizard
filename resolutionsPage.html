@@ -44,9 +44,9 @@
             outcome.innerHTML = jsonData[i][4];
             reason.innerHTML = jsonData[i][5];
             if (jsonData[i][4] == 'Unresolved') {
-                reason.parentElement.style.backgroundColor = "red"; 
+                reason.style.backgroundColor = "red"; 
             } else if (jsonData[i][4] == 'Vendor Response') {
-                reason.parentElement.style.backgroundColor = "yellow"; 
+                reason.style.backgroundColor = "yellow"; 
             }
             if (role == 'CPSC Investigator' ||
                 role == "CPSC Manager") {
