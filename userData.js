@@ -154,6 +154,7 @@ function createVendorTable(violations, resolutions) {
         urlLink.innerHTML = violations[i][3];
         url.appendChild(urlLink);
         resolveResponse.innerHTML = "<input type='text' id = '" + violations[i][4] + "comment'>";
+		resolveResponse.style.textAlign = "center";
         resolve.innerHTML = "<button onclick='vendorResolve(" + violations[i][4] + ")'>Resolve</button>";
         let isResolved = false;
         for (let j = 0; j < resolutions.length; j++) {
