@@ -26,6 +26,7 @@ table {
    overflow-wrap: break-word;
    overflow-y: scroll;
    height: 80%;
+   background-color: #d8d8d8;
 }
 thead {
 	background-color: darkblue;
@@ -47,6 +48,7 @@ header {
 	height: 8%;
 	border-bottom: 15px solid darkblue;
 	color: darkblue;
+	background-color: #d8d8d8;
 }
 .logo {
 	height: 100%;
