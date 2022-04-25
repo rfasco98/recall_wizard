@@ -43,7 +43,7 @@
             if (role == "CPSC Manager") {
                 priority.innerHTML = "<input onclick='changePriority(" + jsonData[i][0] + ", " + i + ")' type='checkbox' id='" + jsonData[i][0] + "'>";
                 if (jsonData[i][4] == "High") {
-                    priority.parentElement.style.backgroundColor = "red";
+                    priority.style.backgroundColor = "red";
                     document.getElementById(jsonData[i][0]).checked = true;
                 }
 
