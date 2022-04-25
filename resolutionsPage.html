@@ -40,8 +40,8 @@
             let edit = row.insertCell(5);
             name.innerHTML = jsonData[i][1];
             message.innerHTML = jsonData[i][2];
-            response.innerHTML = jsonData[i][3];
-            outcome.innerHTML = jsonData[i][4];
+            outcome.innerHTML = jsonData[i][3];
+			response.innerHTML = jsonData[i][4];
             reason.innerHTML = jsonData[i][5];
             if (jsonData[i][3] == 'Unresolved') {
                 outcome.style.backgroundColor = "red"; 
