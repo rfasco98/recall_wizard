@@ -9,7 +9,7 @@ body {
 	margin-left: 0px;
 	font-style: normal;
 	font-weight: 200;
-	background-color:#52BAD5;
+	
 	/*display:table;*/
 }
 #recallTableDiv {
@@ -38,7 +38,8 @@ thead {
 	margin-left: auto;
 	margin-right: auto;
 	height: 1000px;
-	background-color: #FFFFFF;
+	/*background-color: #FFFFFF;*/
+	background-color:#52BAD5;
 	/*display:table;*/
 }
 /* Navigation */
