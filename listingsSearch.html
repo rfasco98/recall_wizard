@@ -40,6 +40,7 @@
           request.onload = function() {
               const jsonData = JSON.parse(request.response)
               console.log(jsonData);
+              document.getElementById('productName').innerHTML = jsonData[0][0];
               callGoogleAPI(jsonData[0][0]);
           }
           request.send();
@@ -92,17 +93,15 @@
           table.innerHTML = "";
           for (let i = 0; i < searchResults.length; i++) {
               let row = table.insertRow(i);
-			  let recall_ID = row.insertCell(0);
-              let url = row.insertCell(1);
-              let description = row.insertCell(2);
-              let checkbox = row.insertCell(3);
-              let comment = row.insertCell(4);
+              let url = row.insertCell(0);
+              let description = row.insertCell(1);
+              let checkbox = row.insertCell(2);
+              let comment = row.insertCell(3);
               const urlLink = document.createElement('a');
               urlLink.href = searchResults[i][4];
               urlLink.innerHTML = searchResults[i][4];
               urlLink.id = searchResults[i][0] + 'url';
               url.appendChild(urlLink);
-			  recall_ID.innerHTML = searchResults[i][1];
               description.innerHTML = searchResults[i][5];
               checkbox.innerHTML = "<button id='" + searchResults[i][0] + "' onclick='createViolation(" + searchResults[i][0] + ")'>Create Violation</button>";
               comment.innerHTML = "<input type='text' id = '" + searchResults[i][0] + "comment'>";
@@ -237,13 +236,11 @@
   </header>
   <h2>Listings</h2>
   <h4>Table of potential violations</h4>
+  <h5 id="productName"></h5>
     <section id="listingsSection">
       <table id="listingsTable">
         <thead>
             <tr>
-                <th>
-                    Recall ID
-                </th>
 				<th>
 					URL
 				</th>
