@@ -256,6 +256,8 @@
         function init() {
             const cookie = decodeURIComponent(document.cookie);
             role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+            console.log(cookie);
+            console.log(role);
             let table = document.getElementById('violationTableDiv');
             getDatabaseData();
         }
@@ -364,7 +366,7 @@
         <form action="" class="form-container">
             <h1>Create Resolution</h1>
         
-            <label for="response"><b>CPSC Response</b></label>
+            <label for="response"><b>Investigator Comment (optional)</b></label>
             <input type="text" name="response" id="response">
         
             
