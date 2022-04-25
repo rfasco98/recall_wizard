@@ -110,12 +110,14 @@ function createInvestigatorTable(recalls) {
         let row = table.insertRow(i);
         let name = row.insertCell(0);
         let hazard = row.insertCell(1);
-        let search = row.insertCell(2);
+        let priority = row.insertCell(2);
+        let search = row.insertCell(3);
         name.innerHTML = recalls[i][0];
         hazard.innerHTML = recalls[i][1];
+        priority.innerHTML = recalls[i][2];
         if (recalls[i][2] == "High") {
-            hazard.parentElement.style.backgroundColor = "red";
-			hazard.parentElement.style.color = "white";
+            priority.style.backgroundColor = "red";
+			priority.style.color = "white";
         }
         
         let searchText = "<button onclick=";
