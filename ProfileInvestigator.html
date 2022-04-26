@@ -28,7 +28,8 @@
         console.log(cookie);
         console.log(id);
         showProfile(id);
-        document.getElementById('investigatorPassword').addEventListener('click', startChangePassword(id));
+        //document.getElementById('investigatorPassword').addEventListener('click', startChangePassword(id));
+        document.getElementById('investigatorPassword').onclick = startChangePassword(id);
         //document.getElementsByClassName('passwordDiv')[0].innerHTML = "";
     }
     document.addEventListener("DOMContentLoaded", init);
