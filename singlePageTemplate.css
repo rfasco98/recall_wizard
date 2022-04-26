@@ -13,8 +13,12 @@ body {
 	/*display:table;*/
 }
 #homePicture {
-	width: 100%;
 	height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    width: 80%;
 }
 #recallTableDiv {
 	overflow-y: scroll;
