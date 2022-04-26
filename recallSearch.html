@@ -45,6 +45,8 @@
                 if (jsonData[i][4] == "High") {
                     priority.style.backgroundColor = "red";
                     document.getElementById(jsonData[i][0]).checked = true;
+                } else {
+                    priority.style.backgroundColor = "yellow";
                 }
 
                 let selectText = "<select name='users' id='" + jsonData[i][0] + "userselect'>";
@@ -67,6 +69,8 @@
                 priority.innerHTML = jsonData[i][4];
                 if (jsonData[i][4] == "High") {
                     priority.style.backgroundColor = "red";
+                } else {
+                    priority.style.backgroundColor = "yellow";
                 }
                 if (jsonData[i][5] != null) {
                     assignedUser.innerHTML = jsonData[i][5];
