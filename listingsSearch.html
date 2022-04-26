@@ -140,6 +140,7 @@
           console.log('Vendor: ' + vendorName);
           const request1 = new XMLHttpRequest();
               const query1 = "SELECT Vendor_ID FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('%" + vendorName + "%');";
+              console.log(query1);
               const newURL1 = updateQueryStringParameter(db_url, 'id', query1);
               request1.open('GET', newURL1, true);
               request1.onload = function() {
@@ -165,7 +166,7 @@
                         console.log(vendorID)
                         //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
                         let query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID, Violation_Time) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + ", NOW() WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + "); ";
-                        query += "UPDATE listing SET Listing_True_False = true WHERE Listing_ID = " + listingId + ";";
+                        query += "UPDATE listing SET Listing_True_False = 'true' WHERE Listing_ID = " + listingId + ";";
                         console.log(query);
                         const newURL = updateQueryStringParameter(db_url, 'id', query);
                         request.open('GET', newURL, true);
