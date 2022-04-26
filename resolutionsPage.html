@@ -180,8 +180,8 @@
         function init() {
             const cookie = decodeURIComponent(document.cookie);
             role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
-            if (userLevel.includes(';')) {
-                userLevel = userLevel.substring(0, userLevel.indexOf(';'));
+            if (role.includes(';')) {
+                role = role.substring(0, role.indexOf(';'));
             }
             let table = document.getElementById('resolutionTableDiv');
             getDatabaseData();
