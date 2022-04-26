@@ -29,7 +29,7 @@
         console.log(id);
         showProfile(id);
         //document.getElementById('investigatorPassword').addEventListener('click', startChangePassword(id));
-        document.getElementById('investigatorPassword').onclick = startChangePassword(id);
+        document.getElementById('investigatorPassword').setAttribute("onclick","startChangePassword(" + id + ")");
         //document.getElementsByClassName('passwordDiv')[0].innerHTML = "";
     }
     document.addEventListener("DOMContentLoaded", init);
@@ -69,7 +69,7 @@
     <div class="form">
         <table border= "0">	
             
-        <button name = 'submit' id="investigatorPassword">Change Password</button>
+        <button name = 'submit' id="investigatorPassword" class="changePassButton">Change Password</button>
         <div class = 'passwordDiv'></div>
         </table><br>
     </div>

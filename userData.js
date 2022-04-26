@@ -320,6 +320,12 @@ function startChangePassword(id) {
     text += "<input type='password' class='newPass2'><br>";
     text += "<button name = 'submit' onclick='saveNewPassword(" + id + ")'>Save New Password</button>";
     span.innerHTML = text;
+    document.getElementsByClassName('changePassButton')[0].setAttribute("onclick","closeChangePassword(" + id + ")");
+}
+
+function closeChangePassword(id) {
+    document.getElementsByClassName('changePassButton')[0].setAttribute("onclick","startChangePassword(" + id + ")");
+    document.getElementsByClassName('passwordDiv')[0].innerHTML = "";
 }
 
 /**
@@ -363,7 +369,7 @@ function saveNewPassword(id) {
         request.onload = function() {
             //console.log(JSON.parse(request.response));
             alert('Password successfully updated');
-            document.getElementsByClassName('passwordDiv')[0].innerHTML = "";
+            closeChangePassword(id);
         }
         request.send();
     }

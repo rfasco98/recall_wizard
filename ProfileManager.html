@@ -24,7 +24,7 @@
         const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
         showProfile(id);
-        document.getElementById('managerPassword').addEventListener('click', startChangePassword(id));
+        document.getElementById('managerPassword').setAttribute("onclick","startChangePassword(" + id + ")");
     }
     document.addEventListener("DOMContentLoaded", init);
 </script>
@@ -63,7 +63,7 @@
     <div class="form">
         <table border= "0">	
             
-        <button name = 'submit' id="managerPassword">Change Password</button>
+        <button name = 'submit' id="managerPassword" class="changePassButton">Change Password</button>
         <div class = 'passwordDiv'></div>
         </table><br>
     </div>
