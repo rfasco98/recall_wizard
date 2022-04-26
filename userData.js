@@ -123,7 +123,10 @@ function createInvestigatorTable(recalls) {
         if (recalls[i][2] == "High") {
             priority.style.backgroundColor = "red";
 			priority.style.color = "white";
-        }
+        } else if (recalls[i][2]== "low" || recalls[i][2]== "Low") {
+			priority.style.backgroundColor = "yellow";
+			priority.style.color = "black";
+		}
         
         let searchText = "<button onclick=";
         searchText += "searchForListings(" + recalls[i][3] + ")";

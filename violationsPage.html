@@ -60,7 +60,10 @@
             if (jsonData[i][3] == "High") {
                     priority.style.backgroundColor = "red";
 					priority.style.color = "white";
-                }
+                } else if (jsonData[i][3] == "Low") {
+					priority.style.backgroundColor = "yellow";
+					priority.style.color = "black";
+				}
                 let isResolved = false;
             for (let j = 0; j < jsonData.length; j++) {
                 if (resolutions[j][0] == jsonData[i][5]) {
