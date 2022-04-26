@@ -65,7 +65,7 @@
           } else {
               const request = new XMLHttpRequest();
               //let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "');";
-              let query = "INSERT INTO listing(Recall_ID, Listing_URL, Listing_Description) SELECT " + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "' WHERE NOT EXISTS (SELECT 1 FROM listing WHERE Recall_ID = " + globalRecall + " AND Listing_URL = '" + listingData[index].link + "' AND Listing_Description = '" + listingData[index].htmlTitle + "');";
+              let query = "INSERT INTO listing(Recall_ID, Listing_True_False, Listing_URL, Listing_Description) SELECT " + globalRecall + ", false, '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "' WHERE NOT EXISTS (SELECT 1 FROM listing WHERE Recall_ID = " + globalRecall + " AND Listing_URL = '" + listingData[index].link + "' AND Listing_Description = '" + listingData[index].htmlTitle + "');";
               console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
@@ -164,7 +164,8 @@
                         const request = new XMLHttpRequest();
                         console.log(vendorID)
                         //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
-                        const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID, Violation_Time) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + ", NOW() WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
+                        let query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID, Violation_Time) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + ", NOW() WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + "); ";
+                        query += "UPDATE listing SET Listing_True_False = true WHERE Listing_ID = " + listingId + ";";
                         console.log(query);
                         const newURL = updateQueryStringParameter(db_url, 'id', query);
                         request.open('GET', newURL, true);
