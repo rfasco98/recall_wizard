@@ -180,6 +180,9 @@
         function init() {
             const cookie = decodeURIComponent(document.cookie);
             role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
+            if (userLevel.includes(';')) {
+                userLevel = userLevel.substring(0, userLevel.indexOf(';'));
+            }
             let table = document.getElementById('resolutionTableDiv');
             getDatabaseData();
         }
