@@ -14,11 +14,16 @@ body {
 }
 #homePicture {
 	height: auto;
-    display: block;
+    display: inline;
     margin-left: auto;
     margin-right: auto;
-    float: none;
+    float: left;
     width: 60%;
+}
+#homePictureDiv {
+	margin: auto;
+    display: flex;
+    width: 100%;
 }
 #recallTableDiv {
 	overflow-y: scroll;
