@@ -74,13 +74,6 @@
                 }
             }
 			
-			if (resolutions[j][3] == 'Unresolved') {
-                resolved.style.backgroundColor = "red"; 
-            } else if (resolutions[j][3] == 'Vendor Response') {
-                resolved.style.backgroundColor = "yellow"; 
-            } else if (resolutions[j][3] == 'Resolved') {
-				resolved.style.backgroundColor = "green";
-			}
             if (!isResolved) {
                 resolved.innerHTML = "No resolution";
             }    
