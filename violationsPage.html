@@ -65,11 +65,11 @@
 					priority.style.color = "black";
 				}
 			if (jsonData[i][5] == 'Unresolved') {
-                outcome.style.backgroundColor = "red"; 
+                resolved.style.backgroundColor = "red"; 
             } else if (jsonData[i][5] == 'Vendor Response') {
-                outcome.style.backgroundColor = "yellow"; 
+                resolved.style.backgroundColor = "yellow"; 
             } else if (jsonData[i][5] == 'Resolved') {
-				outcome.style.backgroundColor = "green";
+				resolved.style.backgroundColor = "green";
 			}
                 let isResolved = false;
             for (let j = 0; j < resolutions.length; j++) {
