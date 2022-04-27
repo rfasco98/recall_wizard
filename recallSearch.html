@@ -45,6 +45,8 @@
                 if (jsonData[i][4] == "High") {
                     priority.style.backgroundColor = "red";
                     document.getElementById(jsonData[i][0]).checked = true;
+                } else {
+                    priority.style.backgroundColor = "yellow";
                 }
 
                 let selectText = "<select name='users' id='" + jsonData[i][0] + "userselect'>";
@@ -67,6 +69,8 @@
                 priority.innerHTML = jsonData[i][4];
                 if (jsonData[i][4] == "High") {
                     priority.style.backgroundColor = "red";
+                } else {
+                    priority.style.backgroundColor = "yellow";
                 }
                 if (jsonData[i][5] != null) {
                     assignedUser.innerHTML = jsonData[i][5];
@@ -199,24 +203,8 @@
                         recallCompany = "N/A";
                     }
 
-                    //companyArray.push({'index': i, 'Importer': apiData[i].Importers[0], 'Manufacturers': apiData[i].Manufacturers[0]});
                     companyArray.push(recallCompany);
                 }
-                console.log(companyArray);
-                /*for (let i = 0; i < apiData.length; i++) {
-                    const dbRequest = new XMLHttpRequest();
-                    const query = "insert into recalls (Company_ID,Recall_Hazard,Recall_Product_Name,Recall_Priority) values ('0', '"+ apiData[i].Hazards[0].Name + "', '"+ apiData[i].Products[0].Name + "', 'low');";
-                    const newURL = updateQueryStringParameter(db_url, 'id', query);
-                    dbRequest.open('GET', newURL, true);
-                    dbRequest.onload = function() {
-                        insertData = JSON.parse(dbRequest.response);
-                        //console.log(insertData);
-                    }
-
-                    dbRequest.send();
-                }*/
-                
-
             }
 
             request.send();

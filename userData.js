@@ -21,7 +21,9 @@ let vendors;
 			window.location.href = "CPSCManagerPage.html";
 		} else if (userLevel == "Vendor"){
 			window.location.href = "VendorPage.html";
-		}
+		} else {
+            window.location.href = "CPSCLogin.html";
+        }
  }
 /*
     Called for each user dashboard. Shows user first and last name for each dashboard
