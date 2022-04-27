@@ -64,14 +64,23 @@
 					priority.style.backgroundColor = "yellow";
 					priority.style.color = "black";
 				}
+
                 let isResolved = false;
             for (let j = 0; j < resolutions.length; j++) {
                 if (resolutions[j][0] == jsonData[i][5]) {
                     resolved.innerHTML = resolutions[j][3];
                     isResolved = true;
+					if (resolutions[j][3] == 'Unresolved') {
+                		resolved.style.backgroundColor = "red"; 
+            		} else if (resolutions[j][3] == 'Vendor Response') {
+						resolved.style.backgroundColor = "yellow"; 
+            		} else if (resolutions[j][3] == 'Resolved') {
+						resolved.style.backgroundColor = "green";
+					}
                     break;
                 }
             }
+			
             if (!isResolved) {
                 resolved.innerHTML = "No resolution";
             }    
