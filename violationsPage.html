@@ -64,6 +64,13 @@
 					priority.style.backgroundColor = "yellow";
 					priority.style.color = "black";
 				}
+			if (jsonData[i][5] == 'Unresolved') {
+                outcome.style.backgroundColor = "red"; 
+            } else if (jsonData[i][5] == 'Vendor Response') {
+                outcome.style.backgroundColor = "yellow"; 
+            } else if (jsonData[i][5] == 'Resolved') {
+				outcome.style.backgroundColor = "green";
+			}
                 let isResolved = false;
             for (let j = 0; j < jsonData.length; j++) {
                 if (resolutions[j][0] == jsonData[i][5]) {
