@@ -91,7 +91,7 @@
         }
 
         function resolveViolation(id) {
-            const checkViolation = new XMLHttpRequest();
+            /*const checkViolation = new XMLHttpRequest();
             const violationQuery = "Select Resolution_ID from resolution where Violation_ID = " + id + ";";
             const violationURL = updateQueryStringParameter(db_url, 'id', violationQuery);
             checkViolation.open('GET', violationURL, true);
@@ -101,7 +101,7 @@
                 if (resCount.length > 0) {
                     window.alert('Violation already resolved');
                     closeForm();
-                } else {
+                } else {*/
                     const response = document.getElementById('response').value;
                     const outcome = document.getElementById('outcome').value;
                     const reason = document.getElementById('reason').value;
@@ -116,9 +116,9 @@
                         closeForm();
                     }
                     request.send();
-                }
+                /*}
             }
-            checkViolation.send();
+            checkViolation.send();*/
 
 
 
@@ -126,9 +126,23 @@
         }
 
         function openForm(id) {
-            const createButton = document.getElementById('createButton');
-            createButton.setAttribute("onclick","resolveViolation(" + id + ")");
-            document.getElementById("myForm").style.display = "block";
+            const checkViolation = new XMLHttpRequest();
+            const violationQuery = "Select Resolution_ID from resolution where Violation_ID = " + id + ";";
+            const violationURL = updateQueryStringParameter(db_url, 'id', violationQuery);
+            checkViolation.open('GET', violationURL, true);
+            checkViolation.onload = function() {
+                const resCount = JSON.parse(checkViolation.response);
+                console.log(resCount);
+                if (resCount.length > 0) {
+                    window.alert('Violation already resolved');
+                    closeForm();
+                } else {
+                    const createButton = document.getElementById('createButton');
+                    createButton.setAttribute("onclick","resolveViolation(" + id + ")");
+                    document.getElementById("myForm").style.display = "block";
+                }
+            }
+            checkViolation.send();
         }
 
         function closeForm() {
