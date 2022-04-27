@@ -292,7 +292,7 @@
             role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
             console.log(cookie);
             console.log(role);
-            if (role.includes('recall')) {
+            if (role.includes(';')) {
                 role = role.substring(0, role.indexOf(';'));
             }
             let table = document.getElementById('violationTableDiv');
