@@ -141,7 +141,7 @@
                 const createButton = document.getElementById('createButton');
                 createButton.setAttribute("onclick","editResolution(" + id + ")");
                 document.getElementById('response').value = jsonData[index][2];
-                document.getElementById('reason').value = jsonData[index][3];
+                document.getElementById('reason').value = jsonData[index][5];
                 document.getElementById('outcome').value = jsonData[index][4];
                 document.getElementById("myForm").style.display = "block";
             /*}
