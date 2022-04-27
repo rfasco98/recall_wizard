@@ -85,7 +85,7 @@
 
         function getDatabaseData() {
             const request = new XMLHttpRequest();
-            const query = 'select distinct res.Resolution_ID, r.Recall_Product_Name, res.Resolution_CPSC_Message, res.Resolution_Response, res.Resolution_Outcome, res.Resolution_Reason from violation v, recalls r, listing l, resolution res where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Violation_ID = res.Violation_ID order by res.Resolution_Time asc;';
+            const query = 'select res.Resolution_ID, r.Recall_Product_Name, res.Resolution_CPSC_Message, res.Resolution_Response, res.Resolution_Outcome, res.Resolution_Reason from violation v, recalls r, listing l, resolution res where r.Recall_ID = l.Recall_ID and l.Listing_ID = v.Listing_ID and v.Violation_ID = res.Violation_ID order by res.Resolution_Time asc;';
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
