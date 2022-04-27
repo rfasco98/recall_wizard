@@ -64,13 +64,7 @@
 					priority.style.backgroundColor = "yellow";
 					priority.style.color = "black";
 				}
-			if (jsonData[i][5] == 'Unresolved') {
-                resolved.style.backgroundColor = "red"; 
-            } else if (jsonData[i][5] == 'Vendor Response') {
-                resolved.style.backgroundColor = "yellow"; 
-            } else if (jsonData[i][5] == 'Resolved') {
-				resolved.style.backgroundColor = "green";
-			}
+
                 let isResolved = false;
             for (let j = 0; j < resolutions.length; j++) {
                 if (resolutions[j][0] == jsonData[i][5]) {
@@ -79,6 +73,14 @@
                     break;
                 }
             }
+			
+			if (resolutions[j][3] == 'Unresolved') {
+                resolved.style.backgroundColor = "red"; 
+            } else if (resolutions[j][3] == 'Vendor Response') {
+                resolved.style.backgroundColor = "yellow"; 
+            } else if (resolutions[j][3] == 'Resolved') {
+				resolved.style.backgroundColor = "green";
+			}
             if (!isResolved) {
                 resolved.innerHTML = "No resolution";
             }    
