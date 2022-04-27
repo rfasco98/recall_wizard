@@ -153,39 +153,39 @@
 		
 		//Function for the Contact button
 		function contactVendor(vendorLink){
-			//alert(vendorLink);
+			//Need to add the productName and date variables. 
 			console.log(vendorLink);
-			var body = 'Hello! We have found a recalled item from the CPSC listed on your website. Please remove this item ASAP and get back to us.';
+			var body = 'I am a Federal Investigator with the U.S. Consumer Product Safety Commission. I observed your listing on www.craigslist.org for the sale of a' + productName + 'and wanted to make you aware that on' + Date + ' several models of this product were recalled. Please take a moment and visit the U.S. Consumer Product Safety Commission’s website at www.cpsc.gov for recall information. Here is a specific link for the '+ productName + ' which provides information about the recall and repair remedy for this product: ' + vendorLink + '. Under federal law, it is illegal to attempt to sell or re-sell a recalled consumer product. However, if you have obtained and installed the repair kit for this product, please indicate this information in your listing. If you have any questions, please do not hesitate to contact me at rmorelli-linen@cpsc.gov.';
 			
 			if (vendorLink.includes('amazon')){
-				window.open('mailto:service@amazon.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:service@amazon.com?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('ebay')){
-				window.open('mailto:support@ebay.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:support@ebay.com?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('craigslist')){
-				window.open('mailto:help@craigslist.org?subject=Violation Found&body=' + body + '');
+				window.open('mailto:help@craigslist.org?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('mercari')){
-				window.open('mailto:contact@mercari.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:contact@mercari.com?subject='+ productName +'&body=' + body + '');
 
 			} else if (vendorLink.includes('stockx')){
-				window.open('mailto:support@stockx.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:support@stockx.com?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('poshmark')){
-				window.open('mailto:service@poshmark.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:service@poshmark.com?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('bonzana')){
-				window.open('mailto:help@bonanza.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:help@bonanza.com?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('etsy')){
-				window.open('mailto:support@etsy.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:support@etsy.com?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('depop')){
-				window.open('mailto:support@depop.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:support@depop.com?subject='+ productName +'&body=' + body + '');
 				
 			} else if (vendorLink.includes('walmart')){
-				window.open('mailto:help@walmart.com?subject=Violation Found&body=' + body + '');
+				window.open('mailto:help@walmart.com?subject='+ productName +'&body=' + body + '');
 			} 
 		}
 
