@@ -178,8 +178,7 @@ function createVendorTable(violations, resolutions) {
                 status.style.backgroundColor = "red"; 
 				} else if (resolutions[j][3] == 'Vendor Response') {
                 status.style.backgroundColor = "yellow"; 
-				} else if (resolutions[j][3] == 'Resolved') {
-                status.style.backgroundColor = "green";
+				}
                 break;
             }
         }
