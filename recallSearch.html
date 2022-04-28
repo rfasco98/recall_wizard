@@ -190,21 +190,6 @@
             request.onload = function() {
                 apiData = JSON.parse(request.response);
                 console.log(apiData);
-                let companyArray = [];
-                for (let i = 0; i < apiData.length; i++) {
-                    const importer = apiData[i].Importers[0];
-                    const manufacturer = apiData[i].Manufacturers[0];
-                    let recallCompany = "";
-                    if (manufacturer != null && manufacturer.Name != null) {
-                        recallCompany = manufacturer.Name;
-                    } else if (importer != null && importer.Name != null) {
-                        recallCompany = importer.Name;
-                    } else {
-                        recallCompany = "N/A";
-                    }
-
-                    companyArray.push(recallCompany);
-                }
             }
 
             request.send();
@@ -329,7 +314,7 @@
         <input onchange="searchUser()" type="text" id="userSearch" placeholder="Search by assigned user">
     </div>
     <button onclick="showPriority()">Show Priority Recalls</button>
-    <!-- <button onclick="getAPIData()">Refresh Database</button> -->
+    <button onclick="getAPIData()">Refresh Database</button>
     <button onclick="fillData()">Reset Table</button>
     <button onclick="getAPIData()">Get API Data</button>
 </section>
