@@ -190,7 +190,7 @@
             request.onload = function() {
                 apiData = JSON.parse(request.response);
                 console.log(apiData);
-                updateDates(0, jsonData.length);
+                updateDates(0, jsonData.length, apiData);
                 let dates = [];
                 for (let i = 0; i < apiData.length; i++) {
                     dates.push(apiData[i].RecallDate);
@@ -201,7 +201,7 @@
             request.send();
         }
 
-        function updateDates(index, max) {
+        function updateDates(index, max, apiData) {
             //for (let j = 0; j < jsonData.length; j++) {
                 for (let j = 0; j < 5; j++) {
                 for (let i = 0; i < apiData.length; i++) {
