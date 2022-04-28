@@ -207,7 +207,7 @@
                 for (let i = 0; i < apiData.length; i++) {
                     if (apiData[i].Title.includes(jsonData[j][2])) {
                         const request = new XMLHttpRequest();
-                        const query = "UPDATE recalls SET Recall_Date = " + apiData[i].RecallDate + " WHERE Recall_ID = " + jsonData[j][0] + ";";
+                        const query = "UPDATE recalls SET Recall_Date = '" + apiData[i].RecallDate + "' WHERE Recall_ID = " + jsonData[j][0] + ";";
                         console.log(query);
                         const newURL = updateQueryStringParameter(db_url, 'id', query);
                         request.open('GET', newURL, true);
