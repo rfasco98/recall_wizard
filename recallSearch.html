@@ -205,7 +205,7 @@
             if (index < max) {
 
                 let found = false;
-                for (let i = 0; i < apiData.length; i++) {
+                /*for (let i = 0; i < apiData.length; i++) {
                     console.log(i);
                     if (apiData[i].RecallID == jsonData[index][0]) {
                         found = true;
@@ -228,11 +228,22 @@
                     }
                 
                     
-                }
-                if (!found) {
+                }*/
+                console.log('Found');
+                const request = new XMLHttpRequest();
+                const query = "UPDATE recalls SET Recall_Date = '" + apiData[index].RecallDate + "' WHERE Recall_ID = " + jsonData[index][0] + ";";
+                console.log(query);
+                const newURL = updateQueryStringParameter(db_url, 'id', query);
+                request.open('GET', newURL, true);
+                request.onload = function() {
+                    const newData = JSON.parse(request.response);
+                    console.log(newData);
                     index = index + 1;
                     updateDates(index, max, apiData);
+
                 }
+
+                request.send();
             } else {
                 console.log('Complete');
             }
