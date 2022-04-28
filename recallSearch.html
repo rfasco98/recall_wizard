@@ -207,7 +207,7 @@
                 let found = false;
                 for (let i = 0; i < apiData.length; i++) {
                     console.log(i);
-                    if (apiData[i].Title.includes(jsonData[index][2])) {
+                    if (apiData[i].RecallID == jsonData[index][0]) {
                         found = true;
                         console.log('Found');
                         const request = new XMLHttpRequest();
