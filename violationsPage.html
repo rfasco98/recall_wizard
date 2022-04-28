@@ -39,25 +39,25 @@
 			let contact = row.insertCell(6);
             let resolve = row.insertCell(7);
 			const urlLink = document.createElement('a');
-            urlLink.href = jsonData[i][5];
-            urlLink.innerHTML = jsonData[i][5];
+            urlLink.href = jsonData[i][4];
+            urlLink.innerHTML = jsonData[i][4];
             url.appendChild(urlLink);
 			urlLink.style.color = "black";
             name.innerHTML = jsonData[i][0];
-            user.innerHTML = jsonData[i][3];
-            violationDescription.innerHTML = jsonData[i][2];
-            priority.innerHTML = jsonData[i][4];
+            user.innerHTML = jsonData[i][2];
+            violationDescription.innerHTML = jsonData[i][1];
+            priority.innerHTML = jsonData[i][3];
             if (role == 'CPSC Investigator' ||
                 role == "CPSC Manager") {
                 let resolvedButton = "<button onclick=";
-                resolvedButton += "openForm('" + jsonData[i][6] + "')";
+                resolvedButton += "openForm('" + jsonData[i][5] + "')";
                 resolvedButton += ">Resolve</button>";
                 resolve.innerHTML = resolvedButton;
             } else {
                 resolve.innerHTML = '';
             }
             
-            if (jsonData[i][4] == "High") {
+            if (jsonData[i][3] == "High") {
                     priority.style.backgroundColor = "red";
 					priority.style.color = "white";
                 } else {
@@ -67,7 +67,7 @@
 
                 let isResolved = false;
             for (let j = 0; j < resolutions.length; j++) {
-                if (resolutions[j][0] == jsonData[i][6]) {
+                if (resolutions[j][0] == jsonData[i][5]) {
                     resolved.innerHTML = resolutions[j][3];
                     isResolved = true;
 					if (resolutions[j][3] == 'Unresolved') {
@@ -258,7 +258,7 @@
         function getDatabaseData() {
             const request = new XMLHttpRequest();
             //const query = 'select * from violations';
-            const query = 'select r.Recall_Product_Name, r.Recall_Date, u.User_Username , v.Violation_Description, r.Recall_Priority, l.Listing_URL, v.Violation_ID from violation v, listing l, recalls r, user u where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID and r.Recall_User_ID = u.User_ID;';
+            const query = 'select r.Recall_Product_Name, u.User_Username , v.Violation_Description, r.Recall_Priority, l.Listing_URL, v.Violation_ID, r.Recall_ID from violation v, listing l, recalls r, user u where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID and r.Recall_User_ID = u.User_ID;';
             console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
