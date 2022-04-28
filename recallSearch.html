@@ -205,13 +205,14 @@
             //for (let j = 0; j < jsonData.length; j++) {
                 for (let j = 0; j < 5; j++) {
                 for (let i = 0; i < apiData.length; i++) {
-                    if (apiData[i].Title == jsonData[j][2]) {
+                    if (apiData[i].Title.includes(jsonData[j][2])) {
                         const request = new XMLHttpRequest();
                         const query = "UPDATE recalls SET Recall_Date = " + apiData[i].RecallDate + " WHERE Recall_ID = " + jsonData[j][0] + ";";
                         const newURL = updateQueryStringParameter(db_url, 'id', query);
                         request.open('GET', newURL, true);
                         request.onload = function() {
-                            jsonData = JSON.parse(request.response);
+                            const newData = JSON.parse(request.response);
+                            console.log(newData);
                             
                         }
 
