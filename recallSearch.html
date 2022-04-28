@@ -190,7 +190,7 @@
             request.onload = function() {
                 apiData = JSON.parse(request.response);
                 console.log(apiData);
-                updateDates(0, jsonData.length, apiData);
+                //updateDates(0, jsonData.length, apiData);
                 /*let dates = [];
                 for (let i = 0; i < apiData.length; i++) {
                     dates.push(apiData[i].RecallDate);
@@ -370,7 +370,6 @@
     <button onclick="showPriority()">Show Priority Recalls</button>
     <button onclick="getAPIData()">Refresh Database</button>
     <button onclick="fillData()">Reset Table</button>
-    <button onclick="getAPIData()">Get API Data</button>
 </section>
     <div id="recallTableDiv"> 
         <table id="recalls">

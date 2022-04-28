@@ -85,7 +85,7 @@
                 resolved.innerHTML = "No resolution";
             }    
 			var contactButton = "<button onclick=";
-        	contactButton += "contactVendor('" + jsonData[i][4] + "')";
+        	contactButton += "contactVendor('" + i + "')";
         	contactButton += ">Contact</button>";    
         	contact.innerHTML = contactButton;   
         }
@@ -152,10 +152,11 @@
         }
 		
 		//Function for the Contact button
-		function contactVendor(vendorLink){
+		function contactVendor(index){
 			//Need to add the productName and date variables. 
+            const vendorLink = jsonData[index][4];
 			console.log(vendorLink);
-			var body = 'I am a Federal Investigator with the U.S. Consumer Product Safety Commission. I observed your listing on www.craigslist.org for the sale of a' + productName + 'and wanted to make you aware that on' + Date + ' several models of this product were recalled. Please take a moment and visit the U.S. Consumer Product Safety Commission’s website at www.cpsc.gov for recall information. Here is a specific link for the '+ productName + ' which provides information about the recall and repair remedy for this product: ' + vendorLink + '. Under federal law, it is illegal to attempt to sell or re-sell a recalled consumer product. However, if you have obtained and installed the repair kit for this product, please indicate this information in your listing. If you have any questions, please do not hesitate to contact me at rmorelli-linen@cpsc.gov.';
+			var body = 'I am a Federal Investigator with the U.S. Consumer Product Safety Commission. I observed your listing on www.craigslist.org for the sale of a' + jsonData[index][0] + 'and wanted to make you aware that on' + jsonData[index][6] + ' several models of this product were recalled. Please take a moment and visit the U.S. Consumer Product Safety Commission’s website at www.cpsc.gov for recall information. Here is a specific link for the '+ jsonData[index][0] + ' which provides information about the recall and repair remedy for this product: ' + vendorLink + '. Under federal law, it is illegal to attempt to sell or re-sell a recalled consumer product. However, if you have obtained and installed the repair kit for this product, please indicate this information in your listing. If you have any questions, please do not hesitate to contact me at rmorelli-linen@cpsc.gov.';
 			
 			if (vendorLink.includes('amazon')){
 				window.open('mailto:service@amazon.com?subject='+ productName +'&body=' + body + '');
@@ -257,7 +258,7 @@
         function getDatabaseData() {
             const request = new XMLHttpRequest();
             //const query = 'select * from violations';
-            const query = 'select distinct r.Recall_Product_Name, u.User_Username , v.Violation_Description, r.Recall_Priority, l.Listing_URL, v.Violation_ID from violation v, listing l, recalls r, user u where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID and r.Recall_User_ID = u.User_ID;';
+            const query = 'select distinct r.Recall_Product_Name, u.User_Username , v.Violation_Description, r.Recall_Priority, l.Listing_URL, v.Violation_ID, r.Recall_Date from violation v, listing l, recalls r, user u where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID and r.Recall_User_ID = u.User_ID;';
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
