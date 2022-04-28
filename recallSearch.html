@@ -206,7 +206,9 @@
 
             
                 for (let i = 0; i < apiData.length; i++) {
+                    console.log(i);
                     if (apiData[i].Title.includes(jsonData[index][2])) {
+                        console.log('Found');
                         const request = new XMLHttpRequest();
                         const query = "UPDATE recalls SET Recall_Date = '" + apiData[i].RecallDate + "' WHERE Recall_ID = " + jsonData[index][0] + ";";
                         console.log(query);
