@@ -190,6 +190,11 @@
             request.onload = function() {
                 apiData = JSON.parse(request.response);
                 console.log(apiData);
+                let dates = [];
+                for (let i = 0; i < apiData.length; i++) {
+                    dates.push(apiData[i].RecallDate);
+                }
+                console.log(dates);
             }
 
             request.send();
@@ -341,7 +346,9 @@
                 </tr>
             </thead>
                 <tbody id="recallsBody">
-
+                    <tr>
+                        <td>Loading content...</td>
+                    </tr>
                 </tbody>
         </table>
     </div>
