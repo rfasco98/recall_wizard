@@ -27,9 +27,9 @@
           const newURL = "https://www.googleapis.com/customsearch/v1?key=AIzaSyAhIeqyY1PV8F7W75WM1AmfrTJ-h6wgHqs&cx=53c47e51af67e0e3a&q=" + recall;
           request.open('GET', newURL, true);
           request.onload = function() {
-            console.log(request.response);
+            //console.log(request.response);
               const jsonData = JSON.parse(request.response)
-              console.log(jsonData.items);
+              //console.log(jsonData.items);
               updateListingDatabase(jsonData.items);
           }
           request.send();
@@ -46,7 +46,7 @@
           request.open('GET', newURL, true);
           request.onload = function() {
               const jsonData = JSON.parse(request.response)
-              console.log(jsonData);
+              //console.log(jsonData);
               document.getElementById('productName').innerHTML = "<strong>Product name:</strong> " + jsonData[0][0];
               callGoogleAPI(jsonData[0][0]);
           }
@@ -66,7 +66,7 @@
               const request = new XMLHttpRequest();
               //let query = "INSERT INTO listing (Recall_ID, Listing_URL, Listing_Description) VALUES(" + globalRecall + ", '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "');";
               let query = "INSERT INTO listing(Recall_ID, Listing_True_False, Listing_URL, Listing_Description) SELECT " + globalRecall + ", 'false', '" + listingData[index].link + "', '" + listingData[index].htmlTitle + "' WHERE NOT EXISTS (SELECT 1 FROM listing WHERE Recall_ID = " + globalRecall + " AND Listing_URL = '" + listingData[index].link + "' AND Listing_Description = '" + listingData[index].htmlTitle + "');";
-              console.log(query);
+              //console.log(query);
               const newURL = updateQueryStringParameter(db_url, 'id', query);
               request.open('GET', newURL, true);
               request.onload = function() {
@@ -84,7 +84,7 @@
             request2.open('GET', newURL, true);
             request2.onload = function() {
                 const listingData = JSON.parse(request2.response)
-                console.log(listingData);
+                //console.log(listingData);
                 createListingTable(listingData);
             }
             request2.send();
@@ -137,15 +137,15 @@
             vendorName = vendor.substring(vendor.indexOf('www.') + 4, vendor.indexOf('.net'));
           }
           
-          console.log('Vendor: ' + vendorName);
+          //console.log('Vendor: ' + vendorName);
           const request1 = new XMLHttpRequest();
               const query1 = "SELECT Vendor_ID FROM vendor WHERE UPPER(Vendor_Name) LIKE UPPER('" + vendorName + "');";
-              console.log(query1);
+              //console.log(query1);
               const newURL1 = updateQueryStringParameter(db_url, 'id', query1);
               request1.open('GET', newURL1, true);
               request1.onload = function() {
                   const vendorData = JSON.parse(request1.response);
-                  console.log(vendorData);
+                  //console.log(vendorData);
                   if (vendorData.length == 0) {
                     createVendor(listingId);
                     vendorID = -1;
@@ -163,10 +163,10 @@
                         window.alert('Violation already exists for this listing');
                       } else {
                         const request = new XMLHttpRequest();
-                        console.log(vendorID)
+                        //console.log(vendorID)
                         //const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID) VALUES (" + listingId + ", '" + commentElement.value + "', " + vendorID + ");";
                         const query = "INSERT INTO violation (Listing_ID, Violation_Description, Vendor_ID, Violation_Time) SELECT " + listingId + ", '" + commentElement.value + "', " + vendorID + ", NOW() WHERE NOT EXISTS (SELECT 1 FROM violation WHERE Listing_ID = " + listingId + " AND Violation_Description = '" + commentElement.value + "' AND Vendor_ID = " + vendorID + ");";
-                        console.log(query);
+                        //console.log(query);
                         const newURL = updateQueryStringParameter(db_url, 'id', query);
                         request.open('GET', newURL, true);
                         request.onload = function() {
@@ -183,7 +183,7 @@
 
 
                             const jsonData = JSON.parse(request.response);
-                            console.log(jsonData);
+                            //console.log(jsonData);
                             
                         }
                         request.send();
@@ -202,10 +202,10 @@
         }
 
         function createVendor(listindId) {
-          console.log('vendor does not exist');
+          //console.log('vendor does not exist');
             /*const request = new XMLHttpRequest();
             const query = "INSERT INTO vendor (Listing_ID, Violation_Description) VALUES (" + listingId + ", '" + commentElement.value + "');";
-            console.log(query);
+            //console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
@@ -220,9 +220,9 @@
         //getData();
         const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
-        console.log(cookie);
+        //console.log(cookie);
         let recall = cookie.substring(cookie.indexOf(' recall=') + 8, cookie.length);
-        console.log(recall);
+        //console.log(recall);
         globalRecall = recall;
         getRecall(recall);
 

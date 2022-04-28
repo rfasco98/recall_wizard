@@ -4,7 +4,7 @@ let vendors;
 
  //called when you click on the 'dashboard' button in the nav bar
  function dashboardPage(){
-     console.log('here');
+     //console.log('here');
 	const cookie = decodeURIComponent(document.cookie);
         let userLevel = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
         if (userLevel.includes(';')) {
@@ -12,7 +12,7 @@ let vendors;
         } else if (userLevel.includes('_gat')) {
             userLevel = userLevel.substring(0, userLevel.indexOf(';'));
         }
-         console.log(userLevel);
+         //console.log(userLevel);
 		if (userLevel == "CPSC Investigator"){
 			window.location.href = "CPSCInvestigatorPage.html";
 		} else if (userLevel == "Seller"){
@@ -37,19 +37,19 @@ function showUserData(id) {
         document.getElementsByClassName('profile')[0].appendChild(para);
         return;
     }
-    //console.log(document.cookie);
-    //console.log('user data. id: ' + id);
+    ////console.log(document.cookie);
+    ////console.log('user data. id: ' + id);
     const request = new XMLHttpRequest();
     const query = "select User_Email, User_First_Name, User_Last_Name, User_Phone, User_Level, User_Username from user where User_ID = '" + id + "'";
-    //console.log(query);
+    ////console.log(query);
     const newURL = updateQueryStringParameter(db_url, 'id', query);
     request.open('GET', newURL, true);
     request.onload = function() {
         user = JSON.parse(request.response)[0];
-        //console.log(user);
+        ////console.log(user);
         const para = document.createElement("p");
         let userText = ("Welcome " + user[1] + " " + user[2] + "!");
-        //console.log("user role: " + user[4]);
+        ////console.log("user role: " + user[4]);
         if (user[4] == "CPSC Investigator") {
             
             const request1 = new XMLHttpRequest();
@@ -58,7 +58,7 @@ function showUserData(id) {
             request1.open('GET', newURL, true);
             request1.onload = function() {
                 const recordCount = JSON.parse(request1.response);
-                //console.log(recordCount);
+                ////console.log(recordCount);
                 userText += " You have " + recordCount.length + " recalls assigned to you.";
                 const node = document.createTextNode(userText);
                 para.appendChild(node);
@@ -73,9 +73,9 @@ function showUserData(id) {
             request1.open('GET', newURL, true);
             request1.onload = function() {
                 const recordCount = JSON.parse(request1.response);
-                //console.log(recordCount);
+                ////console.log(recordCount);
                 userText += " You have " + recordCount.length + " violations on your site.";
-                console.log(recordCount);
+                //console.log(recordCount);
                 const node = document.createTextNode(userText);
                 para.appendChild(node);
                 document.getElementsByClassName('profile')[0].appendChild(para);
@@ -110,7 +110,7 @@ function showUserData(id) {
     Displays on the investigator dashboard
 */
 function createInvestigatorTable(recalls) {
-    console.log(recalls);
+    //console.log(recalls);
     const table = document.getElementById('investigatorRecallsBody');
     table.innerHTML = "";
     for (let i = 0; i < recalls.length; i++) {
@@ -135,7 +135,7 @@ function createInvestigatorTable(recalls) {
         searchText += ">Search for recall</button>";    
         search.innerHTML = searchText;    
 
-        console.log(recalls[i][0]);
+        //console.log(recalls[i][0]);
         
     }
 }
@@ -145,7 +145,7 @@ function createInvestigatorTable(recalls) {
     Displays on the vendor dashboard
 */
 function createVendorTable(violations, resolutions) {
-    console.log(violations);
+    //console.log(violations);
     const table = document.getElementById('vendorViolationsBody');
     table.innerHTML = "";
     for (let i = 0; i < violations.length; i++) {
@@ -195,30 +195,30 @@ function vendorResolve(id) {
     const responseText = document.getElementById(id + 'comment').value;
     const findRequest = new XMLHttpRequest();
     const findQuery = "select Violation_ID from resolution where Violation_ID = " + id + ";";
-    console.log(findQuery);
+    //console.log(findQuery);
     const findNewURL = updateQueryStringParameter(db_url, 'id', findQuery);
     findRequest.open('GET', findNewURL, true);
     findRequest.onload = function() {
-        console.log(findRequest.response);
+        //console.log(findRequest.response);
         if (JSON.parse(findRequest.response).length > 0) {
             const request = new XMLHttpRequest();
             const query = "update resolution set Resolution_Response='" + responseText + "', Resolution_Outcome='Vendor Response' where Violation_ID = " + id + ";";
-            console.log(query);
+            //console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
-                console.log(request.response);
+                //console.log(request.response);
                 window.alert('Response received');
             }
             request.send();
         } else {
             const request = new XMLHttpRequest();
             const query = "insert into resolution (Violation_ID, Resolution_Response, Resolution_Outcome) values(" + id + ", '" + responseText + "', 'Vendor Response');";
-            console.log(query);
+            //console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
-                console.log(request.response);
+                //console.log(request.response);
                 window.alert('Response received');
             }
             request.send();
@@ -238,9 +238,9 @@ function vendorResolve(id) {
  * Opens the listings table and searches for a given listing
  */
 function searchForListings(recall) {
-    console.log(recall);
+    //console.log(recall);
     document.cookie = "recall=" + recall;
-    console.log(document.cookie);
+    //console.log(document.cookie);
     document.location.href = 'listingsSearch.html';
 }
 
@@ -252,7 +252,7 @@ function searchForListings(recall) {
 function getCurrId() {
     const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
-        //console.log('id: ' + id);
+        ////console.log('id: ' + id);
         return id;
 }
 
@@ -269,14 +269,14 @@ function showProfile(id) {
         document.getElementsByClassName('profile')[0].appendChild(para);
         return;
     }
-    //console.log('user data. id: ' + id);
+    ////console.log('user data. id: ' + id);
     const request = new XMLHttpRequest();
     const query = "select User_Email, User_First_Name, User_Last_Name, User_Phone from user where User_ID = '" + id + "'";
     const newURL = updateQueryStringParameter(db_url, 'id', query);
     request.open('GET', newURL, true);
     request.onload = function() {
         user = JSON.parse(request.response)[0];
-        //console.log(user);
+        ////console.log(user);
         const para = document.createElement("p");
         const node = document.createTextNode("Welcome " + user[1] + " " + user[2] + "!");
         para.appendChild(node);
@@ -307,7 +307,7 @@ function clearCookie() {
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
 
-    //console.log('Cookie cleared: ' + document.cookie);
+    ////console.log('Cookie cleared: ' + document.cookie);
 }
 
 /**
@@ -353,14 +353,14 @@ function saveNewPassword(id) {
         return;
     }
 
-    //console.log(id);
+    ////console.log(id);
     const userRequest = new XMLHttpRequest();
     const userQuery = "select * from user where User_ID = '" + id + "'";
     const userURL = updateQueryStringParameter(db_url, 'id', userQuery);
     userRequest.open('GET', userURL, true);
     userRequest.onload = function() {
-        //console.log(JSON.parse(userRequest.response));
-        //console.log(JSON.parse(userRequest.response)[0][3]);
+        ////console.log(JSON.parse(userRequest.response));
+        ////console.log(JSON.parse(userRequest.response)[0][3]);
         const user = JSON.parse(userRequest.response)[0];
         if (user[3] != document.getElementsByClassName('oldPass')[0].value) {
             alert('Incorrect password');
@@ -372,7 +372,7 @@ function saveNewPassword(id) {
         const newURL = updateQueryStringParameter(db_url, 'id', query);
         request.open('GET', newURL, true);
         request.onload = function() {
-            //console.log(JSON.parse(request.response));
+            ////console.log(JSON.parse(request.response));
             alert('Password successfully updated');
             closeChangePassword(id);
         }

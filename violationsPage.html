@@ -91,34 +91,20 @@
         }
 
         function resolveViolation(id) {
-            /*const checkViolation = new XMLHttpRequest();
-            const violationQuery = "Select Resolution_ID from resolution where Violation_ID = " + id + ";";
-            const violationURL = updateQueryStringParameter(db_url, 'id', violationQuery);
-            checkViolation.open('GET', violationURL, true);
-            checkViolation.onload = function() {
-                const resCount = JSON.parse(checkViolation.response);
-                console.log(resCount);
-                if (resCount.length > 0) {
-                    window.alert('Violation already resolved');
-                    closeForm();
-                } else {*/
-                    const response = document.getElementById('response').value;
-                    const outcome = document.getElementById('outcome').value;
-                    const reason = document.getElementById('reason').value;
-                    const request = new XMLHttpRequest();
-                    const query = "INSERT INTO resolution (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason, Resolution_Time) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "', NOW());";
-                    console.log(query);
-                    const newURL = updateQueryStringParameter(db_url, 'id', query);
-                    request.open('GET', newURL, true);
-                    request.onload = function() {
-                        console.log(request.response);
-                        window.alert("Resolution created");
-                        closeForm();
-                    }
-                    request.send();
-                /*}
+            const response = document.getElementById('response').value;
+            const outcome = document.getElementById('outcome').value;
+            const reason = document.getElementById('reason').value;
+            const request = new XMLHttpRequest();
+            const query = "INSERT INTO resolution (Violation_ID, Resolution_CPSC_Message, Resolution_Outcome, Resolution_Reason, Resolution_Time) VALUES (" + id + ", '" + response + "', '" + outcome + "', '" + reason + "', NOW());";
+            //console.log(query);
+            const newURL = updateQueryStringParameter(db_url, 'id', query);
+            request.open('GET', newURL, true);
+            request.onload = function() {
+                //console.log(request.response);
+                window.alert("Resolution created");
+                closeForm();
             }
-            checkViolation.send();*/
+            request.send();
 
 
 
@@ -132,7 +118,7 @@
             checkViolation.open('GET', violationURL, true);
             checkViolation.onload = function() {
                 const resCount = JSON.parse(checkViolation.response);
-                console.log(resCount);
+                //console.log(resCount);
                 if (resCount.length > 0) {
                     window.alert('Violation already resolved');
                     closeForm();
@@ -156,7 +142,7 @@
 			//Need to add the productName and date variables. 
             const vendorLink = jsonData[index][4];
             const basicVendorLink = vendorLink.split('/')[2];
-			console.log(vendorLink);
+			//console.log(vendorLink);
 			var body = 'I am a Federal Investigator with the U.S. Consumer Product Safety Commission. I observed your listing on ' + basicVendorLink + ' for the sale of a ' + jsonData[index][0] + ' and wanted to make you aware that on ' + jsonData[index][6].substring(0, 10) + ' several models of this product were recalled. Please take a moment and visit the U.S. Consumer Product Safety Commission’s website at www.cpsc.gov for recall information. Here is a specific link for the '+ jsonData[index][0] + ' which provides information about the recall and repair remedy for this product: ' + vendorLink + '. Under federal law, it is illegal to attempt to sell or re-sell a recalled consumer product. However, if you have obtained and installed the repair kit for this product, please indicate this information in your listing. If you have any questions, please do not hesitate to contact me at ' + jsonData[index][7] + '.';
 			
 			if (vendorLink.includes('amazon')){
@@ -260,12 +246,12 @@
             const request = new XMLHttpRequest();
             //const query = 'select * from violations';
             const query = 'select r.Recall_Product_Name, u.User_Username, v.Violation_Description, r.Recall_Priority, l.Listing_URL, v.Violation_ID, r.Recall_Date, u.User_Email from violation v, listing l, recalls r, user u where v.Listing_ID = l.Listing_ID and l.Recall_ID = r.Recall_ID and r.Recall_User_ID = u.User_ID;';
-            console.log(query);
+            //console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
                 jsonData = JSON.parse(request.response);
-                console.log(jsonData);
+                //console.log(jsonData);
                 const request2 = new XMLHttpRequest();
                 const query2 = "select Violation_ID, Resolution_CPSC_Message, Resolution_Response, Resolution_Outcome from resolution;";
                 const newURL2 = updateQueryStringParameter(db_url, 'id', query2);
@@ -293,8 +279,8 @@
         function init() {
             const cookie = decodeURIComponent(document.cookie);
             role = cookie.substring(cookie.indexOf('role=') + 5, cookie.length);
-            console.log(cookie);
-            console.log(role);
+            //console.log(cookie);
+            //console.log(role);
             if (role.includes(';')) {
                 role = role.substring(0, role.indexOf(';'));
             }

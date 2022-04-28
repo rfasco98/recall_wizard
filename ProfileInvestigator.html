@@ -24,8 +24,8 @@
         //getData();
         const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
-        console.log(cookie);
-        console.log(id);
+        //console.log(cookie);
+        //console.log(id);
         showProfile(id);
         //document.getElementById('investigatorPassword').addEventListener('click', startChangePassword(id));
         document.getElementById('investigatorPassword').setAttribute("onclick","startChangePassword(" + id + ")");

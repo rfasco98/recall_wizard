@@ -90,7 +90,7 @@
             request.open('GET', newURL, true);
             request.onload = function() {
                 jsonData = JSON.parse(request.response);
-                console.log(jsonData);
+                //console.log(jsonData);
                 fillData();
                 }
 
@@ -112,11 +112,11 @@
             const reason = document.getElementById('reason').value;
             const request = new XMLHttpRequest();
             const query = "Update resolution SET Resolution_CPSC_Message = '" + response + "', Resolution_Outcome = '" + outcome + "', Resolution_Reason = '" + reason + "' WHERE Resolution_ID = " + id + ";";
-            console.log(query);
+            //console.log(query);
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
-                console.log(request.response);
+                //console.log(request.response);
                 window.alert("Resolution updated");
                 closeForm();
             }
@@ -130,7 +130,7 @@
             request.open('GET', newURL, true);
             request.onload = function() {
                 jsonData = JSON.parse(request.response);
-                console.log(jsonData);*/
+                //console.log(jsonData);*/
                 let index;
                 for (let i = 0; i < jsonData.length; i++) {
                     if (jsonData[i][0] == id) {
@@ -153,7 +153,7 @@
         function showOutcome() {
             const select = document.getElementById('resStatus');
             let searchValue = select.options[select.selectedIndex].text;
-            console.log(searchValue);
+            //console.log(searchValue);
             if (searchValue == "") {
                 fillData();
             }

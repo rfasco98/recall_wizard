@@ -31,10 +31,10 @@
     function init() {
         //define event handler for the mouse over event of the p element
         //getData();
-        //console.log(document.cookie);
+        ////console.log(document.cookie);
         const cookie = decodeURIComponent(document.cookie);
         let id = cookie.substring(cookie.indexOf(' id=') + 4, cookie.indexOf('role') - 2);
-        //console.log('id: ' + id);
+        ////console.log('id: ' + id);
         document.getElementById('google').style.display = "none";
         showUserData(id);
     }

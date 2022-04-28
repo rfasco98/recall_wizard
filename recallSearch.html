@@ -102,23 +102,23 @@
 
         function assignUser(newUser) {
             const newDBUser = document.getElementById(newUser + "userselect");
-            console.log(jsonUserData[newDBUser.value]);
+            //console.log(jsonUserData[newDBUser.value]);
             const dbRequest = new XMLHttpRequest();
             const query = "UPDATE recalls SET Recall_User_ID = '" + jsonUserData[newDBUser.value] + "' WHERE Recall_ID = " + newUser;;
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             dbRequest.open('GET', newURL, true);
             dbRequest.onload = function() {
                 insertData = JSON.parse(dbRequest.response);
-                //console.log(insertData);
+                ////console.log(insertData);
             }
             dbRequest.send();
         }
 
         function searchName(){
             const searchValue = document.getElementById('nameSearch').value;
-            //console.log(searchValue);
+            ////console.log(searchValue);
             if (document.getElementById('nameSearch').value == "") {
-                //console.log('blank');
+                ////console.log('blank');
                 fillData();
             }
             else {
@@ -142,9 +142,9 @@
 
         function searchUser(){
             const searchValue = document.getElementById('userSearch').value;
-            //console.log(searchValue);
+            ////console.log(searchValue);
             if (document.getElementById('userSearch').value == "") {
-                //console.log('blank');
+                ////console.log('blank');
                 fillData();
             }
             else {
@@ -189,64 +189,9 @@
             request.open('GET', 'https://www.saferproducts.gov/RestWebServices/Recall?format=Json', true);
             request.onload = function() {
                 apiData = JSON.parse(request.response);
-                console.log(apiData);
-                //updateDates(0, jsonData.length, apiData);
-                /*let dates = [];
-                for (let i = 0; i < apiData.length; i++) {
-                    dates.push(apiData[i].RecallDate);
-                }
-                console.log(dates);*/
             }
 
             request.send();
-        }
-
-        function updateDates(index, max, apiData) {
-            if (index < max) {
-
-                let found = false;
-                /*for (let i = 0; i < apiData.length; i++) {
-                    console.log(i);
-                    if (apiData[i].RecallID == jsonData[index][0]) {
-                        found = true;
-                        console.log('Found');
-                        const request = new XMLHttpRequest();
-                        const query = "UPDATE recalls SET Recall_Date = '" + apiData[i].RecallDate + "' WHERE Recall_ID = " + jsonData[index][0] + ";";
-                        console.log(query);
-                        const newURL = updateQueryStringParameter(db_url, 'id', query);
-                        request.open('GET', newURL, true);
-                        request.onload = function() {
-                            const newData = JSON.parse(request.response);
-                            console.log(newData);
-                            index = index + 1;
-                            updateDates(index, max, apiData);
-
-                        }
-
-                        request.send();
-                        break;
-                    }
-                
-                    
-                }*/
-                console.log('Found');
-                const request = new XMLHttpRequest();
-                const query = "UPDATE recalls SET Recall_Date = '" + apiData[index].RecallDate + "' WHERE Recall_ID = " + jsonData[index][0] + ";";
-                console.log(query);
-                const newURL = updateQueryStringParameter(db_url, 'id', query);
-                request.open('GET', newURL, true);
-                request.onload = function() {
-                    const newData = JSON.parse(request.response);
-                    console.log(newData);
-                    index = index + 1;
-                    updateDates(index, max, apiData);
-
-                }
-
-                request.send();
-            } else {
-                console.log('Complete');
-            }
         }
 
 
@@ -258,7 +203,7 @@
             request.open('GET', newURL, true);
             request.onload = function() {
                 jsonData = JSON.parse(request.response);
-                //console.log(jsonData);
+                ////console.log(jsonData);
                 const request2 = new XMLHttpRequest();
                 //const query = 'select * from recalls';
                 const query = 'select r.Recall_ID, r.Recall_Hazard, r.Recall_Product_Name, r.Recall_User_ID, r.Recall_Priority, user.User_Username from recalls r  Left Join user On user.User_ID=r.Recall_User_ID Where Recall_ID >= 5000;';
@@ -269,7 +214,7 @@
                     for (let i = 0; i < newData.length; i++) {
                         jsonData.push(newData[i]);
                     }
-                    //console.log(jsonData);
+                    ////console.log(jsonData);
                     fillData();
                 }
 
@@ -290,7 +235,7 @@
         }
 
         function changePriority(id, index) {
-            //console.log('change priority');
+            ////console.log('change priority');
             const box = document.getElementById(id);
             const request = new XMLHttpRequest();
             let query;
@@ -298,17 +243,17 @@
                 box.parentElement.style.backgroundColor = "red";
                 query = "UPDATE recalls SET Recall_Priority = 'High' WHERE Recall_ID = " + id;
                 jsonData[index][5] = "High";
-                //console.log(jsonData[index]);
+                ////console.log(jsonData[index]);
             } else {
                 box.parentElement.style.backgroundColor = "";
                 query = "UPDATE recalls SET Recall_Priority = 'Low' WHERE Recall_ID = " + id;
                 jsonData[index][5] = "Low";
-                //console.log(jsonData[index]);
+                ////console.log(jsonData[index]);
             }
             const newURL = updateQueryStringParameter(db_url, 'id', query);
             request.open('GET', newURL, true);
             request.onload = function() {
-                //console.log(JSON.parse(request.response));
+                ////console.log(JSON.parse(request.response));
             }
 
             request.send();
