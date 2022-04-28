@@ -191,29 +191,32 @@
                 apiData = JSON.parse(request.response);
                 console.log(apiData);
                 updateDates(0, jsonData.length, apiData);
-                let dates = [];
+                /*let dates = [];
                 for (let i = 0; i < apiData.length; i++) {
                     dates.push(apiData[i].RecallDate);
                 }
-                console.log(dates);
+                console.log(dates);*/
             }
 
             request.send();
         }
 
         function updateDates(index, max, apiData) {
-            //for (let j = 0; j < jsonData.length; j++) {
-                for (let j = 0; j < 5; j++) {
+            if (index < max) {
+
+            
                 for (let i = 0; i < apiData.length; i++) {
-                    if (apiData[i].Title.includes(jsonData[j][2])) {
+                    if (apiData[i].Title.includes(jsonData[index][2])) {
                         const request = new XMLHttpRequest();
-                        const query = "UPDATE recalls SET Recall_Date = '" + apiData[i].RecallDate + "' WHERE Recall_ID = " + jsonData[j][0] + ";";
+                        const query = "UPDATE recalls SET Recall_Date = '" + apiData[i].RecallDate + "' WHERE Recall_ID = " + jsonData[index][0] + ";";
                         console.log(query);
                         const newURL = updateQueryStringParameter(db_url, 'id', query);
                         request.open('GET', newURL, true);
                         request.onload = function() {
                             const newData = JSON.parse(request.response);
                             console.log(newData);
+                            index = index + 1;
+                            updateDates(index, max, apiData);
                             
                         }
 
@@ -222,6 +225,8 @@
                 
                     
                 }
+            } else {
+                console.log('Complete');
             }
         }
 
